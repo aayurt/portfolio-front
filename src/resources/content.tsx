@@ -1,51 +1,49 @@
 import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
+import { baseURL } from "./once-ui.config";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
+  firstName: "Aayurt",
+  lastName: "Shrestha",
+  name: `Aayurt Shrestha`,
+  role: "Software Engineer",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  email: "aayurtshrestha@gmail.com",
+  location: "Asia/Kathmandu",
+  languages: ["English", "Nepali"],
 };
 
 const newsletter: Newsletter = {
-  display: true,
+  display: false,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
   description: <>My weekly newsletter about creativity and engineering</>,
 };
 
 const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/aayurt",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/aayurt-shrestha/",
     essential: true,
   },
   {
     name: "Instagram",
     icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
+    link: "https://www.instagram.com/aayurts/",
     essential: false,
   },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
-    essential: true,
-  },
+  // {
+  //   name: "Threads",
+  //   icon: "threads",
+  //   link: "https://www.threads.com/@once_ui",
+  //   essential: true,
+  // },
   {
     name: "Email",
     icon: "email",
@@ -56,13 +54,36 @@ const social: Social = [
 
 const home: Home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "/images/og/preview.png",
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    }}>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+      }}>
+        <img
+          src={"/images/og/preview.png"}
+          style={{
+            width: "12rem",
+            height: "12rem",
+            objectFit: "cover",
+            borderRadius: "100%",
+            animation: "upDown 3s ease-in-out infinite",
+          }}
+        />
+      </div>
+      <Text>I build things that matter</Text>
+    </div>
+  </>,
   featured: {
-    display: true,
+    display: false,
     title: (
       <Row gap="12" vertical="center">
         <strong className="ml-4">Once UI</strong>{" "}
@@ -76,13 +97,13 @@ const home: Home = {
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      Full-Stack Engineer & Product Builder. I specialize in crafting seamless user experiences and robust architectures. Currently freelancing and developing independent projects.
+    </>
   ),
 };
 
 const about: About = {
-  path: "/about",
+  path: "/",
   label: "About",
   title: `About – ${person.name}`,
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
@@ -102,52 +123,116 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Full-stack software engineer with a curious mindset and a passion for building thoughtful, high-quality products. I combine technical depth with an entrepreneurial approach — taking ownership, driving initiatives forward, and delivering real, measurable results. Known for my energy, adaptability, and bias toward action, I focus on creating meaningful impact rather than just shipping features.
       </>
     ),
+  },
+  skills: {
+    display: true,
+    title: "Skills",
+    skills: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "MongoDB", "Flutter", "Python", "AWS", "Docker", "Git", "Figma", "Tailwind CSS", "Shadcn UI", "Once UI", "Payload CMS", "Others..."]
   },
   work: {
     display: true, // set to false to hide this section
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Pageup People",
+        timeframe: "Oct 2023 - Jun 2025",
+        role: "Software Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Led architecture and delivery of scalable features within a multi-tenant recruitment
+            marketing platform.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Built a real-time, Slack-style chat system supporting thousands of concurrent users
+            during live events.
+          </>,
+          <>
+            Designed batch and streaming pipelines powering workflows, automation, and search
+            infrastructure.
+          </>,
+          <>
+            Integrated AI/LLM-powered features to enhance personalisation and user experience.
+          </>,
+          <>
+            Led frontend modernisation using Next.js, improving performance, SEO, and accessibility
+            compliance.
+          </>,
+          <>
+            Delivered secure public APIs enabling third-party integrations and faster onboarding.
+          </>,
+          <>
+            Mentored engineers and improved team standards, testing, and processes.
           </>,
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
+          // {
+          //   src: "/images/projects/project-01/cover-01.jpg",
+          //   alt: "Once UI Project",
+          //   width: 16,
+          //   height: 9,
+          // },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "MobileKraft",
+        timeframe: "Sep 2022 - Jul 2023",
+        role: "Software Engineer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Designed and developed bespoke full-stack web and Flutter mobile applications supporting
+            bookings, asset tracking, and operational workflows.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Owned features end-to-end from requirements through deployment, working directly with
+            stakeholders.
+          </>,
+          <>
+            Built a visual API query editor enabling dynamic, schema-driven queries without
+            engineering support.
+          </>,
+          <>
+            Implemented Redis caching and backend optimisations to improve performance and reduce
+            response times.
+          </>,
+          <>
+            Contributed to system architecture, API design, and shared service foundations used
+            across products.
+          </>,
+          <>
+            Supported releases, bug fixes, and production monitoring to ensure reliability.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Himalayan Techies",
+        timeframe: "Dec 2019 - Jul 2022",
+        role: "Software Engineer",
+        achievements: [
+          <>
+            Delivered full-stack features across multiple government and client applications from UI
+            design to backend and database implementation.
+          </>,
+          <>
+            Built offline-first and low-bandwidth solutions for rural environments with limited
+            internet connectivity.
+          </>,
+          <>
+            Developed transaction tracking, reporting, and admin tools for cooperative market
+            management systems.
+          </>,
+          <>
+            Translated wireframes into responsive, accessible frontend interfaces.
+          </>,
+          <>
+            Mentored junior developers and improved documentation and team knowledge sharing.
+          </>,
+          <>
+            Managed deployments and Apache server configuration across company domains.
           </>,
         ],
         images: [],
@@ -159,77 +244,161 @@ const about: About = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Kingston University | London",
+        description: <>Studied masters in Software engineering with management studies.</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Patan Campus | Lalitpur, Nepal",
+        description: <>Studied bachelors in Computer Science and Information Technology.</>,
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
+        title: "Frontend Engineering",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>Building modern, performant, and accessible UIs with React ecosystems and rich editing experiences.</>
         ),
         tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
+          { name: "JavaScript", icon: "javascript" },
+          { name: "TypeScript", icon: "typescript" },
+          { name: "React", icon: "react" },
+          { name: "Next.js", icon: "nextjs" },
+          { name: "Flutter", icon: "flutter" },
+          { name: "Lexical", icon: "lexical" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
+        images: [],
+      },
+
+      {
+        title: "Backend & APIs",
+        description: (
+          <>Designing scalable APIs, modular services, and multi-tenant systems with clean architecture.</>
+        ),
+        tags: [
+          { name: "Node.js", icon: "nodejs" },
+          { name: "Knex.js", icon: "knex" },
+          { name: "Supabase", icon: "supabase" },
+          { name: "Payload CMS", icon: "payload" },
+          { name: "CakePHP", icon: "cakephp" },
+          { name: "Laravel", icon: "laravel" },
         ],
+        images: [],
+      },
+
+      {
+        title: "Authentication & Security",
+        description: (
+          <>Implementing secure login systems including SSO, OAuth, OTP flows, MFA, and role-based access control.</>
+        ),
+        tags: [
+          { name: "NextAuth", icon: "auth" },
+          { name: "OAuth / SSO", icon: "oauth" },
+          { name: "OTP", icon: "security" },
+          { name: "MFA", icon: "shield" },
+          { name: "RBAC", icon: "lock" },
+        ],
+        images: [],
+      },
+
+      {
+        title: "Realtime & Collaboration",
+        description: (
+          <>Building live chat, presence tracking, and event-driven features for collaborative experiences.</>
+        ),
+        tags: [
+          { name: "Ably", icon: "ably" },
+          { name: "WebSockets", icon: "websocket" },
+          { name: "Realtime Events", icon: "realtime" },
+        ],
+        images: [],
+      },
+
+      {
+        title: "DevOps & Tooling",
+        description: (
+          <>Shipping reliable software with containerization, testing, and modern developer workflows.</>
+        ),
+        tags: [
+          { name: "Docker", icon: "docker" },
+          { name: "Git", icon: "git" },
+          { name: "Testing", icon: "testing" },
+          { name: "CI/CD", icon: "pipeline" },
+        ],
+        images: [],
       },
       {
-        title: "Next.js",
+        title: "Automation & AI Integration",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>Designing intelligent workflows and AI-powered features using automation tools, LLMs, and third-party integrations to streamline processes and enhance user experiences.</>
         ),
         tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
+          { name: "n8n", icon: "n8n" },
+          { name: "AI Integration", icon: "ai" },
+          { name: "OpenAI API", icon: "openai" },
+          { name: "Workflow Automation", icon: "workflow" },
+          { name: "Webhooks", icon: "webhook" },
+          { name: "REST APIs", icon: "api" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
     ],
   },
+  certifications: {
+    display: true,
+    title: "Certifications",
+    certificates: [
+      {
+        name: "Advanced Node.js",
+        description: "Node.js - August 2023",
+        link: "https://www.linkedin.com/learning/certificates/bc85364e0c38f81ccfaa9ee76a68311ebbf8bdf58471cee04bd8fb44d78746a2",
+      },
+      {
+        name: "Learning Kubernetes",
+        description: "Kubernetes - August 2023",
+        link: "https://www.linkedin.com/learning/certificates/0bc67f085bf5151d312f667753c38b4c9b4bd26b9961f73397ece96dd27d9c38",
+      },
+      {
+        name: "React: State Management (2019)",
+        description: "React.js - August 2023",
+        link: "https://www.linkedin.com/learning/certificates/110ac08de7cdafdde6936102c9861310418f7cd1e7fe4f4a2f80a35e9978c4a7",
+      },
+      {
+        name: "Scrum Master",
+        description: "Scrum - April 2023",
+        link: "https://www.linkedin.com/learning/certificates/daf19887512f51407198676a3acf904b808cfae531e7ecb56e17333b2fedab24",
+      },
+      {
+        name: "Flutter Essential Training: Build for multiple platforms",
+        description: "Flutter - April 2023",
+        link: "https://www.linkedin.com/learning/certificates/a81a948904a550793e91e8cb085a1347fd13b84a1806e2e541db9f302f053a3d",
+      },
+      {
+        name: "Microsoft Azure Fundamentals (AZ-900) Cert Prep: 1 Cloud Concepts",
+        description: "Azure - April 2023",
+        link: "https://www.linkedin.com/learning/certificates/21cd5ed5d8ac38cff4b2309534140d7ce68d20a7314e8207d7c8c068722c3dea",
+      },
+      {
+        name: "React.js Essential Training",
+        description: "Azure - April 2023",
+        link: "https://www.linkedin.com/learning/certificates/2618122c08b2a7b60ad236320629957f705bc1de1956079340a693d0da195b59",
+      },
+      {
+        name: "Advanced GitHub Actions",
+        description: "GitHub - March 2023",
+        link: "https://www.linkedin.com/learning/certificates/0ca07b53c506e26c1052b5e3553b7f316f9bfa182b4e37e9f48a8c662043f34b",
+      },
+      {
+        name: "TypeScript for Node.js Developers",
+        description: "Node.js - March 2023",
+        link: "https://www.linkedin.com/learning/certificates/84ddb30c96820194f7d2730a2c7c52090bf6ab33c90fe63a282bf07d3a65703a",
+      },
+    ]
+  },
+
 };
 
 const blog: Blog = {

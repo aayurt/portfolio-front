@@ -136,6 +136,14 @@ export interface About extends BasePageConfig {
     /** Description of the introduction section */
     description: React.ReactNode;
   };
+  skills: {
+    /** Whether to display skills section */
+    display: boolean;
+    /** Title for the skills section */
+    title: string;
+    /** List of skills */
+    skills: string[];
+  };
   /** Work experience section */
   work: {
     /** Whether to display work experience */
@@ -209,19 +217,39 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
+  /** Technical skills section */
+  certifications: {
+    /** Whether to display technical skills section */
+    display: boolean;
+    /** Title for the technical skills section */
+    title: string;
+    /** List of technical skills */
+    certificates: Array<{
+      /** Skill title */
+      name: string;
+      link: string;
+      /** Skill description */
+      description?: React.ReactNode;
+      /** Skill tags */
+      tags?: Array<{
+        name: string;
+        icon?: string;
+      }>;
+    }>;
+  };
 }
 
 /**
  * Blog page configuration.
  * @description Configuration for the Blog page, including metadata and navigation label.
  */
-export interface Blog extends BasePageConfig {}
+export interface Blog extends BasePageConfig { }
 
 /**
  * Work/projects page configuration.
  * @description Configuration for the Work/Projects page, including metadata and navigation label.
  */
-export interface Work extends BasePageConfig {}
+export interface Work extends BasePageConfig { }
 
 /**
  * Gallery page configuration.

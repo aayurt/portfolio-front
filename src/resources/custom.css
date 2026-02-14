@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* :root {
   /*
   /* Override default variables here */
@@ -67,3 +69,19 @@
   --scheme-neutral-600-50: rgba(137,152,159,0.5);
   /*
 }*/
+
+.upDown {
+  animation: upDown 3s ease-in-out infinite;
+}
+
+@keyframes upDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -188,7 +188,7 @@ export const Header = () => {
             </Flex>
           </Flex>
         </Flex>
-      </Row>
+      </Row >
     </>
   );
 };

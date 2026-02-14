@@ -11,6 +11,7 @@ import {
   Meta,
   Schema,
   Row,
+  Line,
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
@@ -49,6 +50,11 @@ export default function About() {
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
     },
+    {
+      title: about.certifications.title,
+      display: about.certifications.display,
+      items: about.certifications.certificates.map((certificate) => certificate.name),
+    },
   ];
   return (
     <Column maxWidth="m">
@@ -77,7 +83,7 @@ export default function About() {
           <TableOfContents structure={structure} about={about} />
         </Column>
       )}
-      <Row fillWidth s={{ direction: "column"}} horizontal="center">
+      <Row fillWidth s={{ direction: "column" }} horizontal="center">
         {about.avatar.display && (
           <Column
             className={styles.avatar}
@@ -117,7 +123,7 @@ export default function About() {
             vertical="center"
             marginBottom="32"
           >
-            {about.calendar.display && (
+            {/* {about.calendar.display && (
               <Row
                 fitWidth
                 border="brand-alpha-medium"
@@ -141,7 +147,7 @@ export default function About() {
                   icon="chevronRight"
                 />
               </Row>
-            )}
+            )} */}
             <Heading className={styles.textAlign} variant="display-strong-xl">
               {person.name}
             </Heading>
@@ -164,41 +170,55 @@ export default function About() {
                 data-border="rounded"
               >
                 {social
-                      .filter((item) => item.essential)
-                      .map(
-                  (item) =>
-                    item.link && (
-                      <React.Fragment key={item.name}>
-                        <Row s={{ hide: true }}>
-                          <Button
-                            key={item.name}
-                            href={item.link}
-                            prefixIcon={item.icon}
-                            label={item.name}
-                            size="s"
-                            weight="default"
-                            variant="secondary"
-                          />
-                        </Row>
-                        <Row hide s={{ hide: false }}>
-                          <IconButton
-                            size="l"
-                            key={`${item.name}-icon`}
-                            href={item.link}
-                            icon={item.icon}
-                            variant="secondary"
-                          />
-                        </Row>
-                      </React.Fragment>
-                    ),
-                )}
+                  .filter((item) => item.essential)
+                  .map(
+                    (item) =>
+                      item.link && (
+                        <React.Fragment key={item.name}>
+                          <Row s={{ hide: true }}>
+                            <Button
+                              key={item.name}
+                              href={item.link}
+                              prefixIcon={item.icon}
+                              label={item.name}
+                              size="s"
+                              weight="default"
+                              variant="secondary"
+                            />
+                          </Row>
+                          <Row hide s={{ hide: false }}>
+                            <IconButton
+                              size="l"
+                              key={`${item.name}-icon`}
+                              href={item.link}
+                              icon={item.icon}
+                              variant="secondary"
+                            />
+                          </Row>
+                        </React.Fragment>
+                      ),
+                  )}
               </Row>
             )}
           </Column>
 
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="m">
               {about.intro.description}
+            </Column>
+          )}
+
+          {about.skills.display && (
+            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="l">
+              {about.skills && about.skills.skills.length > 0 && (
+                <Row wrap gap="8">
+                  {about.skills.skills.map((skill, index) => (
+                    <Tag key={index} size="l" variant="secondary">
+                      {skill}
+                    </Tag>
+                  ))}
+                </Row>
+              )}
             </Column>
           )}
 
@@ -291,7 +311,7 @@ export default function About() {
               >
                 {about.technical.title}
               </Heading>
-              <Column fillWidth gap="l">
+              <Column fillWidth gap="l" marginBottom="40">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
                     <Text id={skill.title} variant="heading-strong-l">
@@ -328,6 +348,42 @@ export default function About() {
                             />
                           </Row>
                         ))}
+                      </Row>
+                    )}
+                  </Column>
+                ))}
+              </Column>
+            </>
+          )}
+
+          {about.certifications.display && (
+            <>
+              <Heading
+                as="h2"
+                id={about.certifications.title}
+                variant="display-strong-s"
+                marginBottom="40"
+              >
+                {about.certifications.title}
+              </Heading>
+              <Column fillWidth gap="m">
+                {about.certifications.certificates.map((certificate, index) => (
+                  <Column key={`${certificate}-${index}`} fillWidth gap="4">
+                    <Text id={certificate.name} variant="heading-strong-l">
+                      {certificate.name}
+                    </Text>
+                    <Text variant="body-default-m" onBackground="neutral-weak">
+                      {certificate.description}
+                    </Text>
+                    {certificate.link && (
+                      <Row paddingTop="2">
+                        <Button
+                          href={certificate.link}
+                          variant="secondary"
+                          label="Show credentials"
+                          suffixIcon="arrowUpRight"
+                          size="s"
+                        />
                       </Row>
                     )}
                   </Column>
