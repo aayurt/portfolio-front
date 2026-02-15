@@ -20,7 +20,7 @@ export const Footer = async () => {
         s={{
           direction: "column",
           horizontal: "center",
-          align: "center",
+          // align: "center",
         }}
       >
         <Text variant="body-default-s" onBackground="neutral-strong">
