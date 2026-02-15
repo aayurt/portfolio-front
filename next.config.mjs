@@ -8,7 +8,7 @@ const withMDX = mdx({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export', // Required for Capacitor
-   eslint: {
+  eslint: {
     ignoreDuringBuilds: true,
   },
   pageExtensions: ["ts", "tsx", "md", "mdx"],
