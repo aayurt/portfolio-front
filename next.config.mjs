@@ -1,19 +1,10 @@
-import mdx from "@next/mdx";
 
-const withMDX = mdx({
-  extension: /\.mdx?$/,
-  options: {},
-});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export', // Required for Capacitor
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   output: 'standalone',
-  transpilePackages: ["next-mdx-remote"],
   images: {
     unoptimized: true, // Required for static export
     remotePatterns: [
@@ -30,4 +21,4 @@ const nextConfig = {
   },
 };
 
-export default withMDX(nextConfig);
+export default nextConfig;

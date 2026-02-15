@@ -15,7 +15,7 @@ pnpm install
 
 # 3. Build the Next.js app
 echo "🏗️ Building Next.js application..."
-pnpm run build
+pnpm run build 
 
 # 4. Prepare the Standalone folder
 # We must manually copy public and static folders as Next.js standalone doesn't do this
