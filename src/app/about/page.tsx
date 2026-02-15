@@ -73,7 +73,7 @@ export default async function About() {
           position="sticky"
           s={{
             position: "relative"
-            // , style: { top: "auto" } 
+            , style: { top: "auto" }
           }}
           xs={{ style: { top: "auto" } }}
           minWidth="160"
