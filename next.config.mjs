@@ -9,6 +9,7 @@ const withMDX = mdx({
 const nextConfig = {
   // output: 'export', // Required for Capacitor
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  output: 'standalone',
   transpilePackages: ["next-mdx-remote"],
   images: {
     unoptimized: true, // Required for static export
