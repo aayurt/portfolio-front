@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, gallery } from "@/resources";
-import { ThemeToggle } from "./ThemeToggle";
+import { about, blog, display, person, routes, work } from "@/resources";
+import { Tenant } from "../../payload-types";
 import styles from "./Header.module.scss";
+import { ThemeToggle } from "./ThemeToggle";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -42,7 +43,7 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
 
 export default TimeDisplay;
 
-export const Header = () => {
+export const Header = ({ tenant }: { tenant: Tenant | null }) => {
   const pathname = usePathname() ?? "";
 
   return (
@@ -153,7 +154,7 @@ export const Header = () => {
                     <ToggleButton
                       prefixIcon="gallery"
                       href="/gallery"
-                      label={gallery.label}
+                      label={"Gallery"}
                       selected={pathname.startsWith("/gallery")}
                     />
                   </Row>
@@ -184,7 +185,7 @@ export const Header = () => {
             gap="20"
           >
             <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
+              {display.time && <TimeDisplay timeZone={tenant?.location || person.location} />}
             </Flex>
           </Flex>
         </Flex>

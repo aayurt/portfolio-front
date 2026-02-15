@@ -1,34 +1,38 @@
-import { Flex, Meta, Schema } from "@once-ui-system/core";
 import GalleryView from "@/components/gallery/GalleryView";
-import { baseURL, gallery, person } from "@/resources";
+import { baseURL, person } from "@/resources";
+import { getGallery, getTenantBySlug } from "@/utils/payload";
+import { Flex, Meta, Schema } from "@once-ui-system/core";
 
 export async function generateMetadata() {
+  const tenant = await getTenantBySlug();
   return Meta.generate({
-    title: gallery.title,
-    description: gallery.description,
+    title: tenant?.name + " | Gallery",
+    description: tenant?.name + "Collection | Gallery",
     baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(gallery.title)}`,
-    path: gallery.path,
+    image: `/api/og/generate?title=${encodeURIComponent(tenant?.name + " | Gallery")}`,
+    path: "/gallery",
   });
 }
 
-export default function Gallery() {
+export default async function Gallery() {
+  const tenant = await getTenantBySlug();
+  const galleries = await getGallery();
   return (
     <Flex maxWidth="l">
       <Schema
         as="webPage"
         baseURL={baseURL}
-        title={gallery.title}
-        description={gallery.description}
-        path={gallery.path}
-        image={`/api/og/generate?title=${encodeURIComponent(gallery.title)}`}
+        title={tenant?.name + " | Gallery"}
+        description={tenant?.name + "Collection | Gallery"}
+        path="/gallery"
+        image={`/api/og/generate?title=${encodeURIComponent(tenant?.name + " | Gallery")}`}
         author={{
           name: person.name,
-          url: `${baseURL}${gallery.path}`,
+          url: `${baseURL}/gallery`,
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <GalleryView />
+      <GalleryView galleries={galleries} />
     </Flex>
   );
 }

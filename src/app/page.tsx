@@ -1,32 +1,36 @@
+import { Mailchimp } from "@/components";
+import { Posts } from "@/components/blog/Posts";
+import PatienceImage from "@/components/patienceImage";
+import { Projects } from "@/components/work/Projects";
+import { baseURL, home, routes } from "@/resources";
+import { getImageUrl, getTenantBySlug } from "@/utils/payload";
 import {
-  Heading,
-  Text,
-  Button,
   Avatar,
-  RevealFx,
+  Button,
   Column,
-  Badge,
+  Heading,
+  Line,
+  Meta,
+  RevealFx,
   Row,
   Schema,
-  Meta,
-  Line,
+  Text
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
+  const data = await getTenantBySlug("aayurt")
+
   return Meta.generate({
-    title: home.title,
-    description: home.description,
+    title: data?.name || home.title,
+    description: data?.intro?.introDescription || home.description,
     baseURL: baseURL,
-    path: home.path,
-    image: home.image,
+    path: "/",
+    image: getImageUrl(data?.avatar) || home.image,
   });
 }
 
-export default function Home() {
+export default async function Home() {
+  const data = await getTenantBySlug("aayurt")
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
@@ -37,14 +41,14 @@ export default function Home() {
         description={home.description}
         image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
         author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          name: data?.name || "User",
+          url: `${baseURL}/about`,
+          image: `${process.env.NEXT_PUBLIC_BASE_URL}${data?.avatar}`,
         }}
       />
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
+          {/* {data?.intro && (
             <RevealFx
               fillWidth
               horizontal="center"
@@ -61,40 +65,39 @@ export default function Home() {
                 arrow={false}
                 href={home.featured.href}
               >
-                <Row paddingY="2">{home.featured.title}</Row>
+                <Row paddingY="2">{data.intro.intro || ""}</Row>
               </Badge>
             </RevealFx>
-          )}
+          )} */}
+          <PatienceImage width="12rem" height="12rem" />
           <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
             <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
+              {data?.intro?.intro}
             </Heading>
           </RevealFx>
           <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
             <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
+              {data?.intro?.introDescription}
             </Text>
           </RevealFx>
           <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
             <Button
               id="about"
               data-border="rounded"
-              href={about.path}
+              href={"/about"}
               variant="secondary"
               size="m"
               weight="default"
               arrowIcon
             >
               <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
+                <Avatar
+                  marginRight="8"
+                  style={{ marginLeft: "-0.75rem" }}
+                  src={getImageUrl(data?.avatar)}
+                  size="m"
+                />
+                About Me - {data?.name}
               </Row>
             </Button>
           </RevealFx>

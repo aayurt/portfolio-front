@@ -1,6 +1,6 @@
-import { getPosts } from "@/utils/utils";
 import { Grid } from "@once-ui-system/core";
 import Post from "./Post";
+import { getPosts } from "@/utils/payload";
 
 interface PostsProps {
   range?: [number] | [number, number];
@@ -10,22 +10,18 @@ interface PostsProps {
   exclude?: string[];
 }
 
-export function Posts({
+export async function Posts({
   range,
   columns = "1",
   thumbnail = false,
-  exclude = [],
   direction,
 }: PostsProps) {
-  let allBlogs = getPosts(["src", "app", "blog", "posts"]);
-
-  // Exclude by slug (exact match)
-  if (exclude.length) {
-    allBlogs = allBlogs.filter((post) => !exclude.includes(post.slug));
+  const posts = await getPosts();
+  if (posts.length === 0) {
+    return <>No Posts</>;
   }
-
-  const sortedBlogs = allBlogs.sort((a, b) => {
-    return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
+  const sortedBlogs = posts.sort((a, b) => {
+    return new Date(b.publishedAt || '').getTime() - new Date(a.publishedAt || '').getTime();
   });
 
   const displayedBlogs = range
