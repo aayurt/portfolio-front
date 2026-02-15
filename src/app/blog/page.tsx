@@ -17,7 +17,6 @@ export async function generateMetadata() {
 
 export default async function Blog() {
   const posts = await getPosts();
-  console.log(posts);
   if (posts.length === 0) {
     return <Column fillWidth flex={1} gap="40">
 
