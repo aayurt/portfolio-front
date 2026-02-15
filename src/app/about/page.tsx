@@ -72,10 +72,10 @@ export default async function About() {
           fitHeight
           position="sticky"
           s={{
-            position: "relative"
-            , style: { top: "auto" }
+            position: "relative",
+            top: "auto"
           }}
-          xs={{ style: { top: "auto" } }}
+          xs={{ top: "auto" }}
           minWidth="160"
           paddingX="l"
           paddingBottom="xl"
