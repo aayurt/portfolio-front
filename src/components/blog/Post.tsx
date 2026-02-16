@@ -1,10 +1,10 @@
 "use client";
 
-import { Card, Column, Media, Row, Avatar, Text, Tag } from "@once-ui-system/core";
-import { formatDate } from "@/utils/formatDate";
 import { person } from "@/resources";
-import { Post as PostType } from "../../../payload-types";
+import { formatDate } from "@/utils/formatDate";
 import { getImageUrl } from "@/utils/payload";
+import { Avatar, Card, Column, Media, Row, Tag, Text } from "@once-ui-system/core";
+import { Post as PostType } from "../../../payload-types";
 
 interface PostProps {
   post: PostType;
@@ -53,15 +53,20 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
           <Text variant="heading-strong-l" wrap="balance">
             {post.title}
           </Text>
-          {post.tags && post.tags.length > 0 && (
-            post.tags.map((tag) => (
-              <Tag key={tag.id} variant="tertiary">
-                <Text variant="label-strong-s" onBackground="neutral-weak">
-                  {tag.tag}
-                </Text>
-              </Tag>
-            ))
-          )}
+          <Text variant="body-default-m" wrap="wrap">
+            {post.meta?.description}
+          </Text>
+          <Row gap="16">
+            {post.tags && post.tags.length > 0 && (
+              post.tags.map((tag) => (
+                <Tag key={tag.id} variant="tertiary">
+                  <Text variant="label-strong-s" onBackground="neutral-weak">
+                    {tag.tag}
+                  </Text>
+                </Tag>
+              ))
+            )}
+          </Row>
         </Column>
       </Row>
     </Card>
