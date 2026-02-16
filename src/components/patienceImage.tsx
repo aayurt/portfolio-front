@@ -1,5 +1,6 @@
 "use client";
 export default function PatienceImage({ width = "12rem", height = "12rem" }: { width?: string, height?: string }) {
+    const image = window.location.hostname.includes("aayurtshrestha.com.np") ? "/images/og/preview.png" : "/images/og/woman.png"
     return <div style={{
         display: "flex",
         flexDirection: "column",
@@ -10,7 +11,7 @@ export default function PatienceImage({ width = "12rem", height = "12rem" }: { w
             justifyContent: "center",
         }}>
             <img
-                src={"/images/og/preview.png"}
+                src={image}
                 style={{
                     width,
                     height,
