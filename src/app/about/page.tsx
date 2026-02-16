@@ -17,7 +17,7 @@ import { RichText } from "@/components/RichText";
 import { getAbout, getImageUrl, getTenantBySlug } from "@/utils/payload";
 
 export async function generateMetadata() {
-  const tenant = await getTenantBySlug('aayurt');
+  const tenant = await getTenantBySlug();
   const title = `About – ${tenant?.name || person.name}`;
   const description = `Meet ${tenant?.name || person.name}`;
 
@@ -33,7 +33,7 @@ export async function generateMetadata() {
 export default async function About() {
   const aboutData = await getAbout();
   // Fetch tenant data directly from /tenants API
-  const tenant = await getTenantBySlug('aayurt');
+  const tenant = await getTenantBySlug();
 
   return (
     <Column maxWidth="m">
@@ -228,72 +228,73 @@ export default async function About() {
               </Row>
             )}
           </Column>
+          {aboutData && <>
+            {aboutData.intro && (
+              <Column textVariant="body-default-l" fillWidth marginBottom="m">
+                <RichText content={aboutData.intro} />
+              </Column>
+            )}
 
-          {aboutData.intro && (
-            <Column textVariant="body-default-l" fillWidth marginBottom="m">
-              <RichText content={aboutData.intro} />
-            </Column>
-          )}
+            {aboutData.skills && aboutData.skills.length > 0 && (
+              <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="l">
+                <Row wrap gap="8">
+                  {aboutData.skills.map((skillItem, index) => (
+                    <Tag key={index} size="l" variant="secondary">
+                      {skillItem.skill}
+                    </Tag>
+                  ))}
+                </Row>
+              </Column>
+            )}
 
-          {aboutData.skills && aboutData.skills.length > 0 && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="l">
-              <Row wrap gap="8">
-                {aboutData.skills.map((skillItem, index) => (
-                  <Tag key={index} size="l" variant="secondary">
-                    {skillItem.skill}
-                  </Tag>
-                ))}
-              </Row>
-            </Column>
-          )}
+            {aboutData.workExperience && aboutData.workExperience.length > 0 && (
+              <>
+                <Heading as="h2" id="work" variant="display-strong-s" marginBottom="m">
+                  Work Experience
+                </Heading>
+                <Column fillWidth gap="l" marginBottom="40">
+                  {aboutData.workExperience.map((experience, index) => (
+                    <Column key={`${experience.company}-${index}`} fillWidth>
+                      <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
+                        <Text variant="heading-strong-l">
+                          {experience.company}
+                        </Text>
+                        <Text variant="heading-default-xs" onBackground="neutral-weak">
+                          {experience.period}
+                        </Text>
+                      </Row>
+                      <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
+                        {experience.role}
+                      </Text>
+                      <Text variant="body-default-m">
+                        {experience.description}
+                      </Text>
+                    </Column>
+                  ))}
+                </Column>
+              </>
+            )}
 
-          {aboutData.workExperience && aboutData.workExperience.length > 0 && (
-            <>
-              <Heading as="h2" id="work" variant="display-strong-s" marginBottom="m">
-                Work Experience
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
-                {aboutData.workExperience.map((experience, index) => (
-                  <Column key={`${experience.company}-${index}`} fillWidth>
-                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
+            {aboutData.education && aboutData.education.length > 0 && (
+              <>
+                <Heading as="h2" id="studies" variant="display-strong-s" marginBottom="m">
+                  Studies
+                </Heading>
+                <Column fillWidth gap="l" marginBottom="40">
+                  {aboutData.education.map((institution, index) => (
+                    <Column key={`${institution.institution}-${index}`} fillWidth gap="4">
                       <Text variant="heading-strong-l">
-                        {experience.company}
+                        {institution.institution}
                       </Text>
                       <Text variant="heading-default-xs" onBackground="neutral-weak">
-                        {experience.period}
+                        {institution.degree}
                       </Text>
-                    </Row>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
-                      {experience.role}
-                    </Text>
-                    <Text variant="body-default-m">
-                      {experience.description}
-                    </Text>
-                  </Column>
-                ))}
-              </Column>
-            </>
-          )}
-
-          {aboutData.education && aboutData.education.length > 0 && (
-            <>
-              <Heading as="h2" id="studies" variant="display-strong-s" marginBottom="m">
-                Studies
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
-                {aboutData.education.map((institution, index) => (
-                  <Column key={`${institution.institution}-${index}`} fillWidth gap="4">
-                    <Text variant="heading-strong-l">
-                      {institution.institution}
-                    </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
-                      {institution.degree}
-                    </Text>
-                  </Column>
-                ))}
-              </Column>
-            </>
-          )}
+                    </Column>
+                  ))}
+                </Column>
+              </>
+            )}
+          </>}
         </Column>
       </Row>
     </Column>

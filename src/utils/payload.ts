@@ -1,7 +1,7 @@
 import { About, Gallery, Media, Post, Project, Tenant } from "../../payload-types";
+import { getSlug } from "./getSlug";
 
 export const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_API + "/api" || "http://localhost:3000/api";
-export const PAYLOAD_SLUG = process.env.NEXT_PUBLIC_SLUG || "aayurt"
 
 type CollectionResponse<T> = {
     docs: T[];
@@ -16,14 +16,20 @@ type CollectionResponse<T> = {
     nextPage: number | null;
 };
 
-export async function getAbout(): Promise<About> {
-    const res = await fetch(`${PAYLOAD_API_URL}/abouts/1`);
+export async function getAbouts(): Promise<About[]> {
+    const res = await fetch(`${PAYLOAD_API_URL}/abouts/by-slug/${await getSlug()}`, {
+        next: { revalidate: 60 },
+    });
 
     if (!res.ok) {
         throw new Error(`Failed to fetch about data: ${res.statusText}`);
     }
-
     return res.json();
+}
+
+export async function getAbout(): Promise<About | null> {
+    const abouts = await getAbouts();
+    return abouts && abouts.length > 0 ? abouts[0] : null;
 }
 
 export async function getProjects(
@@ -80,16 +86,16 @@ export function getTenant(tenant: number | Tenant | null | undefined): Tenant | 
     return tenant;
 }
 
-export async function getTenantBySlug(slug: string = PAYLOAD_SLUG): Promise<Tenant | null> {
+export async function getTenantBySlug(): Promise<Tenant | null> {
     const res = await fetch(
-        `${PAYLOAD_API_URL}/tenants/by-slug/${slug}`,
+        `${PAYLOAD_API_URL}/tenants/by-slug/${await getSlug()}`,
         {
             next: { revalidate: 3600 }, // Cache tenant data for 1 hour
         }
     );
 
     if (!res.ok) {
-        console.error(`Failed to fetch tenant ${slug}: ${res.statusText}`);
+        console.error(`Failed to fetch tenant ${await getSlug()}: ${res.statusText}`);
         return null;
     }
 
@@ -98,7 +104,7 @@ export async function getTenantBySlug(slug: string = PAYLOAD_SLUG): Promise<Tena
 }
 
 export async function getPosts(): Promise<Post[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/posts/by-slug/${PAYLOAD_SLUG}`, {
+    const res = await fetch(`${PAYLOAD_API_URL}/posts/by-slug/${await getSlug()}`, {
         next: { revalidate: 60 },
     });
 
@@ -116,7 +122,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 
 export async function getGallery(): Promise<Gallery[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/galleries/by-slug/${PAYLOAD_SLUG}`, {
+    const res = await fetch(`${PAYLOAD_API_URL}/galleries/by-slug/${await getSlug()}`, {
         next: { revalidate: 60 },
     });
 

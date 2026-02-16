@@ -1,9 +1,12 @@
+import "@/resources/custom.css";
 import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
-import "@/resources/custom.css";
 
 import classNames from "classnames";
 
+import { Footer, Header, Providers, RouteGuard } from "@/components";
+import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
+import { getTenantBySlug } from "@/utils/payload";
 import {
   Background,
   Column,
@@ -13,9 +16,6 @@ import {
   RevealFx,
   SpacingToken,
 } from "@once-ui-system/core";
-import { Footer, Header, RouteGuard, Providers } from "@/components";
-import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
-import { getTenantBySlug, PAYLOAD_SLUG } from "@/utils/payload";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -32,7 +32,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const tenant = await getTenantBySlug(PAYLOAD_SLUG);
+  const tenant = await getTenantBySlug();
   return (
     <Flex
       suppressHydrationWarning

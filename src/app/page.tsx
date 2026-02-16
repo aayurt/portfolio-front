@@ -18,7 +18,7 @@ import {
 } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  const data = await getTenantBySlug("aayurt")
+  const data = await getTenantBySlug()
 
   return Meta.generate({
     title: data?.name || home.title,
@@ -30,7 +30,7 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const data = await getTenantBySlug("aayurt")
+  const data = await getTenantBySlug()
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
