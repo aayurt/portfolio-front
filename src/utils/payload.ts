@@ -33,10 +33,8 @@ export async function getAbout(): Promise<About | null> {
 }
 
 export async function getProjects(
-    page: number = 1,
-    limit: number = 100
-): Promise<CollectionResponse<Project>> {
-    const res = await fetch(`${PAYLOAD_API_URL}/projects?page=${page}&limit=${limit}`, {
+): Promise<Project[]> {
+    const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
         next: { revalidate: 60 },
     });
 
@@ -49,7 +47,7 @@ export async function getProjects(
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
     const projects = await getProjects();
-    const project = projects.docs.find((project) => project.slug === slug);
+    const project = projects.find((project) => project.slug === slug);
     return project;
 }
 

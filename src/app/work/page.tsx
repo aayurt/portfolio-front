@@ -1,6 +1,7 @@
 import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
 import { Projects } from "@/components/work/Projects";
+import { getImageUrl, getTenantBySlug } from "@/utils/payload";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -12,24 +13,25 @@ export async function generateMetadata() {
   });
 }
 
-export default function Work() {
+export default async function Work() {
+  const tenant = await getTenantBySlug()
   return (
     <Column maxWidth="m" paddingTop="24">
       <Schema
         as="webPage"
         baseURL={baseURL}
         path={work.path}
-        title={work.title}
-        description={work.description}
-        image={`/api/og/generate?title=${encodeURIComponent(work.title)}`}
+        title={tenant?.name || work.title}
+        description={tenant?.description || work.description}
+        image={`/api/og/generate?title=${encodeURIComponent(tenant?.name || work.title)}`}
         author={{
-          name: person.name,
+          name: tenant?.name || person.name,
           url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {work.title}
+        {`${tenant?.name}'s Work` || work.title}
       </Heading>
       <Projects />
     </Column>

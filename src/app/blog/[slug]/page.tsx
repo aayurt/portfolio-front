@@ -3,7 +3,7 @@ import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getPosts, getPostBySlug, getImageUrl } from "@/utils/payload";
+import { getImageUrl, getPostBySlug, getPosts } from "@/utils/payload";
 import {
   Avatar,
   Column,

@@ -19,7 +19,7 @@ import { notFound } from "next/navigation";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const projects = await getProjects();
-  return projects.docs.map((project) => ({
+  return projects.map((project) => ({
     slug: project.slug || "",
   }));
 }

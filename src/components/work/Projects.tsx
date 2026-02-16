@@ -8,7 +8,7 @@ interface ProjectsProps {
 }
 
 export async function Projects({ range, exclude }: ProjectsProps) {
-  const { docs: allProjects } = await getProjects(1, 100);
+  const allProjects = await getProjects();
 
   let filteredProjects = allProjects;
 
