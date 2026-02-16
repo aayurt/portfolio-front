@@ -11,6 +11,7 @@ import {
   Row,
   Schema,
   SmartLink,
+  Tag,
   Text
 } from "@once-ui-system/core";
 import { Metadata } from "next";
@@ -109,9 +110,11 @@ export default async function Project({
             </Text>
           )}
           {project.role && (
-            <Text variant="label-default-m" onBackground="neutral-weak">
-              Role: {project.role}
-            </Text>
+            <Tag variant="primary" radius="m">
+              <Text variant="label-default-m" onBackground="neutral-weak">
+                Role: {project.role}
+              </Text>
+            </Tag>
           )}
         </Row>
       </Row>
