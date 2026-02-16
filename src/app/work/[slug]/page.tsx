@@ -1,7 +1,7 @@
 import { RichText, ScrollToHash } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, work } from "@/resources";
-import { getImageUrl, getProjectBySlug, getProjects } from "@/utils/payload";
+import { getImageUrl, getProjectBySlug, getProjects, getTenantBySlug } from "@/utils/payload";
 import {
   Column,
   Heading,
@@ -60,6 +60,7 @@ export default async function Project({
     : routeParams.slug || "";
 
   const project = await getProjectBySlug(slugPath);
+  const tenant = await getTenantBySlug()
 
   if (!project) {
     notFound();
@@ -81,9 +82,9 @@ export default async function Project({
           imageUrl || `/api/og/generate?title=${encodeURIComponent(project.title)}`
         }
         author={{
-          name: person.name,
+          name: tenant?.name || person.name,
           url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
       <Column maxWidth="s" gap="16" horizontal="center" align="center">

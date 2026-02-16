@@ -1,21 +1,23 @@
-import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 import { Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
-import { baseURL, blog, person, newsletter } from "@/resources";
 import PatienceImage from "@/components/patienceImage";
-import { getPosts } from "@/utils/payload";
+import { baseURL, person } from "@/resources";
+import { getImageUrl, getPosts, getTenantBySlug } from "@/utils/payload";
+import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 
 export async function generateMetadata() {
+  const tenant = await getTenantBySlug()
   return Meta.generate({
-    title: blog.title,
-    description: blog.description,
-    baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(blog.title)}`,
-    path: blog.path,
+    title: `${tenant?.name}'s Blog` || "Blog",
+    description: `Read what ${tenant?.name} has been up to recently` || "Blog description",
+    baseURL: "https://aayurtshrestha.com",
+    image: `/api/og/generate?title=${encodeURIComponent("Writing about design and tech...")}`,
+    path: "/blog",
   });
 }
 
 export default async function Blog() {
+  const tenant = await getTenantBySlug()
   const posts = await getPosts();
   if (posts.length === 0) {
     return <Column fillWidth flex={1} gap="40">
@@ -34,18 +36,18 @@ export default async function Blog() {
       <Schema
         as="blogPosting"
         baseURL={baseURL}
-        title={blog.title}
-        description={blog.description}
-        path={blog.path}
-        image={`/api/og/generate?title=${encodeURIComponent(blog.title)}`}
+        title={`${tenant?.name}'s Blog` || "Blog"}
+        description={`Read what ${tenant?.name} has been up to recently` || "Blog description"}
+        path={"/blog"}
+        image={`/api/og/generate?title=${encodeURIComponent("Writing about design and tech...")}`}
         author={{
-          name: person.name,
+          name: tenant?.name || person.name,
           url: `${baseURL}/blog`,
-          image: `${baseURL}${person.avatar}`,
+          image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
       <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
-        {blog.title}
+        {`${tenant?.name}'s Blog`}
       </Heading>
 
       <Column fillWidth flex={1} gap="40">

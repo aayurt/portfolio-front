@@ -3,7 +3,7 @@ import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getImageUrl, getPostBySlug, getPosts } from "@/utils/payload";
+import { getImageUrl, getPostBySlug, getPosts, getTenantBySlug } from "@/utils/payload";
 import {
   Avatar,
   Column,
@@ -59,7 +59,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
     : routeParams.slug || "";
 
   const post = await getPostBySlug(slugPath);
-
+  const tenant = await getTenantBySlug()
   if (!post) {
     notFound();
   }
@@ -84,9 +84,9 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
               `/api/og/generate?title=${encodeURIComponent(post.title)}`
             }
             author={{
-              name: person.name,
+              name: tenant?.name || person.name,
               url: `${baseURL}${about.path}`,
-              image: `${baseURL}${person.avatar}`,
+              image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
             }}
           />
           <Column maxWidth="s" gap="16" horizontal="center" align="center">
@@ -100,9 +100,9 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
           </Column>
           <Row marginBottom="32" horizontal="center">
             <Row gap="16" vertical="center">
-              <Avatar size="s" src={person.avatar} />
+              <Avatar size="s" src={getImageUrl(tenant?.avatar) || person.avatar} />
               <Text variant="label-default-m" onBackground="brand-weak">
-                {person.name}
+                {tenant?.name || person.name}
               </Text>
             </Row>
           </Row>

@@ -2,7 +2,7 @@
 
 import { person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getImageUrl } from "@/utils/payload";
+import { getImageUrl, getTenantBySlug } from "@/utils/payload";
 import { Avatar, Card, Column, Media, Row, Tag, Text } from "@once-ui-system/core";
 import { Post as PostType } from "../../../payload-types";
 
@@ -12,7 +12,8 @@ interface PostProps {
   direction?: "row" | "column";
 }
 
-export default function Post({ post, thumbnail, direction }: PostProps) {
+export default async function Post({ post, thumbnail, direction }: PostProps) {
+  const tenant = await getTenantBySlug()
   return (
     <Card
       fillWidth
@@ -43,8 +44,8 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
         <Column maxWidth={28} paddingY="24" paddingX="l" gap="20" vertical="center">
           <Row gap="24" vertical="center">
             <Row vertical="center" gap="16">
-              <Avatar src={person.avatar} size="s" />
-              <Text variant="label-default-s">{person.name}</Text>
+              <Avatar src={getImageUrl(tenant?.avatar) || person.avatar} size="s" />
+              <Text variant="label-default-s">{tenant?.name || person.name}</Text>
             </Row>
             <Text variant="body-default-xs" onBackground="neutral-weak">
               {formatDate(post.publishedAt || "", false)}

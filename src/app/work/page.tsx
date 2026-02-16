@@ -1,15 +1,16 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
-import { baseURL, about, person, work } from "@/resources";
 import { Projects } from "@/components/work/Projects";
+import { about, baseURL, person, } from "@/resources";
 import { getImageUrl, getTenantBySlug } from "@/utils/payload";
+import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 
 export async function generateMetadata() {
+  const tenant = await getTenantBySlug()
   return Meta.generate({
-    title: work.title,
-    description: work.description,
+    title: `Projects – ${tenant?.name}`,
+    description: `Design and dev projects by ${tenant?.name}`,
     baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(work.title)}`,
-    path: work.path,
+    image: `/api/og/generate?title=${encodeURIComponent(`Projects – ${tenant?.name}`)}`,
+    path: "/work",
   });
 }
 
@@ -20,10 +21,10 @@ export default async function Work() {
       <Schema
         as="webPage"
         baseURL={baseURL}
-        path={work.path}
-        title={tenant?.name || work.title}
-        description={tenant?.description || work.description}
-        image={`/api/og/generate?title=${encodeURIComponent(tenant?.name || work.title)}`}
+        path={"/work"}
+        title={`${tenant?.name}'s Work`}
+        description={`Design and dev projects by ${tenant?.name}`}
+        image={`/api/og/generate?title=${encodeURIComponent(`${tenant?.name}'s Work`)}`}
         author={{
           name: tenant?.name || person.name,
           url: `${baseURL}${about.path}`,
@@ -31,7 +32,7 @@ export default async function Work() {
         }}
       />
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {`${tenant?.name}'s Work` || work.title}
+        {`My Work`}
       </Heading>
       <Projects />
     </Column>

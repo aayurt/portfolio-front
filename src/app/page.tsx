@@ -36,14 +36,14 @@ export default async function Home() {
       <Schema
         as="webPage"
         baseURL={baseURL}
-        path={home.path}
-        title={home.title}
-        description={home.description}
-        image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
+        path={"/"}
+        title={data?.name || home.title}
+        description={data?.intro?.introDescription || home.description}
+        image={`/api/og/generate?title=${encodeURIComponent(data?.name || home.title)}`}
         author={{
           name: data?.name || "User",
           url: `${baseURL}/about`,
-          image: `${process.env.NEXT_PUBLIC_BASE_URL}${data?.avatar}`,
+          image: getImageUrl(data?.avatar) || `${process.env.NEXT_PUBLIC_BASE_URL}${data?.avatar}`,
         }}
       />
       <Column fillWidth horizontal="center" gap="m">

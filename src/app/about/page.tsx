@@ -45,9 +45,9 @@ export default async function About() {
         path={"/about"}
         image={`/api/og/generate?title=${encodeURIComponent(`About – ${tenant?.name || person.name}`)}`}
         author={{
-          name: person.name,
+          name: tenant?.name || person.name,
           url: `${baseURL}/about`,
-          image: `${baseURL}${person.avatar}`,
+          image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
 
