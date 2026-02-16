@@ -76,7 +76,8 @@ export async function getMedia(id: number | Media): Promise<Media | null> {
 export function getImageUrl(media: number | Media | null | undefined): string {
     if (!media) return "";
     if (typeof media === "number") return ""; // Cannot resolve URL from ID synchronously without fetching
-    return (process.env.NEXT_PUBLIC_API || 'http://localhost:3000') + media.url || "";
+
+    return (process.env.NEXT_PUBLIC_API || "http://localhost:3000").replace("/admin", "") + (media.url || "");
 }
 
 export function getTenant(tenant: number | Tenant | null | undefined): Tenant | null {
