@@ -68,7 +68,7 @@ export default async function About() {
       <Row fillWidth s={{ direction: "column" }} horizontal="center">
         <Column
           className={styles.avatar}
-          top="64"
+          // top="64"
           fitHeight
           position="sticky"
           s={{
@@ -106,19 +106,19 @@ export default async function About() {
             fillWidth
             minHeight="160"
             vertical="center"
-            marginBottom="32"
+            marginBottom="24"
           >
             <Heading className={styles.textAlign} variant="display-strong-xl">
               {tenant?.name || person.name}
             </Heading>
-            <Text
+            {/* <Text
               className={styles.textAlign}
               variant="display-default-xs"
               onBackground="neutral-weak"
             >
               {tenant?.intro?.intro || ''}
-            </Text>
-            {tenant?.intro?.introDescription && (
+            </Text> */}
+            {/* {tenant?.intro?.introDescription && (
               <Text
                 className={styles.textAlign}
                 variant="body-default-m"
@@ -127,7 +127,7 @@ export default async function About() {
               >
                 {tenant?.intro?.introDescription}
               </Text>
-            )}
+            )} */}
 
             {/* Social links from API if available? using static social for now as API response for tenant bad social data */}
             {tenant?.socialMedia && (
@@ -230,7 +230,7 @@ export default async function About() {
           </Column>
 
           {aboutData.intro && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="m">
+            <Column textVariant="body-default-l" fillWidth marginBottom="m">
               <RichText content={aboutData.intro} />
             </Column>
           )}
