@@ -2,18 +2,18 @@
 
 import { person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getImageUrl, getTenantBySlug } from "@/utils/payload";
+import { getImageUrl } from "@/utils/payload";
 import { Avatar, Card, Column, Media, Row, Tag, Text } from "@once-ui-system/core";
-import { Post as PostType } from "../../../payload-types";
+import { Post as PostType, Tenant } from "../../../payload-types";
 
 interface PostProps {
+  tenant: Tenant | null;
   post: PostType;
   thumbnail: boolean;
   direction?: "row" | "column";
 }
 
-export default async function Post({ post, thumbnail, direction }: PostProps) {
-  const tenant = await getTenantBySlug()
+export default function Post({ post, thumbnail, direction, tenant }: PostProps) {
   return (
     <Card
       fillWidth

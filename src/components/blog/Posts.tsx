@@ -1,6 +1,6 @@
 import { Grid } from "@once-ui-system/core";
 import Post from "./Post";
-import { getPosts } from "@/utils/payload";
+import { getPosts, getTenant, getTenantBySlug } from "@/utils/payload";
 
 interface PostsProps {
   range?: [number] | [number, number];
@@ -17,6 +17,7 @@ export async function Posts({
   direction,
 }: PostsProps) {
   const posts = await getPosts();
+  const tenant = await getTenantBySlug()
   if (posts.length === 0) {
     return <>No Posts</>;
   }
@@ -33,7 +34,7 @@ export async function Posts({
       {displayedBlogs.length > 0 && (
         <Grid columns={columns} s={{ columns: 1 }} fillWidth marginBottom="40" gap="16">
           {displayedBlogs.map((post) => (
-            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} />
+            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} tenant={tenant} />
           ))}
         </Grid>
       )}
