@@ -1,31 +1,29 @@
-import { notFound } from "next/navigation";
-import { CustomMDX, ScrollToHash } from "@/components";
+import { RichText, ScrollToHash } from "@/components";
+import { Posts } from "@/components/blog/Posts";
+import { ShareSection } from "@/components/blog/ShareSection";
+import { about, baseURL, blog, person } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { getPosts, getPostBySlug, getImageUrl } from "@/utils/payload";
 import {
-  Meta,
-  Schema,
+  Avatar,
   Column,
   Heading,
   HeadingNav,
-  Icon,
-  Row,
-  Text,
-  SmartLink,
-  Avatar,
-  Media,
   Line,
+  Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
+  Text
 } from "@once-ui-system/core";
-import { baseURL, about, blog, person } from "@/resources";
-import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/utils";
 import { Metadata } from "next";
-import React from "react";
-import { Posts } from "@/components/blog/Posts";
-import { ShareSection } from "@/components/blog/ShareSection";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
+  const posts = await getPosts();
   return posts.map((post) => ({
-    slug: post.slug,
+    slug: post.slug || "",
   }));
 }
 
@@ -39,16 +37,17 @@ export async function generateMetadata({
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  let post = posts.find((post) => post.slug === slugPath);
+  const post = await getPostBySlug(slugPath);
 
   if (!post) return {};
 
+  const imageUrl = post.heroImage ? getImageUrl(post.heroImage) : null;
+
   return Meta.generate({
-    title: post.metadata.title,
-    description: post.metadata.summary,
+    title: post.meta?.title || post.title,
+    description: post.meta?.description || "",
     baseURL: baseURL,
-    image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
+    image: imageUrl || `/api/og/generate?title=${post.title}`,
     path: `${blog.path}/${post.slug}`,
   });
 }
@@ -59,16 +58,13 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slugPath);
+  const post = await getPostBySlug(slugPath);
 
   if (!post) {
     notFound();
   }
 
-  const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
-    })) || [];
+  const imageUrl = post.heroImage ? getImageUrl(post.heroImage) : null;
 
   return (
     <Row fillWidth>
@@ -79,13 +75,13 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             as="blogPosting"
             baseURL={baseURL}
             path={`${blog.path}/${post.slug}`}
-            title={post.metadata.title}
-            description={post.metadata.summary}
-            datePublished={post.metadata.publishedAt}
-            dateModified={post.metadata.publishedAt}
+            title={post.title}
+            description={post.meta?.description || ""}
+            datePublished={post.publishedAt || ""}
+            dateModified={post.updatedAt}
             image={
-              post.metadata.image ||
-              `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
+              imageUrl ||
+              `/api/og/generate?title=${encodeURIComponent(post.title)}`
             }
             author={{
               name: person.name,
@@ -98,19 +94,9 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
               <Text variant="label-strong-m">Blog</Text>
             </SmartLink>
             <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
-              {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
+              {post.publishedAt && formatDate(post.publishedAt)}
             </Text>
-            <Heading variant="display-strong-m">{post.metadata.title}</Heading>
-            {post.metadata.subtitle && (
-              <Text 
-                variant="body-default-l" 
-                onBackground="neutral-weak" 
-                align="center"
-                style={{ fontStyle: 'italic' }}
-              >
-                {post.metadata.subtitle}
-              </Text>
-            )}
+            <Heading variant="display-strong-m">{post.title}</Heading>
           </Column>
           <Row marginBottom="32" horizontal="center">
             <Row gap="16" vertical="center">
@@ -120,10 +106,10 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
               </Text>
             </Row>
           </Row>
-          {post.metadata.image && (
+          {imageUrl && (
             <Media
-              src={post.metadata.image}
-              alt={post.metadata.title}
+              src={imageUrl}
+              alt={post.title}
               aspectRatio="16/9"
               priority
               sizes="(min-width: 768px) 100vw, 768px"
@@ -134,12 +120,12 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             />
           )}
           <Column as="article" maxWidth="s">
-            <CustomMDX source={post.content} />
+            <RichText content={post.content} />
           </Column>
-          
-          <ShareSection 
-            title={post.metadata.title} 
-            url={`${baseURL}${blog.path}/${post.slug}`} 
+
+          <ShareSection
+            title={post.title}
+            url={`${baseURL}${blog.path}/${post.slug}`}
           />
 
           <Column fillWidth gap="40" horizontal="center" marginTop="40">
@@ -147,7 +133,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             <Text as="h2" id="recent-posts" variant="heading-strong-xl" marginBottom="24">
               Recent posts
             </Text>
-            <Posts exclude={[post.slug]} range={[1, 2]} columns="2" thumbnail direction="column" />
+            <Posts range={[1, 2]} columns="2" thumbnail direction="column" />
           </Column>
           <ScrollToHash />
         </Column>

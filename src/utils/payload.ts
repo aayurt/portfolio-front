@@ -30,7 +30,9 @@ export async function getProjects(
     page: number = 1,
     limit: number = 100
 ): Promise<CollectionResponse<Project>> {
-    const res = await fetch(`${PAYLOAD_API_URL}/projects?page=${page}&limit=${limit}`);
+    const res = await fetch(`${PAYLOAD_API_URL}/projects?page=${page}&limit=${limit}`, {
+        next: { revalidate: 60 },
+    });
 
     if (!res.ok) {
         throw new Error(`Failed to fetch projects: ${res.statusText}`);
@@ -39,20 +41,10 @@ export async function getProjects(
     return res.json();
 }
 
-export async function getProject(slug: string): Promise<Project | null> {
-    const res = await fetch(
-        `${PAYLOAD_API_URL}/projects?where[slug][equals]=${slug}&limit=1`,
-        {
-            next: { revalidate: 60 },
-        }
-    );
-
-    if (!res.ok) {
-        throw new Error(`Failed to fetch project ${slug}: ${res.statusText}`);
-    }
-
-    const data: CollectionResponse<Project> = await res.json();
-    return data.docs[0] || null;
+export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+    const projects = await getProjects();
+    const project = projects.docs.find((project) => project.slug === slug);
+    return project;
 }
 
 export async function getMedia(id: number | Media): Promise<Media | null> {
@@ -77,7 +69,9 @@ export function getImageUrl(media: number | Media | null | undefined): string {
     if (!media) return "";
     if (typeof media === "number") return ""; // Cannot resolve URL from ID synchronously without fetching
 
-    return (process.env.NEXT_PUBLIC_API || "http://localhost:3000").replace("/admin", "") + (media.url || "");
+    return ((process.env.NEXT_PUBLIC_API || "http://localhost:3000") + (media.url || ""))
+        .replace("/admin", "")
+        .replace(/([^:]\/)\/+/g, "$1");
 }
 
 export function getTenant(tenant: number | Tenant | null | undefined): Tenant | null {
@@ -112,6 +106,12 @@ export async function getPosts(): Promise<Post[]> {
         throw new Error(`Failed to fetch posts: ${res.statusText}`);
     }
     return res.json();
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+    const posts = await getPosts();
+    const post = posts.find((post) => post.slug === slug);
+    return post || null;
 }
 
 
