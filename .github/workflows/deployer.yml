@@ -17,6 +17,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          strict_host_key_checking: false
           script: |
             cd /var/www/portfolio
             ./deploy.sh
