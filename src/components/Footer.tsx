@@ -5,7 +5,7 @@ import styles from "./Footer.module.scss";
 
 export const Footer = async () => {
   const currentYear = new Date().getFullYear();
-  const tenant = await getTenantBySlug('aayurt');
+  const tenant = await getTenantBySlug();
 
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
