@@ -15,6 +15,7 @@ import {
 import styles from "@/components/about/about.module.scss";
 import { RichText } from "@/components/RichText";
 import { getAbout, getImageUrl, getTenantBySlug } from "@/utils/payload";
+import SplineScene from "@/components/SplineScene";
 
 export async function generateMetadata() {
   const tenant = await getTenantBySlug();
@@ -98,6 +99,8 @@ export default async function About() {
               ))}
             </Row>
           )}
+          <SplineScene scene="/scene.splinecode" />
+
         </Column>
 
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
@@ -110,7 +113,9 @@ export default async function About() {
           >
             <Heading className={styles.textAlign} variant="display-strong-xl">
               {tenant?.name || person.name}
+
             </Heading>
+
             {/* <Text
               className={styles.textAlign}
               variant="display-default-xs"
