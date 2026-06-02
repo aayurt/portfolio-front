@@ -1,14 +1,15 @@
-import { getProjects, getImageUrl } from "@/utils/payload";
+import { getImageUrl } from "@/utils/payload";
 import { Column } from "@once-ui-system/core";
 import { ProjectCard } from "@/components";
+import { Project } from "../../../payload-types";
 
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
+  projects: Project[];
 }
 
-export async function Projects({ range, exclude }: ProjectsProps) {
-  const allProjects = await getProjects();
+export async function Projects({ range, exclude, projects: allProjects }: ProjectsProps) {
 
   let filteredProjects = allProjects;
 

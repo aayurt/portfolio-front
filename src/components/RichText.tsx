@@ -6,6 +6,7 @@ import {
     List,
     ListItem,
     InlineCode,
+    Line,
 } from "@once-ui-system/core";
 import { slugify } from "transliteration";
 
@@ -103,11 +104,38 @@ const NodeRenderer: React.FC<{ node: Node }> = ({ node }) => {
             );
 
         case "link":
+        case "autolink":
             return (
                 <SmartLink href={node.url || "#"}>
                     {node.children?.map((child, i) => <NodeRenderer key={i} node={child} />)}
                 </SmartLink>
             );
+
+        case "horizontalrule":
+            return <Line maxWidth={48} marginY="24" />;
+
+        case "linebreak":
+            return <br />;
+
+        case "code":
+            return (
+                <pre style={{
+                    background: "var(--neutral-alpha-weak)",
+                    padding: "1rem",
+                    borderRadius: "0.5rem",
+                    overflowX: "auto",
+                    fontSize: "0.875rem",
+                    lineHeight: "1.5",
+                    margin: "1rem 0",
+                }}>
+                    <code>
+                        {node.children?.map((child, i) => <NodeRenderer key={i} node={child} />)}
+                    </code>
+                </pre>
+            );
+
+        case "upload":
+            return null;
 
         default:
             console.warn("Unknown node type:", node.type);

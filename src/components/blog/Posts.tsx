@@ -1,13 +1,14 @@
 import { Grid } from "@once-ui-system/core";
 import Post from "./Post";
-import { getPosts, getTenant, getTenantBySlug } from "@/utils/payload";
+import { Tenant, Post as PostType } from "../../../payload-types";
 
 interface PostsProps {
   range?: [number] | [number, number];
   columns?: "1" | "2" | "3";
   thumbnail?: boolean;
   direction?: "row" | "column";
-  exclude?: string[];
+  posts: PostType[];
+  tenant: Tenant | null;
 }
 
 export async function Posts({
@@ -15,9 +16,9 @@ export async function Posts({
   columns = "1",
   thumbnail = false,
   direction,
+  posts,
+  tenant,
 }: PostsProps) {
-  const posts = await getPosts();
-  const tenant = await getTenantBySlug()
   if (posts.length === 0) {
     return <>No Posts</>;
   }

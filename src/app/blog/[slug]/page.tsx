@@ -58,8 +58,11 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  const post = await getPostBySlug(slugPath);
-  const tenant = await getTenantBySlug()
+  const [post, tenant, recentPosts] = await Promise.all([
+    getPostBySlug(slugPath),
+    getTenantBySlug(),
+    getPosts(),
+  ]);
   if (!post) {
     notFound();
   }
@@ -133,7 +136,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             <Text as="h2" id="recent-posts" variant="heading-strong-xl" marginBottom="24">
               Recent posts
             </Text>
-            <Posts range={[1, 2]} columns="2" thumbnail direction="column" />
+            <Posts posts={recentPosts} tenant={tenant} range={[1, 2]} columns="2" thumbnail direction="column" />
           </Column>
           <ScrollToHash />
         </Column>

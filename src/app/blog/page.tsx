@@ -51,13 +51,13 @@ export default async function Blog() {
       </Heading>
 
       <Column fillWidth flex={1} gap="40">
-        <Posts range={[1, 1]} thumbnail />
-        <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
+        <Posts posts={posts} tenant={tenant} range={[1, 1]} thumbnail />
+        <Posts posts={posts} tenant={tenant} range={[2, 3]} columns="2" thumbnail direction="column" />
         <Mailchimp marginBottom="l" />
         {posts.length > 3 && <><Heading as="h2" variant="heading-strong-xl" marginLeft="l">
           Earlier posts
         </Heading>
-          <Posts range={[4]} columns="2" /></>}
+          <Posts posts={posts} tenant={tenant} range={[4]} columns="2" /></>}
       </Column>
 
     </Column>

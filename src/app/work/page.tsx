@@ -1,6 +1,6 @@
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, } from "@/resources";
-import { getImageUrl, getTenantBySlug } from "@/utils/payload";
+import { getImageUrl, getProjects, getTenantBySlug } from "@/utils/payload";
 import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
 
 export async function generateMetadata() {
@@ -15,7 +15,10 @@ export async function generateMetadata() {
 }
 
 export default async function Work() {
-  const tenant = await getTenantBySlug()
+  const [tenant, projects] = await Promise.all([
+    getTenantBySlug(),
+    getProjects(),
+  ])
   return (
     <Column maxWidth="m" paddingTop="24">
       <Schema
@@ -34,7 +37,7 @@ export default async function Work() {
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
         {`My Work`}
       </Heading>
-      <Projects />
+      <Projects projects={projects} />
     </Column>
   );
 }

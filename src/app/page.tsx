@@ -3,7 +3,7 @@ import { Posts } from "@/components/blog/Posts";
 import PatienceImage from "@/components/patienceImage";
 import { Projects } from "@/components/work/Projects";
 import { baseURL, home, routes } from "@/resources";
-import { getImageUrl, getTenantBySlug } from "@/utils/payload";
+import { getImageUrl, getPosts, getProjects, getTenantBySlug } from "@/utils/payload";
 import {
   Avatar,
   Button,
@@ -30,7 +30,11 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const data = await getTenantBySlug()
+  const [data, projects, posts] = await Promise.all([
+    getTenantBySlug(),
+    getProjects(),
+    getPosts(),
+  ])
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
@@ -104,7 +108,7 @@ export default async function Home() {
         </Column>
       </Column>
       <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
+        <Projects projects={projects} range={[1, 1]} />
       </RevealFx>
       {routes["/blog"] && (
         <Column fillWidth gap="24" marginBottom="l">
@@ -118,7 +122,7 @@ export default async function Home() {
               </Heading>
             </Row>
             <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
+              <Posts posts={posts} tenant={data} range={[1, 2]} columns="2" />
             </Row>
           </Row>
           <Row fillWidth paddingLeft="64" horizontal="end">
@@ -126,7 +130,7 @@ export default async function Home() {
           </Row>
         </Column>
       )}
-      <Projects range={[2]} />
+      <Projects projects={projects} range={[2]} />
       <Mailchimp />
     </Column>
   );

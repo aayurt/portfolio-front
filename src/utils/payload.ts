@@ -1,7 +1,8 @@
 import { About, Gallery, Media, Post, Project, Tenant } from "../../payload-types";
 import { getSlug } from "./getSlug";
 
-export const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_API + "/api" || "http://localhost:3000/api";
+const API = process.env.NEXT_PUBLIC_API || "http://localhost:3000";
+export const PAYLOAD_API_URL = API + "/api";
 
 type CollectionResponse<T> = {
     docs: T[];
@@ -32,8 +33,7 @@ export async function getAbout(): Promise<About | null> {
     return abouts && abouts.length > 0 ? abouts[0] : null;
 }
 
-export async function getProjects(
-): Promise<Project[]> {
+export async function getProjects(): Promise<Project[]> {
     const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
         next: { revalidate: 60 },
     });
@@ -46,9 +46,15 @@ export async function getProjects(
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
-    const projects = await getProjects();
-    const project = projects.find((project) => project.slug === slug);
-    return project;
+    const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}/${slug}`, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+        return undefined;
+    }
+
+    return res.json();
 }
 
 export async function getMedia(id: number | Media): Promise<Media | null> {
@@ -69,13 +75,18 @@ export async function getMedia(id: number | Media): Promise<Media | null> {
 }
 
 // Helper to get image URL from Media object or ID
-export function getImageUrl(media: number | Media | null | undefined): string {
+export function getImageUrl(media: number | Media | null | undefined, size?: string): string {
     if (!media) return "";
-    if (typeof media === "number") return ""; // Cannot resolve URL from ID synchronously without fetching
+    if (typeof media === "number") return "";
 
-    return ((process.env.NEXT_PUBLIC_API || "http://localhost:3000") + (media.url || ""))
-        .replace("/admin", "")
-        .replace(/([^:]\/)\/+/g, "$1");
+    const sizes = media.sizes as Record<string, { url?: string | null } | undefined> | null;
+    const url = size && sizes?.[size]?.url
+        ? sizes[size].url!
+        : media.url || "";
+
+    if (!url) return "";
+
+    return (API + url).replace(/\/admin/g, "").replace(/([^:]\/)\/+/g, "$1");
 }
 
 export function getTenant(tenant: number | Tenant | null | undefined): Tenant | null {
@@ -113,9 +124,15 @@ export async function getPosts(): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-    const posts = await getPosts();
-    const post = posts.find((post) => post.slug === slug);
-    return post || null;
+    const res = await fetch(`${PAYLOAD_API_URL}/posts/by-slug/${await getSlug()}/${slug}`, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+        return null;
+    }
+
+    return res.json();
 }
 
 

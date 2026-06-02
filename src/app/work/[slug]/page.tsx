@@ -59,8 +59,11 @@ export default async function Project({
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  const project = await getProjectBySlug(slugPath);
-  const tenant = await getTenantBySlug()
+  const [project, tenant, allProjects] = await Promise.all([
+    getProjectBySlug(slugPath),
+    getTenantBySlug(),
+    getProjects(),
+  ]);
 
   if (!project) {
     notFound();
@@ -130,7 +133,7 @@ export default async function Project({
         <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
           Related projects
         </Heading>
-        <Projects range={[2]} />
+        <Projects projects={allProjects} range={[2]} exclude={[project.slug || ""]} />
       </Column>
       <ScrollToHash />
     </Column>

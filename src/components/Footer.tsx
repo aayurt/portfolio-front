@@ -1,10 +1,9 @@
-import { getTenantBySlug } from "@/utils/payload";
 import { IconButton, Row, SmartLink, Text } from "@once-ui-system/core";
 import styles from "./Footer.module.scss";
+import { Tenant } from "../../payload-types";
 
-export const Footer = async () => {
+export const Footer = async ({ tenant }: { tenant: Tenant | null }) => {
   const currentYear = new Date().getFullYear();
-  const tenant = await getTenantBySlug();
 
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
