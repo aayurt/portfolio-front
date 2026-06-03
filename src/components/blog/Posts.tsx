@@ -9,6 +9,7 @@ interface PostsProps {
   direction?: "row" | "column";
   posts: PostType[];
   tenant: Tenant | null;
+  heroImageUrls?: Map<number, string>;
 }
 
 export async function Posts({
@@ -18,6 +19,7 @@ export async function Posts({
   direction,
   posts,
   tenant,
+  heroImageUrls,
 }: PostsProps) {
   if (posts.length === 0) {
     return <>No Posts</>;
@@ -35,7 +37,9 @@ export async function Posts({
       {displayedBlogs.length > 0 && (
         <Grid columns={columns} s={{ columns: 1 }} fillWidth marginBottom="40" gap="16">
           {displayedBlogs.map((post) => (
-            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} tenant={tenant} />
+            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} tenant={tenant} heroImageUrl={
+              post.heroImage != null && typeof post.heroImage === 'number' ? heroImageUrls?.get(post.heroImage) : undefined
+            } />
           ))}
         </Grid>
       )}

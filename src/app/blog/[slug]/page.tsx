@@ -7,6 +7,7 @@ import { getImageUrl, getPostBySlug, getPosts, getTenantBySlug } from "@/utils/p
 import {
   Avatar,
   Column,
+  Flex,
   Heading,
   HeadingNav,
   Line,
@@ -72,8 +73,8 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
   return (
     <Row fillWidth>
       <Row maxWidth={12} m={{ hide: true }} />
-      <Row fillWidth horizontal="center">
-        <Column as="section" maxWidth="m" horizontal="center" gap="l" paddingTop="24">
+      <Flex fillWidth horizontal="center" vertical="start" gap="xl" paddingX="l">
+        <Column as="section" maxWidth="s" flex={1} horizontal="center" gap="l" paddingTop="24">
           <Schema
             as="blogPosting"
             baseURL={baseURL}
@@ -140,18 +141,17 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
           </Column>
           <ScrollToHash />
         </Column>
-      </Row>
-      <Column
-        maxWidth={12}
-        paddingLeft="40"
-        fitHeight
-        position="sticky"
-        top="80"
-        gap="16"
-        m={{ hide: true }}
-      >
-        <HeadingNav fitHeight />
-      </Column>
+        <Column
+          maxWidth={12}
+          fitHeight
+          position="sticky"
+          top="80"
+          gap="16"
+          m={{ hide: true }}
+        >
+          <HeadingNav fitHeight />
+        </Column>
+      </Flex>
     </Row>
   );
 }

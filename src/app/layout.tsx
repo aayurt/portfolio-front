@@ -5,6 +5,7 @@ import "@once-ui-system/core/css/tokens.css";
 import classNames from "classnames";
 
 import { Footer, Header, Providers, RouteGuard } from "@/components";
+import ServiceWorker from "@/components/ServiceWorker";
 import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
 import { getTenantBySlug } from "@/utils/payload";
 import {
@@ -26,6 +27,8 @@ export async function generateMetadata() {
     image: home.image,
   });
 }
+
+export const dynamic = "force-dynamic";
 
 export default async function RootLayout({
   children,
@@ -106,6 +109,7 @@ export default async function RootLayout({
         />
       </head>
       <Providers>
+        <ServiceWorker />
         <Column
           as="body"
           background="page"

@@ -1,8 +1,8 @@
 import { About, Gallery, Media, Post, Project, Tenant } from "../../payload-types";
 import { getSlug } from "./getSlug";
 
-const API = process.env.NEXT_PUBLIC_API || "http://localhost:3000";
-export const PAYLOAD_API_URL = API + "/api";
+export const API = (process.env.NEXT_PUBLIC_API || "http://localhost:3000").replace(/\/admin$/, "");
+export const PAYLOAD_API_URL = API + "/admin/api";
 
 type CollectionResponse<T> = {
     docs: T[];
@@ -79,14 +79,31 @@ export function getImageUrl(media: number | Media | null | undefined, size?: str
     if (!media) return "";
     if (typeof media === "number") return "";
 
-    const sizes = media.sizes as Record<string, { url?: string | null } | undefined> | null;
-    const url = size && sizes?.[size]?.url
-        ? sizes[size].url!
-        : media.url || "";
+    const sizes = media.sizes as Record<string, { filename?: string | null } | undefined> | null;
+    const filename = size && sizes?.[size]?.filename
+        ? sizes[size].filename!
+        : media.filename || "";
 
-    if (!url) return "";
+    if (!filename) return "";
 
-    return (API + url).replace(/\/admin/g, "").replace(/([^:]\/)\/+/g, "$1");
+    return (API + "/admin/media/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
+}
+
+export async function resolveMediaIds(ids: number[]): Promise<Map<number, string>> {
+    if (ids.length === 0) return new Map();
+    const res = await fetch(
+        `${PAYLOAD_API_URL}/media?where[id][in]=${ids.join(",")}&limit=${ids.length}&depth=0`,
+        { next: { revalidate: 60 } },
+    );
+    if (!res.ok) return new Map();
+    const data: CollectionResponse<Media> = await res.json();
+    const map = new Map<number, string>();
+    for (const item of data.docs) {
+        if (item.id && item.filename) {
+            map.set(Number(item.id), item.filename);
+        }
+    }
+    return map;
 }
 
 export function getTenant(tenant: number | Tenant | null | undefined): Tenant | null {

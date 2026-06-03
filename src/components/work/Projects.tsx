@@ -1,4 +1,4 @@
-import { getImageUrl } from "@/utils/payload";
+import { getImageUrl, resolveMediaIds, API } from "@/utils/payload";
 import { Column } from "@once-ui-system/core";
 import { ProjectCard } from "@/components";
 import { Project } from "../../../payload-types";
@@ -10,6 +10,26 @@ interface ProjectsProps {
 }
 
 export async function Projects({ range, exclude, projects: allProjects }: ProjectsProps) {
+
+  // Resolve media IDs to filenames for project images
+  const mediaIds = [...new Set(
+    allProjects.flatMap(p =>
+      (p.images as (number | undefined)[])?.filter((id): id is number => typeof id === 'number') || [],
+    ),
+  )];
+  const mediaMap = await resolveMediaIds(mediaIds);
+
+  const getProjectImages = (project: Project): string[] => {
+    if (!project.images) return [];
+    return project.images.map((img) => {
+      if (typeof img === "number") {
+        const filename = mediaMap.get(img);
+        if (!filename) return "";
+        return (API + "/admin/media/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
+      }
+      return getImageUrl(img);
+    }).filter(Boolean);
+  };
 
   let filteredProjects = allProjects;
 
@@ -37,9 +57,7 @@ export async function Projects({ range, exclude, projects: allProjects }: Projec
           priority={index < 2}
           key={project.slug || index}
           href={`/work/${project.slug}`}
-          images={
-            project.images?.map((img) => getImageUrl(img)).filter(Boolean) || []
-          }
+          images={getProjectImages(project)}
           title={project.title}
           description={project.description || ""}
           content={project.content}
