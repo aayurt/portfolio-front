@@ -1,0 +1,28 @@
+@use "./breakpoints.scss" as breakpoints;
+
+.viewport {
+    display: flex;
+    align-items: stretch;
+    gap: var(--static-space-16);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: var(--static-space-4) var(--static-space-4) var(--static-space-8);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.card {
+    flex: 0 0 calc((100% - 64px) / 2);
+    scroll-snap-align: start;
+    min-width: 0;
+}
+
+@media (max-width: breakpoints.$s) {
+    .card {
+        flex-basis: 82%;
+    }
+}

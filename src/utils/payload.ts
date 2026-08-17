@@ -1,4 +1,4 @@
-import { About, Gallery, Media, Post, Project, Tenant } from "../../payload-types";
+import { About, Gallery, Media, Post, Project, Solution, Tenant } from "../../payload-types";
 import { getSlug } from "./getSlug";
 
 export const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_API + "/api" || "http://localhost:3000/api";
@@ -118,6 +118,18 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     return post || null;
 }
 
+
+export async function getSolutions(): Promise<Solution[]> {
+    const res = await fetch(`${PAYLOAD_API_URL}/solutions/by-slug/${await getSlug()}`, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+        console.error(`Failed to fetch solutions: ${res.statusText}`);
+        return [];
+    }
+    return res.json();
+}
 
 export async function getGallery(): Promise<Gallery[]> {
     const res = await fetch(`${PAYLOAD_API_URL}/galleries/by-slug/${await getSlug()}`, {

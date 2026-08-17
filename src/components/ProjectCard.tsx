@@ -9,6 +9,7 @@ import {
   Heading,
   Row,
   SmartLink,
+  Tag,
   Text,
 } from "@once-ui-system/core";
 
@@ -21,6 +22,7 @@ interface ProjectCardProps {
   description: string;
   avatars: { src: string }[];
   link: string;
+  techStack?: { tech?: string | null; id?: string | null }[];
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -31,6 +33,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   avatars,
   link,
+  techStack = [],
 }) => {
   return (
     <Column fillWidth gap="m" className="rounded bg-red">
@@ -81,6 +84,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               <Text wrap="balance" variant="body-default-s" onBackground="neutral-weak">
                 {description}
               </Text>
+            )}
+            {techStack.length > 0 && (
+              <Flex gap="8" wrap>
+                {techStack.map((t) => (
+                  <Tag key={t.id} variant="tertiary">
+                    <Text variant="label-strong-s" onBackground="neutral-weak">
+                      {t.tech}
+                    </Text>
+                  </Tag>
+                ))}
+              </Flex>
             )}
             <Flex gap="24" wrap>
               {content && (

@@ -43,7 +43,8 @@ export async function Projects({ range, exclude }: ProjectsProps) {
           description={project.description || ""}
           content={project.content}
           avatars={[]} // Payload Project doesn't have team/avatars yet
-          link={""} // Payload Project doesn't have external link field in the interface we saw?
+          link={project.links?.liveUrl || ""}
+          techStack={project.techStack || []}
         />
       ))}
     </Column>

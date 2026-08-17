@@ -857,7 +857,116 @@ export interface Project {
   client?: string | null;
   role?: string | null;
   timeframe?: string | null;
+  /**
+   * Quantified impact metrics, e.g. value "90%+" with label "User adoption"
+   */
+  metrics?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key capabilities, each a bold title plus one-line description
+   */
+  features?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Outcome-oriented, quantified bullets
+   */
+  benefits?:
+    | {
+        benefit?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Technologies used, e.g. Next.js, Payload CMS, PostgreSQL
+   */
+  techStack?:
+    | {
+        tech?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  links?: {
+    liveUrl?: string | null;
+    repoUrl?: string | null;
+  };
   images?: (number | Media)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions".
+ */
+export interface Solution {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  /**
+   * Category tag shown on the card, e.g. "AI/ML Automation"
+   */
+  subtitle?: string | null;
+  /**
+   * One-sentence summary shown on the card.
+   */
+  shortDescription?: string | null;
+  /**
+   * Longer description shown on the card.
+   */
+  description?: string | null;
+  /**
+   * Quantified impact metrics, e.g. value "90%+" with label "User adoption"
+   */
+  metrics?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key capabilities, each a bold title plus one-line description
+   */
+  features?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Outcome-oriented, quantified bullets
+   */
+  benefits?:
+    | {
+        benefit?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Technologies used, e.g. Next.js, Payload CMS, PostgreSQL
+   */
+  techStack?:
+    | {
+        tech?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  links?: {
+    liveUrl?: string | null;
+    repoUrl?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1576,7 +1685,86 @@ export interface ProjectsSelect<T extends boolean = true> {
   client?: T;
   role?: T;
   timeframe?: T;
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  benefits?:
+    | T
+    | {
+        benefit?: T;
+        id?: T;
+      };
+  techStack?:
+    | T
+    | {
+        tech?: T;
+        id?: T;
+      };
+  links?:
+    | T
+    | {
+        liveUrl?: T;
+        repoUrl?: T;
+      };
   images?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions_select".
+ */
+export interface SolutionsSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  subtitle?: T;
+  shortDescription?: T;
+  description?: T;
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  benefits?:
+    | T
+    | {
+        benefit?: T;
+        id?: T;
+      };
+  techStack?:
+    | T
+    | {
+        tech?: T;
+        id?: T;
+      };
+  links?:
+    | T
+    | {
+        liveUrl?: T;
+        repoUrl?: T;
+      };
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }

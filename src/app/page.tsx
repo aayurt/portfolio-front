@@ -1,15 +1,15 @@
 import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
+import { PostCarousel } from "@/components/blog/PostCarousel";
 import PatienceImage from "@/components/patienceImage";
-import { Projects } from "@/components/work/Projects";
+import { ProductCarousel } from "@/components/work/ProductCarousel";
+import type { ProductCardData } from "@/components/work/ProductSlide";
 import { baseURL, home, routes } from "@/resources";
-import { getImageUrl, getTenantBySlug } from "@/utils/payload";
+import { getImageUrl, getPosts, getProjects, getSolutions, getTenantBySlug } from "@/utils/payload";
 import {
   Avatar,
   Button,
   Column,
   Heading,
-  Line,
   Meta,
   RevealFx,
   Row,
@@ -31,6 +31,36 @@ export async function generateMetadata() {
 
 export default async function Home() {
   const data = await getTenantBySlug()
+  const projects = await getProjects();
+  const solutions = await getSolutions();
+  const posts = (await getPosts()).sort(
+    (a, b) => new Date(b.publishedAt || "").getTime() - new Date(a.publishedAt || "").getTime(),
+  );
+
+  const projectCards: ProductCardData[] = projects.map((project) => ({
+    title: project.title,
+    subtitle: project.role || project.client || undefined,
+    shortDescription: project.description || undefined,
+    metrics: project.metrics || undefined,
+    features: project.features || undefined,
+    benefits: project.benefits || undefined,
+    techStack: project.techStack || undefined,
+    links: project.links || undefined,
+    href: project.slug ? `/work/${project.slug}` : undefined,
+  }));
+
+  const solutionCards: ProductCardData[] = solutions.map((solution) => ({
+    title: solution.title,
+    subtitle: solution.subtitle || undefined,
+    shortDescription: solution.shortDescription || undefined,
+    description: solution.description || undefined,
+    metrics: solution.metrics || undefined,
+    features: solution.features || undefined,
+    benefits: solution.benefits || undefined,
+    techStack: solution.techStack || undefined,
+    links: solution.links || undefined,
+  }));
+
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
@@ -103,30 +133,56 @@ export default async function Home() {
           </RevealFx>
         </Column>
       </Column>
-      <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
-      </RevealFx>
-      {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
-            </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
+
+      <Column fillWidth gap="xl">
+        <Column fillWidth gap="s">
+          <Heading variant="heading-strong-xl" align="center">
+            Products
+          </Heading>
+          <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+            Things I have designed, built, and shipped — from mobile apps to multi-tenant platforms.
+          </Text>
+        </Column>
+        {projectCards.length > 0 ? (
+          <ProductCarousel items={projectCards} ariaLabel="Products carousel" />
+        ) : (
+          <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+            No products yet.
+          </Text>
+        )}
+      </Column>
+
+      <Column fillWidth gap="xl">
+        <Column fillWidth gap="s">
+          <Heading variant="heading-strong-xl" align="center">
+            Solutions
+          </Heading>
+          <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+            How I apply those products — capabilities and services. More coming soon.
+          </Text>
+        </Column>
+        {solutionCards.length > 0 ? (
+          <ProductCarousel items={solutionCards} ariaLabel="Solutions carousel" />
+        ) : (
+          <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+            Solutions coming soon.
+          </Text>
+        )}
+      </Column>
+
+      {routes["/blog"] && posts.length > 0 && (
+        <Column fillWidth gap="xl">
+          <Column fillWidth gap="s">
+            <Heading variant="heading-strong-xl" align="center">
+              Latest from the blog
+            </Heading>
+            <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+              Writing on software engineering, AI, and what I am building.
+            </Text>
+          </Column>
+          <PostCarousel posts={posts} tenant={data} />
         </Column>
       )}
-      <Projects range={[2]} />
       <Mailchimp />
     </Column>
   );

@@ -1,29 +1,57 @@
-import { Projects } from "@/components/work/Projects";
-import { about, baseURL, person, } from "@/resources";
-import { getImageUrl, getTenantBySlug } from "@/utils/payload";
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { ProductCarousel } from "@/components/work/ProductCarousel";
+import type { ProductCardData } from "@/components/work/ProductSlide";
+import { about, baseURL, person } from "@/resources";
+import { getImageUrl, getProjects, getSolutions, getTenantBySlug } from "@/utils/payload";
+import { Column, Heading, Meta, Row, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  const tenant = await getTenantBySlug()
+  const tenant = await getTenantBySlug();
   return Meta.generate({
-    title: `Projects – ${tenant?.name}`,
-    description: `Design and dev projects by ${tenant?.name}`,
+    title: `Products & Solutions – ${tenant?.name}`,
+    description: `Products and solutions by ${tenant?.name}`,
     baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(`Projects – ${tenant?.name}`)}`,
+    image: `/api/og/generate?title=${encodeURIComponent(`Products & Solutions – ${tenant?.name}`)}`,
     path: "/work",
   });
 }
 
 export default async function Work() {
-  const tenant = await getTenantBySlug()
+  const tenant = await getTenantBySlug();
+  const projects = await getProjects();
+  const solutions = await getSolutions();
+
+  const projectCards: ProductCardData[] = projects.map((project) => ({
+    title: project.title,
+    subtitle: project.role || project.client || undefined,
+    shortDescription: project.description || undefined,
+    metrics: project.metrics || undefined,
+    features: project.features || undefined,
+    benefits: project.benefits || undefined,
+    techStack: project.techStack || undefined,
+    links: project.links || undefined,
+    href: project.slug ? `/work/${project.slug}` : undefined,
+  }));
+
+  const solutionCards: ProductCardData[] = solutions.map((solution) => ({
+    title: solution.title,
+    subtitle: solution.subtitle || undefined,
+    shortDescription: solution.shortDescription || undefined,
+    description: solution.description || undefined,
+    metrics: solution.metrics || undefined,
+    features: solution.features || undefined,
+    benefits: solution.benefits || undefined,
+    techStack: solution.techStack || undefined,
+    links: solution.links || undefined,
+  }));
+
   return (
     <Column maxWidth="m" paddingTop="24">
       <Schema
         as="webPage"
         baseURL={baseURL}
         path={"/work"}
-        title={`${tenant?.name}'s Work`}
-        description={`Design and dev projects by ${tenant?.name}`}
+        title={`${tenant?.name}'s Products & Solutions`}
+        description={`Products and solutions by ${tenant?.name}`}
         image={`/api/og/generate?title=${encodeURIComponent(`${tenant?.name}'s Work`)}`}
         author={{
           name: tenant?.name || person.name,
@@ -31,10 +59,39 @@ export default async function Work() {
           image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {`My Work`}
+      <Heading marginBottom="s" variant="heading-strong-xl" align="center">
+        Products
       </Heading>
-      <Projects />
+      <Text variant="body-default-m" onBackground="neutral-weak" align="center" marginBottom="xl" wrap="balance">
+        Things I have designed, built, and shipped — from mobile apps to multi-tenant platforms.
+      </Text>
+
+      {projectCards.length > 0 ? (
+        <ProductCarousel items={projectCards} ariaLabel="Products carousel" />
+      ) : (
+        <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+          No products yet.
+        </Text>
+      )}
+
+      <Row marginY="xl">
+        <Column fillWidth>
+          <Heading marginBottom="s" variant="heading-strong-xl" align="center">
+            Solutions
+          </Heading>
+          <Text variant="body-default-m" onBackground="neutral-weak" align="center" marginBottom="xl" wrap="balance">
+            How I apply those products — capabilities and services. More coming soon.
+          </Text>
+        </Column>
+      </Row>
+
+      {solutionCards.length > 0 ? (
+        <ProductCarousel items={solutionCards} ariaLabel="Solutions carousel" />
+      ) : (
+        <Text variant="body-default-m" onBackground="neutral-weak" align="center" marginBottom="xl">
+          Solutions coming soon.
+        </Text>
+      )}
     </Column>
   );
 }
