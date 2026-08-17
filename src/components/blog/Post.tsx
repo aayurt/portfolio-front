@@ -11,9 +11,10 @@ interface PostProps {
   post: PostType;
   thumbnail: boolean;
   direction?: "row" | "column";
+  heroImageUrl?: string;
 }
 
-export default function Post({ post, thumbnail, direction, tenant }: PostProps) {
+export default function Post({ post, thumbnail, direction, tenant, heroImageUrl }: PostProps) {
   return (
     <Card
       fillWidth
@@ -28,14 +29,14 @@ export default function Post({ post, thumbnail, direction, tenant }: PostProps) 
       gap={direction === "column" ? undefined : "24"}
       s={{ direction: "column" }}
     >
-      {post.heroImage && thumbnail && (
+      {post.heroImage && thumbnail && (heroImageUrl || getImageUrl(post.heroImage)) && (
         <Media
           priority
           sizes="(max-width: 768px) 100vw, 640px"
           border="neutral-alpha-weak"
           cursor="interactive"
           radius="l"
-          src={getImageUrl(post.heroImage)}
+          src={heroImageUrl || getImageUrl(post.heroImage)}
           alt={"Thumbnail of " + post.title}
           aspectRatio="16 / 9"
         />

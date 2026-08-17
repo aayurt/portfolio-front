@@ -1,12 +1,9 @@
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', // Required for Capacitor
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   output: 'standalone',
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +15,18 @@ const nextConfig = {
   sassOptions: {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
+  },
+  async headers() {
+    return [
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Pragma", value: "no-cache" },
+          { key: "Expires", value: "0" },
+        ],
+      },
+    ];
   },
 };
 

@@ -30,12 +30,14 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const data = await getTenantBySlug()
-  const projects = await getProjects();
-  const solutions = await getSolutions();
-  const posts = (await getPosts()).sort(
-    (a, b) => new Date(b.publishedAt || "").getTime() - new Date(a.publishedAt || "").getTime(),
-  );
+  const [data, projects, solutions, posts] = await Promise.all([
+    getTenantBySlug(),
+    getProjects(),
+    getSolutions(),
+    getPosts().then((p) =>
+      p.sort((a, b) => new Date(b.publishedAt || "").getTime() - new Date(a.publishedAt || "").getTime()),
+    ),
+  ]);
 
   const projectCards: ProductCardData[] = projects.map((project) => ({
     title: project.title,

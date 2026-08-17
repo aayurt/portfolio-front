@@ -1,13 +1,15 @@
 import { Grid } from "@once-ui-system/core";
 import Post from "./Post";
-import { getPosts, getTenant, getTenantBySlug } from "@/utils/payload";
+import { Tenant, Post as PostType } from "../../../payload-types";
 
 interface PostsProps {
   range?: [number] | [number, number];
   columns?: "1" | "2" | "3";
   thumbnail?: boolean;
   direction?: "row" | "column";
-  exclude?: string[];
+  posts: PostType[];
+  tenant: Tenant | null;
+  heroImageUrls?: Map<number, string>;
 }
 
 export async function Posts({
@@ -15,9 +17,10 @@ export async function Posts({
   columns = "1",
   thumbnail = false,
   direction,
+  posts,
+  tenant,
+  heroImageUrls,
 }: PostsProps) {
-  const posts = await getPosts();
-  const tenant = await getTenantBySlug()
   if (posts.length === 0) {
     return <>No Posts</>;
   }
@@ -34,7 +37,9 @@ export async function Posts({
       {displayedBlogs.length > 0 && (
         <Grid columns={columns} s={{ columns: 1 }} fillWidth marginBottom="40" gap="16">
           {displayedBlogs.map((post) => (
-            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} tenant={tenant} />
+            <Post key={post.slug} post={post} thumbnail={thumbnail} direction={direction} tenant={tenant} heroImageUrl={
+              post.heroImage != null && typeof post.heroImage === 'number' ? heroImageUrls?.get(post.heroImage) : undefined
+            } />
           ))}
         </Grid>
       )}

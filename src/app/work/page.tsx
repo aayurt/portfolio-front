@@ -16,9 +16,11 @@ export async function generateMetadata() {
 }
 
 export default async function Work() {
-  const tenant = await getTenantBySlug();
-  const projects = await getProjects();
-  const solutions = await getSolutions();
+  const [tenant, projects, solutions] = await Promise.all([
+    getTenantBySlug(),
+    getProjects(),
+    getSolutions(),
+  ]);
 
   const projectCards: ProductCardData[] = projects.map((project) => ({
     title: project.title,
