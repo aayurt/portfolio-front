@@ -86,7 +86,7 @@ export function getImageUrl(media: number | Media | null | undefined, size?: str
 
     if (!filename) return "";
 
-    return (API + "/admin/media/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
+    return (API + "/admin/api/media/file/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
 }
 
 export async function resolveMediaIds(ids: number[]): Promise<Map<number, string>> {

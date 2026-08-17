@@ -25,7 +25,7 @@ export async function Projects({ range, exclude, projects: allProjects }: Projec
       if (typeof img === "number") {
         const filename = mediaMap.get(img);
         if (!filename) return "";
-        return (API + "/admin/media/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
+        return (API + "/admin/api/media/file/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1");
       }
       return getImageUrl(img);
     }).filter(Boolean);

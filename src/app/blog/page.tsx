@@ -27,7 +27,7 @@ export default async function Blog() {
   const mediaMap = await resolveMediaIds(heroImageIds);
   const heroImageUrls = new Map<number, string>();
   for (const [id, filename] of mediaMap) {
-    heroImageUrls.set(id, (API + "/admin/media/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1"));
+    heroImageUrls.set(id, (API + "/admin/api/media/file/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1"));
   }
   if (posts.length === 0) {
     return <Column fillWidth flex={1} gap="40">
