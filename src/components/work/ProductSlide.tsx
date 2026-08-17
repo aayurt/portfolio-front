@@ -5,6 +5,7 @@ import {
   Heading,
   List,
   ListItem,
+  Media,
   Row,
   SmartLink,
   Tag,
@@ -13,6 +14,7 @@ import {
 
 export type ProductCardData = {
   title: string;
+  image?: string | null;
   subtitle?: string | null;
   shortDescription?: string | null;
   description?: string | null;
@@ -39,6 +41,18 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
         background: "rgba(128, 128, 128, 0.05)",
       }}
     >
+      {data.image && (
+        <Media
+          priority
+          sizes="(max-width: 768px) 100vw, 640px"
+          border="neutral-alpha-weak"
+          radius="l"
+          src={data.image}
+          alt={`${data.title} preview`}
+          aspectRatio="16 / 9"
+        />
+      )}
+
       <Row gap="16" wrap vertical="center">
         <Heading as="h3" variant="heading-strong-l" wrap="balance">
           {data.title}

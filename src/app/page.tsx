@@ -41,6 +41,7 @@ export default async function Home() {
 
   const projectCards: ProductCardData[] = projects.map((project) => ({
     title: project.title,
+    image: project.images?.[0] ? getImageUrl(project.images[0]) : undefined,
     subtitle: project.role || project.client || undefined,
     shortDescription: project.description || undefined,
     metrics: project.metrics || undefined,
