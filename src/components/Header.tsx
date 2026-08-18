@@ -186,6 +186,13 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
             textVariant="body-default-s"
             gap="20"
           >
+            <Button
+              onClick={() => window.dispatchEvent(new Event("open-search"))}
+              prefixIcon="search"
+              label="Search"
+              size="s"
+              variant="secondary"
+            />
             {cvUrl && (
               <Button
                 href={cvUrl}

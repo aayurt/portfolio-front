@@ -25,19 +25,54 @@ export type VisitRecord = {
   lang: string;
   tz: string;
   title: string;
+  sessionId?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  duration?: number; // seconds spent on the page (sent on pagehide)
 };
 
+/** Rotate the log once it grows past this size (keep it small on a tiny VPS). */
+const MAX_LOG_BYTES = 5 * 1024 * 1024; // 5 MB
+
+/** Max beacons per IP per window (in-memory, best effort). */
+const RATE_WINDOW_MS = 60 * 1000;
+const RATE_MAX = 30;
+
 /** Where visit records are appended. Override with VISITS_DIR env var. */
+export function visitsDir(): string {
+  return process.env.VISITS_DIR || path.resolve(process.cwd(), "data");
+}
+
 export function visitsFile(): string {
-  const dir = process.env.VISITS_DIR || path.resolve(process.cwd(), "data");
-  return path.join(dir, "visits.jsonl");
+  return path.join(visitsDir(), "visits.jsonl");
+}
+
+function rotateIfNeeded(): void {
+  try {
+    const file = visitsFile();
+    if (!fs.existsSync(file)) return;
+    const stat = fs.statSync(file);
+    if (stat.size < MAX_LOG_BYTES) return;
+    const stamp = new Date().toISOString().slice(0, 10);
+    const archived = path.join(visitsDir(), `visits-${stamp}.jsonl`);
+    if (!fs.existsSync(archived)) {
+      fs.renameSync(file, archived);
+    } else {
+      // Already archived today: truncate in place rather than losing data.
+      fs.appendFileSync(archived, fs.readFileSync(file));
+      fs.unlinkSync(file);
+    }
+  } catch (e) {
+    console.error("visit tracking: rotation failed", e);
+  }
 }
 
 export function appendVisit(record: VisitRecord): void {
   try {
-    const file = visitsFile();
-    fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.appendFileSync(file, JSON.stringify(record) + "\n", "utf8");
+    rotateIfNeeded();
+    fs.mkdirSync(visitsDir(), { recursive: true });
+    fs.appendFileSync(visitsFile(), JSON.stringify(record) + "\n", "utf8");
   } catch (e) {
     console.error("visit tracking: failed to append", e);
   }
@@ -179,4 +214,26 @@ const BOT_RE =
 
 export function isBot(ua: string): boolean {
   return BOT_RE.test(ua || "");
+}
+
+// ── Rate limiting (in-memory, per IP) ──────────────────────────────────────
+const rateBuckets = new Map<string, number[]>();
+
+function pruneBuckets(now: number): void {
+  for (const [ip, stamps] of rateBuckets) {
+    const keep = stamps.filter((t) => now - t < RATE_WINDOW_MS);
+    if (keep.length === 0) rateBuckets.delete(ip);
+    else rateBuckets.set(ip, keep);
+  }
+}
+
+/** Returns true if the IP is over the per-window limit. */
+export function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  pruneBuckets(now);
+  const stamps = rateBuckets.get(ip) || [];
+  if (stamps.length >= RATE_MAX) return true;
+  stamps.push(now);
+  rateBuckets.set(ip, stamps);
+  return false;
 }
