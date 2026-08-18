@@ -1,7 +1,5 @@
-"use client";
 export default function PatienceImage({ width = "12rem", height = "12rem" }: { width?: string, height?: string }) {
-    const isProd = typeof window !== "undefined" && window.location.hostname.includes("aayurtshrestha.com.np")
-    const image = isProd ? "/images/og/preview.png" : "/images/og/woman.png"
+    const image = "/images/og/preview.png"
     return <div style={{
         display: "flex",
         flexDirection: "column",
