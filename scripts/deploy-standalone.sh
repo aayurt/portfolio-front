@@ -164,7 +164,7 @@ ssh "$HOST" "cp $REMOTE_DIR/.next/standalone/ecosystem.config.cjs $REMOTE_DIR/"
 echo ""
 echo "=== 7/7 Restarting PM2 ==="
 ssh "$HOST" "source ~/.nvm/nvm.sh && cd $REMOTE_DIR && \
-  pm2 startOrRestart ecosystem.config.cjs --update-env && pm2 save"
+  pm2 delete portfolio 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
 
 echo ""
 echo "Done. Deployed frontend standalone build to $HOST:$REMOTE_DIR"
