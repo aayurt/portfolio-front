@@ -73,23 +73,35 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       )}
 
       {metricsCount > 0 && (
-        <Grid
-          columns={String(Math.min(metricsCount, 3)) as "1" | "2" | "3"}
-          s={{ columns: 2 }}
-          gap="16"
-          fillWidth
-        >
+        <Row gap="16" wrap horizontal="center" fillWidth>
           {data.metrics!.slice(0, 3).map((metric) => (
-            <Column key={metric.id} horizontal="center" gap="2" fillWidth>
-              <Heading variant="display-strong-s" align="center">
+            <Column
+              key={metric.id}
+              horizontal="center"
+              gap="2"
+              minWidth={0}
+              style={{ flex: "1 1 130px", minWidth: 0 }}
+            >
+              <Heading
+                variant="display-strong-s"
+                align="center"
+                wrap="balance"
+                style={{ overflowWrap: "anywhere" }}
+              >
                 {metric.value}
               </Heading>
-              <Text variant="label-default-xs" onBackground="neutral-weak" align="center">
+              <Text
+                variant="label-default-xs"
+                onBackground="neutral-weak"
+                align="center"
+                wrap="balance"
+                style={{ overflowWrap: "anywhere" }}
+              >
                 {metric.label}
               </Text>
             </Column>
           ))}
-        </Grid>
+        </Row>
       )}
 
       {data.description && (
