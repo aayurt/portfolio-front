@@ -54,6 +54,8 @@ export default async function Home() {
     href: project.slug ? `/work/${project.slug}` : undefined,
   }));
 
+  const cvUrl = data?.cv ? getImageUrl(data.cv) : person.resume;
+
   const solutionCards: ProductCardData[] = solutions.map((solution) => ({
     title: solution.title,
     subtitle: solution.subtitle || undefined,
@@ -136,9 +138,9 @@ export default async function Home() {
                   About Me - {data?.name}
                 </Row>
               </Button>
-              {person.resume && (
+              {cvUrl && (
                 <Button
-                  href={person.resume}
+                  href={cvUrl}
                   variant="secondary"
                   size="m"
                   weight="default"

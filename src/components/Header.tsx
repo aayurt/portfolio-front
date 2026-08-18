@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Button, Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { about, blog, display, person, routes, work } from "@/resources";
+import { getImageUrl } from "@/utils/payload";
 import { Tenant } from "../../payload-types";
 import styles from "./Header.module.scss";
 import { ThemeToggle } from "./ThemeToggle";
@@ -45,6 +46,7 @@ export default TimeDisplay;
 
 export const Header = ({ tenant }: { tenant: Tenant | null }) => {
   const pathname = usePathname() ?? "";
+  const cvUrl = tenant?.cv ? getImageUrl(tenant.cv) : person.resume;
 
   return (
     <>
@@ -184,9 +186,9 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
             textVariant="body-default-s"
             gap="20"
           >
-            {person.resume && (
+            {cvUrl && (
               <Button
-                href={person.resume}
+                href={cvUrl}
                 prefixIcon="document"
                 label="Resume"
                 size="s"

@@ -36,6 +36,7 @@ export default async function About() {
   const aboutData = await getAbout();
   // Fetch tenant data directly from /tenants API
   const tenant = await getTenantBySlug();
+  const cvUrl = tenant?.cv ? getImageUrl(tenant.cv) : person.resume;
 
   return (
     <Column maxWidth="m">
@@ -100,9 +101,9 @@ export default async function About() {
               ))}
             </Row>
           )}
-          {person.resume && (
+          {cvUrl && (
             <Button
-              href={person.resume}
+              href={cvUrl}
               variant="secondary"
               prefixIcon="document"
               label="Download CV"

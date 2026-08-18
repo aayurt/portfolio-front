@@ -244,6 +244,7 @@ export interface Tenant {
    */
   allowPublicRead?: boolean | null;
   avatar?: (number | null) | Media;
+  cv?: (number | null) | Media;
   email?: string | null;
   location?: string | null;
   languages?:
@@ -1636,6 +1637,7 @@ export interface TenantsSelect<T extends boolean = true> {
   slug?: T;
   allowPublicRead?: T;
   avatar?: T;
+  cv?: T;
   email?: T;
   location?: T;
   languages?:
