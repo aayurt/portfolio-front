@@ -1,4 +1,4 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import { About, Blog, Gallery, Home, Newsletter, Person, Research, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
@@ -10,6 +10,7 @@ const person: Person = {
   email: "aayurtshrestha@gmail.com",
   location: "Asia/Kathmandu",
   languages: ["English", "Nepali"],
+  resume: "/cv/Aayurt-Shrestha-CV.pdf",
 };
 
 const newsletter: Newsletter = {
@@ -418,7 +419,32 @@ const work: Work = {
   // All projects will be listed on the /home and /work routes
 };
 
+const research: Research = {
+  display: true,
+  title: "Research",
+  description: (
+    <>
+      Exploring agentic AI systems, LLM-driven automation, and human-in-the-loop workflows —
+      and how they apply to healthcare, finance, and real-world operations.
+    </>
+  ),
+  interests: [
+    "Agentic AI in Healthcare",
+    "LLM Orchestration & Automation",
+    "Human-in-the-Loop Systems",
+    "AI/ML Ops",
+  ],
+  // Add published papers here: { title, venue, year, link? }
+  publications: [],
+  writing: [
+    {
+      title: "Autonomy in the Clinic: The Research Frontier of Agentic AI",
+      link: "/blog/autonomy-in-the-clinic-the-research-frontier-of-agentic-ai",
+    },
+  ],
+};
 
 
-export { about, blog, home, newsletter, person, social, work };
+
+export { about, blog, home, newsletter, person, research, social, work };
 

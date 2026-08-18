@@ -143,11 +143,19 @@ rsync -avz --delete --progress \
 
 echo ""
 echo "=== 5/7 Setting up .env on VPS ==="
-ssh "$HOST" "cat > $REMOTE_DIR/.env << 'EOF'
-NEXT_PUBLIC_API=$PROD_API
-NEXT_PUBLIC_SLUG=aayurt
-NEXT_PUBLIC_DOMAIN_LIST='[{\"domain\": \"rujamaharjan.com.np\", \"slug\": \"ruja\"}, {\"domain\": \"aayushshrestha.com\", \"slug\": \"aayush\"}]'
-EOF"
+# Runtime env for the standalone server (loaded via --env-file in
+# ecosystem.config.cjs). ANALYTICS_TOKEN is read from the local .env.prod so
+# it survives redeploys without being committed to the repo.
+ANALYTICS_TOKEN="$(grep -E '^ANALYTICS_TOKEN=' .env.prod 2>/dev/null | head -1 | cut -d= -f2- || true)"
+{
+  echo "NEXT_PUBLIC_API=$PROD_API"
+  echo "NEXT_PUBLIC_SLUG=aayurt"
+  echo "NEXT_PUBLIC_DOMAIN_LIST='[{\"domain\": \"rujamaharjan.com.np\", \"slug\": \"ruja\"}, {\"domain\": \"aayushshrestha.com\", \"slug\": \"aayush\"}]'"
+  echo "VISITS_DIR=/var/www/portfolio/data"
+  if [ -n "$ANALYTICS_TOKEN" ]; then
+    echo "ANALYTICS_TOKEN=$ANALYTICS_TOKEN"
+  fi
+} | ssh "$HOST" "cat > $REMOTE_DIR/.env"
 
 echo ""
 echo "=== 6/7 Copying ecosystem.config.cjs to remote root ==="

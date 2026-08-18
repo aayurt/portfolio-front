@@ -1,4 +1,4 @@
-import { baseURL, person } from "@/resources";
+import { baseURL, person, research } from "@/resources";
 import {
   Avatar,
   Button,
@@ -8,6 +8,7 @@ import {
   Meta,
   Row,
   Schema,
+  SmartLink,
   Tag,
   Text
 } from "@once-ui-system/core";
@@ -98,6 +99,16 @@ export default async function About() {
                 </Tag>
               ))}
             </Row>
+          )}
+          {person.resume && (
+            <Button
+              href={person.resume}
+              variant="secondary"
+              prefixIcon="document"
+              label="Download CV"
+              size="m"
+              target="_blank"
+            />
           )}
           <SplineScene scene="/scene.splinecode" />
 
@@ -300,6 +311,50 @@ export default async function About() {
               </>
             )}
           </>}
+
+          {research.display && (
+            <Column id="research" fillWidth gap="m" marginBottom="40">
+              <Heading as="h2" id="research-heading" variant="display-strong-s" marginBottom="m">
+                {research.title}
+              </Heading>
+              <Text variant="body-default-l">{research.description}</Text>
+              {research.interests.length > 0 && (
+                <Row wrap gap="8">
+                  {research.interests.map((interest) => (
+                    <Tag key={interest} size="l" variant="secondary">
+                      {interest}
+                    </Tag>
+                  ))}
+                </Row>
+              )}
+              {research.publications.length > 0 && (
+                <Column fillWidth gap="12">
+                  {research.publications.map((pub) => (
+                    <Column key={`${pub.title}-${pub.year}`} fillWidth gap="2">
+                      <Text variant="heading-strong-m">{pub.title}</Text>
+                      <Text variant="body-default-xs" onBackground="neutral-weak">
+                        {pub.venue} · {pub.year}
+                      </Text>
+                      {pub.link && (
+                        <SmartLink href={pub.link} target="_blank" suffixIcon="arrowUpRightFromSquare" style={{ width: "fit-content", margin: "0" }}>
+                          <Text variant="label-strong-m">Read paper</Text>
+                        </SmartLink>
+                      )}
+                    </Column>
+                  ))}
+                </Column>
+              )}
+              {research.writing.length > 0 && (
+                <Column fillWidth gap="12">
+                  {research.writing.map((writing) => (
+                    <SmartLink key={writing.link} href={writing.link} suffixIcon="arrowRight" style={{ width: "fit-content", margin: "0" }}>
+                      <Text variant="label-strong-m">{writing.title}</Text>
+                    </SmartLink>
+                  ))}
+                </Column>
+              )}
+            </Column>
+          )}
         </Column>
       </Row>
     </Column>

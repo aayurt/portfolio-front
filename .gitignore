@@ -40,3 +40,6 @@ next-env.d.ts
 
 # Freebuff local data
 .freebuff
+
+# visit tracking data (JSONL logs)
+/data

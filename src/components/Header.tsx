@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { Button, Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { about, blog, display, person, routes, work } from "@/resources";
 import { Tenant } from "../../payload-types";
@@ -184,6 +184,16 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
             textVariant="body-default-s"
             gap="20"
           >
+            {person.resume && (
+              <Button
+                href={person.resume}
+                prefixIcon="document"
+                label="Resume"
+                size="s"
+                variant="secondary"
+                target="_blank"
+              />
+            )}
             <Flex s={{ hide: true }}>
               {display.time && <TimeDisplay timeZone={tenant?.location || person.location} />}
             </Flex>

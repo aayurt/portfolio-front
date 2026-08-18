@@ -4,7 +4,7 @@ import "@once-ui-system/core/css/tokens.css";
 
 import classNames from "classnames";
 
-import { Footer, Header, Providers, RouteGuard } from "@/components";
+import { Footer, Header, Providers, RouteGuard, VisitTracker } from "@/components";
 import ServiceWorker from "@/components/ServiceWorker";
 import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
 import { getTenantBySlug } from "@/utils/payload";
@@ -109,6 +109,7 @@ export default async function RootLayout({
         />
       </head>
       <Providers>
+        <VisitTracker />
         <ServiceWorker />
         <Column
           as="body"

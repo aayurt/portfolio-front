@@ -9,3 +9,4 @@ export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
 export { RichText } from "@/components/RichText";
+export { default as VisitTracker } from "@/components/VisitTracker";

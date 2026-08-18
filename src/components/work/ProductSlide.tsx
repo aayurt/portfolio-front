@@ -71,20 +71,15 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
           {data.shortDescription}
         </Text>
       )}
-      {data.description && (
-        <Text variant="body-default-s" onBackground="neutral-medium">
-          {data.description}
-        </Text>
-      )}
 
       {metricsCount > 0 && (
         <Grid
-          columns={String(metricsCount > 4 ? 4 : metricsCount) as "1" | "2" | "3" | "4"}
+          columns={String(Math.min(metricsCount, 3)) as "1" | "2" | "3"}
           s={{ columns: 2 }}
           gap="16"
           fillWidth
         >
-          {data.metrics!.map((metric) => (
+          {data.metrics!.slice(0, 3).map((metric) => (
             <Column key={metric.id} horizontal="center" gap="2" fillWidth>
               <Heading variant="display-strong-s" align="center">
                 {metric.value}
@@ -95,6 +90,12 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
             </Column>
           ))}
         </Grid>
+      )}
+
+      {data.description && (
+        <Text variant="body-default-s" onBackground="neutral-medium">
+          {data.description}
+        </Text>
       )}
 
       {featuresCount > 0 && (

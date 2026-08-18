@@ -3,7 +3,7 @@ import { PostCarousel } from "@/components/blog/PostCarousel";
 import PatienceImage from "@/components/patienceImage";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
 import type { ProductCardData } from "@/components/work/ProductSlide";
-import { baseURL, home, routes } from "@/resources";
+import { baseURL, home, person, research, routes } from "@/resources";
 import { getImageUrl, getPosts, getProjects, getSolutions, getTenantBySlug } from "@/utils/payload";
 import {
   Avatar,
@@ -14,6 +14,8 @@ import {
   RevealFx,
   Row,
   Schema,
+  SmartLink,
+  Tag,
   Text
 } from "@once-ui-system/core";
 
@@ -114,25 +116,41 @@ export default async function Home() {
             </Text>
           </RevealFx>
           <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={"/about"}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                <Avatar
-                  marginRight="8"
-                  style={{ marginLeft: "-0.75rem" }}
-                  src={getImageUrl(data?.avatar)}
+            <Row gap="12" wrap horizontal="center">
+              <Button
+                id="about"
+                data-border="rounded"
+                href={"/about"}
+                variant="secondary"
+                size="m"
+                weight="default"
+                arrowIcon
+              >
+                <Row gap="8" vertical="center" paddingRight="4">
+                  <Avatar
+                    marginRight="8"
+                    style={{ marginLeft: "-0.75rem" }}
+                    src={getImageUrl(data?.avatar)}
+                    size="m"
+                  />
+                  About Me - {data?.name}
+                </Row>
+              </Button>
+              {person.resume && (
+                <Button
+                  href={person.resume}
+                  variant="secondary"
                   size="m"
-                />
-                About Me - {data?.name}
-              </Row>
-            </Button>
+                  weight="default"
+                  prefixIcon="document"
+                  target="_blank"
+                >
+                  <Row gap="8" vertical="center" paddingRight="4">
+                    Download CV
+                  </Row>
+                </Button>
+              )}
+            </Row>
           </RevealFx>
         </Column>
       </Column>
@@ -172,6 +190,66 @@ export default async function Home() {
           </Text>
         )}
       </Column>
+
+      {research.display && (
+        <Column fillWidth gap="xl">
+          <Column fillWidth gap="s">
+            <Heading variant="heading-strong-xl" align="center">
+              {research.title}
+            </Heading>
+            <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+              {research.description}
+            </Text>
+          </Column>
+          <Column fillWidth gap="l" horizontal="center">
+            {research.interests.length > 0 && (
+              <Row gap="8" wrap horizontal="center">
+                {research.interests.map((interest) => (
+                  <Tag key={interest} variant="secondary" size="l">
+                    <Text variant="label-strong-s" onBackground="neutral-weak">
+                      {interest}
+                    </Text>
+                  </Tag>
+                ))}
+              </Row>
+            )}
+            {research.publications.length > 0 && (
+              <Column fillWidth maxWidth="m" gap="m">
+                {research.publications.map((pub) => (
+                  <Column key={`${pub.title}-${pub.year}`} gap="2" horizontal="center">
+                    <Heading as="h3" variant="heading-strong-m" align="center">
+                      {pub.title}
+                    </Heading>
+                    <Text variant="body-default-xs" onBackground="neutral-weak" align="center">
+                      {pub.venue} · {pub.year}
+                    </Text>
+                    {pub.link && (
+                      <SmartLink href={pub.link} target="_blank" suffixIcon="arrowUpRightFromSquare" style={{ width: "fit-content", margin: "0" }}>
+                        <Text variant="label-strong-m">Read paper</Text>
+                      </SmartLink>
+                    )}
+                  </Column>
+                ))}
+              </Column>
+            )}
+            {research.writing.length > 0 && (
+              <Column fillWidth gap="8">
+                {research.writing.map((writing) => (
+                  <Row key={writing.link} horizontal="center">
+                    <SmartLink
+                      href={writing.link}
+                      suffixIcon="arrowRight"
+                      style={{ width: "fit-content", margin: "0" }}
+                    >
+                      <Text variant="label-strong-m">{writing.title}</Text>
+                    </SmartLink>
+                  </Row>
+                ))}
+              </Column>
+            )}
+          </Column>
+        </Column>
+      )}
 
       {routes["/blog"] && posts.length > 0 && (
         <Column fillWidth gap="xl">

@@ -27,6 +27,34 @@ export type Person = {
   location: IANATimeZone;
   /** Languages spoken */
   languages?: string[];
+  /** Path to a downloadable resume/CV (e.g. /cv/Aayurt-Shrestha-CV.pdf) */
+  resume?: string;
+};
+
+/**
+ * Research section configuration (homepage + About).
+ */
+export type Research = {
+  /** Whether to display the research section */
+  display: boolean;
+  /** Section title */
+  title: string;
+  /** Short description of research interests */
+  description: React.ReactNode;
+  /** Research interest tags */
+  interests: string[];
+  /** Peer-reviewed / published papers */
+  publications: Array<{
+    title: string;
+    venue: string;
+    year: string;
+    link?: string;
+  }>;
+  /** Longer-form writing (blog posts, essays) related to research */
+  writing: Array<{
+    title: string;
+    link: string;
+  }>;
 };
 
 /**

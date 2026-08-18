@@ -14,7 +14,8 @@ module.exports = {
       // 🟢 SAFETY 2: Tell Node/V8 to be aggressive with garbage collection
       // --max-old-space-size: Sets the limit where Node starts GC heavily.
       // --gc-interval: Frequency of the garbage collector.
-      node_args: '--max-old-space-size=300',
+      // --env-file: load runtime secrets (ANALYTICS_TOKEN) from /var/www/portfolio/.env
+      node_args: '--max-old-space-size=300 --env-file=.env',
 
       env: {
         NODE_ENV: 'production',
