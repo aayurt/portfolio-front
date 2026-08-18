@@ -80,10 +80,10 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
               horizontal="center"
               gap="2"
               minWidth={0}
-              style={{ flex: "1 1 130px", minWidth: 0 }}
+              style={{ flex: "1 1 160px", minWidth: 0 }}
             >
               <Heading
-                variant="display-strong-s"
+                variant="heading-strong-l"
                 align="center"
                 wrap="balance"
                 style={{ overflowWrap: "anywhere" }}
