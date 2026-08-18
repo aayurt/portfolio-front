@@ -10,7 +10,10 @@ const person: Person = {
   email: "aayurtshrestha@gmail.com",
   location: "Asia/Kathmandu",
   languages: ["English", "Nepali"],
-  resume: "/cv/Aayurt-Shrestha-CV.pdf",
+  // Resume/CV: leave empty to hide the Resume buttons. Either attach a CV in
+  // the Payload admin (Tenants -> cv media field) or set a path here (and
+  // place the file in public/, e.g. /cv/Aayurt-Shrestha-CV.pdf).
+  resume: "",
 };
 
 const newsletter: Newsletter = {
