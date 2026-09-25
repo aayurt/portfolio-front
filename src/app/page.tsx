@@ -1,4 +1,4 @@
-import { Mailchimp } from "@/components";
+import { FeaturedShowcase, Mailchimp } from "@/components";
 import { PostCarousel } from "@/components/blog/PostCarousel";
 import PatienceImage from "@/components/patienceImage";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
@@ -41,19 +41,6 @@ export default async function Home() {
     ),
   ]);
 
-  const projectCards: ProductCardData[] = projects.map((project) => ({
-    title: project.title,
-    image: project.images?.[0] ? getImageUrl(project.images[0]) : undefined,
-    subtitle: project.role || project.client || undefined,
-    shortDescription: project.description || undefined,
-    metrics: project.metrics || undefined,
-    features: project.features || undefined,
-    benefits: project.benefits || undefined,
-    techStack: project.techStack || undefined,
-    links: project.links || undefined,
-    href: project.slug ? `/work/${project.slug}` : undefined,
-  }));
-
   const cvUrl = data?.cv ? getImageUrl(data.cv) : person.resume;
 
   const solutionCards: ProductCardData[] = solutions.map((solution) => ({
@@ -85,27 +72,6 @@ export default async function Home() {
       />
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
-          {/* {data?.intro && (
-            <RevealFx
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
-            >
-              <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
-              >
-                <Row paddingY="2">{data.intro.intro || ""}</Row>
-              </Badge>
-            </RevealFx>
-          )} */}
           <PatienceImage width="12rem" height="12rem" />
           <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
             <Heading wrap="balance" variant="display-strong-l">
@@ -157,31 +123,19 @@ export default async function Home() {
         </Column>
       </Column>
 
-      <Column fillWidth gap="xl">
-        <Column fillWidth gap="s">
-          <Heading variant="heading-strong-xl" align="center">
-            Products
-          </Heading>
-          <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
-            Things I have designed, built, and shipped — from mobile apps to multi-tenant platforms.
-          </Text>
-        </Column>
-        {projectCards.length > 0 ? (
-          <ProductCarousel items={projectCards} ariaLabel="Products carousel" />
-        ) : (
-          <Text variant="body-default-m" onBackground="neutral-weak" align="center">
-            No products yet.
-          </Text>
-        )}
-      </Column>
+      {/* Featured Products with Visual Pipeline Showcase */}
+      <RevealFx translateY="16" delay={0.6} fillWidth>
+        <FeaturedShowcase />
+      </RevealFx>
 
+      {/* Solutions Section */}
       <Column fillWidth gap="xl">
         <Column fillWidth gap="s">
           <Heading variant="heading-strong-xl" align="center">
             Solutions
           </Heading>
           <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
-            How I apply those products — capabilities and services. More coming soon.
+            How I apply those products — capabilities and services.
           </Text>
         </Column>
         {solutionCards.length > 0 ? (
@@ -193,6 +147,7 @@ export default async function Home() {
         )}
       </Column>
 
+      {/* Research & Publications Section (for PhD & Academic Jobs) */}
       {research.display && (
         <Column fillWidth gap="xl">
           <Column fillWidth gap="s">
@@ -253,6 +208,7 @@ export default async function Home() {
         </Column>
       )}
 
+      {/* Blog Section */}
       {routes["/blog"] && posts.length > 0 && (
         <Column fillWidth gap="xl">
           <Column fillWidth gap="s">

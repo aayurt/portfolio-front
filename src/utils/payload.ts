@@ -33,28 +33,149 @@ export async function getAbout(): Promise<About | null> {
     return abouts && abouts.length > 0 ? abouts[0] : null;
 }
 
-export async function getProjects(): Promise<Project[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
-        next: { revalidate: 60 },
-    });
+const EXCLUDED_PROJECT_SLUGS = ["macImpetusNutri", "banking-app"];
 
-    if (!res.ok) {
-        throw new Error(`Failed to fetch projects: ${res.statusText}`);
+const HERMES_PROJECT: Project = {
+    id: 9999,
+    title: "Hermes — Multi-Agent Autonomous Engineering System",
+    slug: "hermes",
+    description: "Multi-agent autonomous software engineering system designed for executing end-to-end development workflows. Features DAG-based task planning, parallel containerized worker execution, MCP protocol integration, and automated verification feedback loops.",
+    client: "AI Systems & Autonomous Agent Infrastructure",
+    role: "Lead Systems Architect & AI Engineer",
+    timeframe: "2025 – Present",
+    createdAt: "2026-03-01T00:00:00.000Z",
+    updatedAt: "2026-09-25T00:00:00.000Z",
+    content: {
+        root: {
+            type: "root",
+            format: "",
+            indent: 0,
+            version: 1,
+            direction: "ltr",
+            children: [
+                {
+                    type: "heading",
+                    tag: "h2",
+                    format: "",
+                    indent: 0,
+                    version: 1,
+                    children: [
+                        {
+                            type: "text",
+                            text: "Autonomous Multi-Agent Engineering Architecture",
+                            format: 1,
+                            version: 1,
+                            detail: 0,
+                            mode: "normal",
+                            style: ""
+                        }
+                    ]
+                },
+                {
+                    type: "paragraph",
+                    format: "",
+                    indent: 0,
+                    version: 1,
+                    children: [
+                        {
+                            type: "text",
+                            text: "Hermes is a research-grade and production-ready multi-agent framework built to eliminate repetitive software engineering bottlenecks. Rather than relying on simple, single-turn LLM generation, Hermes orchestrates an autonomous directed acyclic graph (DAG) of specialized subagents running in sandboxed Docker containers.",
+                            format: 0,
+                            version: 1,
+                            detail: 0,
+                            mode: "normal",
+                            style: ""
+                        }
+                    ]
+                },
+                {
+                    type: "heading",
+                    tag: "h3",
+                    format: "",
+                    indent: 0,
+                    version: 1,
+                    children: [
+                        {
+                            type: "text",
+                            text: "Key Architectural Highlights",
+                            format: 1,
+                            version: 1,
+                            detail: 0,
+                            mode: "normal",
+                            style: ""
+                        }
+                    ]
+                },
+                {
+                    type: "paragraph",
+                    format: "",
+                    indent: 0,
+                    version: 1,
+                    children: [
+                        {
+                            type: "text",
+                            text: "1. Orchestrator-Worker Decomposition: High-level requirements are decomposed into discrete, verified tasks with strict acceptance criteria and explicit file scopes.\n2. Sandboxed Execution: Isolated execution trees with dedicated network egress and ephemeral worktrees prevent host pollution.\n3. Deterministic Verification Gate: Every change is tested against compilation, lint rules, and unit test suites before being eligible for merge.\n4. Bounded Self-Correction: In the event of a test failure, runtime stack traces and AST diagnostics are looped back into worker context for iterative refinement.",
+                            format: 0,
+                            version: 1,
+                            detail: 0,
+                            mode: "normal",
+                            style: ""
+                        }
+                    ]
+                }
+            ]
+        }
     }
+};
 
-    return res.json();
+export async function getProjects(): Promise<Project[]> {
+    try {
+        const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
+            next: { revalidate: 60 },
+        });
+
+        if (!res.ok) {
+            return [HERMES_PROJECT];
+        }
+
+        const data: Project[] = await res.json();
+        const filtered = data.filter(
+            (p) => p.slug && !EXCLUDED_PROJECT_SLUGS.includes(p.slug)
+        );
+
+        // Ensure Hermes is featured in projects list if not present in remote DB
+        if (!filtered.some((p) => p.slug === "hermes")) {
+            return [HERMES_PROJECT, ...filtered];
+        }
+
+        return filtered;
+    } catch {
+        return [HERMES_PROJECT];
+    }
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
-    const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}/${slug}`, {
-        next: { revalidate: 60 },
-    });
-
-    if (!res.ok) {
+    if (EXCLUDED_PROJECT_SLUGS.includes(slug)) {
         return undefined;
     }
 
-    return res.json();
+    if (slug === "hermes") {
+        return HERMES_PROJECT;
+    }
+
+    try {
+        const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}/${slug}`, {
+            next: { revalidate: 60 },
+        });
+
+        if (!res.ok) {
+            return undefined;
+        }
+
+        return res.json();
+    } catch {
+        return undefined;
+    }
 }
 
 export async function getMedia(id: number | Media): Promise<Media | null> {
@@ -113,31 +234,39 @@ export function getTenant(tenant: number | Tenant | null | undefined): Tenant | 
 }
 
 export async function getTenantBySlug(): Promise<Tenant | null> {
-    const res = await fetch(
-        `${PAYLOAD_API_URL}/tenants/by-slug/${await getSlug()}`,
-        {
-            next: { revalidate: 3600 }, // Cache tenant data for 1 hour
-        }
-    );
+    try {
+        const res = await fetch(
+            `${PAYLOAD_API_URL}/tenants/by-slug/${await getSlug()}`,
+            {
+                next: { revalidate: 3600 }, // Cache tenant data for 1 hour
+            }
+        );
 
-    if (!res.ok) {
-        console.error(`Failed to fetch tenant ${await getSlug()}: ${res.statusText}`);
+        if (!res.ok) {
+            console.error(`Failed to fetch tenant ${await getSlug()}: ${res.statusText}`);
+            return null;
+        }
+
+        const data: Tenant = await res.json();
+        return data || null;
+    } catch {
         return null;
     }
-
-    const data: Tenant = await res.json();
-    return data || null;
 }
 
 export async function getPosts(): Promise<Post[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/posts/by-slug/${await getSlug()}`, {
-        next: { revalidate: 60 },
-    });
+    try {
+        const res = await fetch(`${PAYLOAD_API_URL}/posts/by-slug/${await getSlug()}`, {
+            next: { revalidate: 60 },
+        });
 
-    if (!res.ok) {
-        throw new Error(`Failed to fetch posts: ${res.statusText}`);
+        if (!res.ok) {
+            return [];
+        }
+        return res.json();
+    } catch {
+        return [];
     }
-    return res.json();
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
