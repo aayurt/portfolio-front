@@ -12,7 +12,7 @@ interface QuerySample {
 const QUERIES: QuerySample[] = [
   {
     question: "What does my 7th house mean?",
-    response: "7th house in Libra with Venus as the ruler signifies a deep longing for harmonious, balanced partnerships and emotional reciprocity.",
+    response: "7th house in Libra with Venus ruling signifies a deep longing for harmonious, balanced partnerships and emotional reciprocity.",
     focusPlanet: "Venus",
     house: "7th House (Libra)",
   },
@@ -35,34 +35,74 @@ export function AstroPipeline() {
   const current = QUERIES[activeIdx];
 
   return (
-    <div className="w-full flex flex-col items-center bg-[#0d1117] rounded-xl border border-white/10 p-3 text-xs select-none overflow-hidden relative shadow-2xl">
-      {/* Background Subtle Grid */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: "radial-gradient(#a855f7 0.75px, transparent 0.75px)",
-          backgroundSize: "16px 16px",
-        }}
-      />
-
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        borderRadius: "14px",
+        overflow: "hidden",
+        border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+        background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.04))",
+        fontFamily: "var(--font-sans, inherit)",
+      }}
+    >
       {/* Top Header */}
-      <div className="w-full flex items-center justify-between pb-2 mb-1 border-b border-white/10 z-10">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-          <span className="font-mono text-[11px] font-semibold text-purple-400 uppercase tracking-wider">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 16px",
+          borderBottom: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: "#a855f7",
+              boxShadow: "0 0 8px #a855f7",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "11px",
+              fontFamily: "var(--font-code, monospace)",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--neutral-on-background-weak, #888)",
+            }}
+          >
             Vedic Ephemeris & AI Reasoning
           </span>
         </div>
-        <div className="flex gap-1">
+
+        {/* Query Switcher Pills */}
+        <div style={{ display: "flex", gap: "6px" }}>
           {QUERIES.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveIdx(i)}
-              className={`w-4 h-4 rounded-full text-[9px] font-mono transition-all flex items-center justify-center ${
-                activeIdx === i
-                  ? "bg-purple-500 text-white font-bold"
-                  : "bg-white/10 text-white/50 hover:bg-white/20"
-              }`}
+              style={{
+                width: "20px",
+                height: "20px",
+                borderRadius: "50%",
+                fontSize: "10px",
+                fontWeight: 700,
+                border: "none",
+                background:
+                  activeIdx === i
+                    ? "#a855f7"
+                    : "var(--neutral-background-medium, rgba(128, 128, 128, 0.12))",
+                color: activeIdx === i ? "#fff" : "var(--neutral-on-background-weak, #888)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
             >
               {i + 1}
             </button>
@@ -71,58 +111,157 @@ export function AstroPipeline() {
       </div>
 
       {/* Two Column Layout: Chat on Left, Natal Wheel on Right */}
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 items-center py-1 z-10">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "16px",
+          alignItems: "center",
+          padding: "16px",
+        }}
+      >
         {/* Left: Interactive Chat Simulation */}
-        <div className="flex flex-col gap-2">
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {/* User Bubble */}
-          <div className="self-end max-w-[90%] bg-purple-950/60 border border-purple-500/30 rounded-2xl rounded-tr-sm p-2 text-white/90">
-            <span className="text-[10px] text-purple-300 font-medium block">
+          <div
+            style={{
+              alignSelf: "flex-end",
+              maxWidth: "92%",
+              borderRadius: "12px 12px 2px 12px",
+              padding: "10px 14px",
+              background: "rgba(168, 85, 247, 0.15)",
+              border: "1px solid rgba(168, 85, 247, 0.3)",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "10px",
+                color: "#a855f7",
+                fontWeight: 600,
+                display: "block",
+                marginBottom: "2px",
+              }}
+            >
               You asked:
             </span>
-            <p className="text-[11px] font-sans font-medium text-white/95">
+            <p
+              style={{
+                margin: 0,
+                fontSize: "12px",
+                fontWeight: 600,
+                color: "var(--neutral-on-background-strong, inherit)",
+              }}
+            >
               "{current.question}"
             </p>
           </div>
 
           {/* AI Response Bubble */}
-          <div className="self-start max-w-[95%] bg-[#131b2e] border border-sky-500/30 rounded-2xl rounded-tl-sm p-2 text-white/90">
-            <div className="flex items-center gap-1 mb-1">
-              <span className="text-[11px]">✨</span>
-              <span className="text-[10px] text-sky-400 font-semibold font-mono">
+          <div
+            style={{
+              alignSelf: "flex-start",
+              maxWidth: "95%",
+              borderRadius: "12px 12px 12px 2px",
+              padding: "10px 14px",
+              background: "var(--neutral-background-medium, rgba(128, 128, 128, 0.08))",
+              border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                marginBottom: "4px",
+              }}
+            >
+              <span>✨</span>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  fontFamily: "var(--font-code, monospace)",
+                  color: "#06b6d4",
+                }}
+              >
                 Astro Guru AI
               </span>
             </div>
-            <p className="text-[10px] text-white/80 leading-relaxed font-sans">
+            <p
+              style={{
+                margin: 0,
+                fontSize: "11.5px",
+                lineHeight: "1.45",
+                color: "var(--neutral-on-background-weak, inherit)",
+              }}
+            >
               {current.response}
             </p>
           </div>
 
-          {/* Active Context Tag */}
-          <div className="flex items-center gap-1.5 mt-1">
-            <span className="text-[9px] text-white/40">Context:</span>
-            <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 text-[9px] font-mono border border-purple-500/20">
+          {/* Active Context Badges */}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "2px" }}>
+            <span style={{ fontSize: "10px", color: "var(--neutral-on-background-weak, #888)" }}>
+              Context:
+            </span>
+            <span
+              style={{
+                fontSize: "10px",
+                fontFamily: "var(--font-code, monospace)",
+                padding: "2px 6px",
+                borderRadius: "4px",
+                background: "rgba(168, 85, 247, 0.15)",
+                color: "#a855f7",
+                border: "1px solid rgba(168, 85, 247, 0.25)",
+              }}
+            >
               {current.house}
             </span>
-            <span className="px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-300 text-[9px] font-mono border border-sky-500/20">
+            <span
+              style={{
+                fontSize: "10px",
+                fontFamily: "var(--font-code, monospace)",
+                padding: "2px 6px",
+                borderRadius: "4px",
+                background: "rgba(6, 182, 212, 0.15)",
+                color: "#06b6d4",
+                border: "1px solid rgba(6, 182, 212, 0.25)",
+              }}
+            >
               {current.focusPlanet} Active
             </span>
           </div>
         </div>
 
         {/* Right: SVG Natal Chart Wheel */}
-        <div className="flex flex-col items-center justify-center">
-          <svg viewBox="0 0 160 160" className="w-[145px] h-[145px] overflow-visible">
-            <defs>
-              <linearGradient id="wheelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#a855f7" />
-                <stop offset="100%" stopColor="#38bdf8" />
-              </linearGradient>
-            </defs>
-
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <svg viewBox="0 0 160 160" style={{ width: "155px", height: "155px" }}>
             {/* Outer Rings */}
-            <circle cx="80" cy="80" r="74" fill="#0f172a" stroke="#334155" strokeWidth="1.5" />
-            <circle cx="80" cy="80" r="54" fill="#1e1b4b" stroke="#6366f1" strokeWidth="1" strokeDasharray="3 2" />
-            <circle cx="80" cy="80" r="28" fill="#090d16" stroke="#a855f7" strokeWidth="1.5" />
+            <circle
+              cx="80"
+              cy="80"
+              r="74"
+              fill="var(--neutral-background-medium, rgba(128,128,128,0.06))"
+              stroke="var(--neutral-border-weak, rgba(128,128,128,0.25))"
+              strokeWidth="1.5"
+            />
+            <circle
+              cx="80"
+              cy="80"
+              r="54"
+              fill="var(--neutral-background-weak, rgba(128,128,128,0.03))"
+              stroke="#8b5cf6"
+              strokeWidth="1"
+              strokeDasharray="3 2"
+            />
+            <circle
+              cx="80"
+              cy="80"
+              r="28"
+              fill="var(--neutral-background-medium, rgba(128,128,128,0.1))"
+              stroke="#a855f7"
+              strokeWidth="1.5"
+            />
 
             {/* 12 House Dividing Rays */}
             {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
@@ -138,37 +277,68 @@ export function AstroPipeline() {
                   y1={y1}
                   x2={x2}
                   y2={y2}
-                  stroke="#334155"
-                  strokeWidth="0.75"
+                  stroke="var(--neutral-border-weak, rgba(128,128,128,0.2))"
+                  strokeWidth="0.8"
                 />
               );
             })}
 
-            {/* Planetary Coordinates Placed in Wheel */}
-            <text x="80" y="20" fill="#fde047" fontSize="8" textAnchor="middle" fontWeight="bold">☉ Sun</text>
-            <text x="135" y="55" fill="#f1f5f9" fontSize="8" textAnchor="middle" fontWeight="bold">☽ Moon</text>
-            <text x="135" y="115" fill="#38bdf8" fontSize="8" textAnchor="middle" fontWeight="bold">☿ Mer</text>
-            <text x="80" y="148" fill="#f472b6" fontSize="8" textAnchor="middle" fontWeight="bold">♀ Venus</text>
-            <text x="25" y="115" fill="#ef4444" fontSize="8" textAnchor="middle" fontWeight="bold">♂ Mars</text>
-            <text x="25" y="55" fill="#c084fc" fontSize="8" textAnchor="middle" fontWeight="bold">♃ Jup</text>
+            {/* Planetary Coordinates */}
+            <text x="80" y="20" fill="#eab308" fontSize="8.5" textAnchor="middle" fontWeight="bold">☉ Sun</text>
+            <text x="135" y="55" fill="var(--neutral-on-background-strong, #fff)" fontSize="8.5" textAnchor="middle" fontWeight="bold">☽ Moon</text>
+            <text x="135" y="115" fill="#06b6d4" fontSize="8.5" textAnchor="middle" fontWeight="bold">☿ Mer</text>
+            <text x="80" y="148" fill="#ec4899" fontSize="8.5" textAnchor="middle" fontWeight="bold">♀ Venus</text>
+            <text x="25" y="115" fill="#ef4444" fontSize="8.5" textAnchor="middle" fontWeight="bold">♂ Mars</text>
+            <text x="25" y="55" fill="#a855f7" fontSize="8.5" textAnchor="middle" fontWeight="bold">♃ Jup</text>
 
             {/* Center Symbol */}
-            <text x="80" y="84" fill="#a855f7" fontSize="12" textAnchor="middle" fontWeight="bold">
+            <text x="80" y="85" fill="#a855f7" fontSize="13" textAnchor="middle" fontWeight="bold">
               ☸
             </text>
           </svg>
-          <span className="text-[9px] font-mono text-white/50 mt-1">
-            Vedic D1 Natal Map (Lahiri Ayanamsa)
+          <span
+            style={{
+              fontSize: "10px",
+              fontFamily: "var(--font-code, monospace)",
+              color: "var(--neutral-on-background-weak, #888)",
+              marginTop: "4px",
+            }}
+          >
+            Vedic D1 Natal Map (Lahiri)
           </span>
         </div>
       </div>
 
       {/* Bottom Info Bar */}
-      <div className="w-full mt-2 pt-2 border-t border-white/10 z-10 flex items-center justify-between">
-        <span className="text-[10px] text-white/70">
-          Combines Swiss Ephemeris calculations with context-grounded LLM inference.
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 16px",
+          borderTop: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "11px",
+            color: "var(--neutral-on-background-weak, inherit)",
+          }}
+        >
+          Swiss Ephemeris precision coupled with context-grounded LLM reasoning.
         </span>
-        <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 text-[9px] font-mono border border-purple-500/20">
+        <span
+          style={{
+            fontSize: "10px",
+            fontFamily: "var(--font-code, monospace)",
+            padding: "2px 8px",
+            borderRadius: "4px",
+            background: "rgba(168, 85, 247, 0.15)",
+            color: "#a855f7",
+            fontWeight: 600,
+          }}
+        >
           &lt;2s Latency
         </span>
       </div>

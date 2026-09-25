@@ -1,5 +1,8 @@
-import { FeaturedShowcase, Mailchimp } from "@/components";
+import { Mailchimp } from "@/components";
 import { PostCarousel } from "@/components/blog/PostCarousel";
+import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
+import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import PatienceImage from "@/components/patienceImage";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
 import type { ProductCardData } from "@/components/work/ProductSlide";
@@ -16,11 +19,11 @@ import {
   Schema,
   SmartLink,
   Tag,
-  Text
+  Text,
 } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  const data = await getTenantBySlug()
+  const data = await getTenantBySlug();
 
   return Meta.generate({
     title: data?.name || home.title,
@@ -37,9 +40,50 @@ export default async function Home() {
     getProjects(),
     getSolutions(),
     getPosts().then((p) =>
-      p.sort((a, b) => new Date(b.publishedAt || "").getTime() - new Date(a.publishedAt || "").getTime()),
+      p.sort(
+        (a, b) =>
+          new Date(b.publishedAt || "").getTime() -
+          new Date(a.publishedAt || "").getTime()
+      )
     ),
   ]);
+
+  // Priority order for products: Hermes, Syasyah Samaj, Astro Guru first
+  const prioritySlugs = ["hermes", "syasyah-samaj", "astro-guru"];
+
+  const sortedProjects = [...projects].sort((a, b) => {
+    const idxA = prioritySlugs.indexOf(a.slug || "");
+    const idxB = prioritySlugs.indexOf(b.slug || "");
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return 0;
+  });
+
+  const projectCards: ProductCardData[] = sortedProjects.map((project) => {
+    let pipeline: React.ReactNode | undefined = undefined;
+    if (project.slug === "hermes") {
+      pipeline = <HermesPipeline />;
+    } else if (project.slug === "syasyah-samaj") {
+      pipeline = <SyasyahPipeline />;
+    } else if (project.slug === "astro-guru") {
+      pipeline = <AstroPipeline />;
+    }
+
+    return {
+      title: project.title,
+      image: project.images?.[0] ? getImageUrl(project.images[0]) : undefined,
+      pipeline,
+      subtitle: project.role || project.client || undefined,
+      shortDescription: project.description || undefined,
+      metrics: project.metrics || undefined,
+      features: project.features || undefined,
+      benefits: project.benefits || undefined,
+      techStack: project.techStack || undefined,
+      links: project.links || undefined,
+      href: project.slug ? `/work/${project.slug}` : undefined,
+    };
+  });
 
   const cvUrl = data?.cv ? getImageUrl(data.cv) : person.resume;
 
@@ -63,27 +107,53 @@ export default async function Home() {
         path={"/"}
         title={data?.name || home.title}
         description={data?.intro?.introDescription || home.description}
-        image={`/api/og/generate?title=${encodeURIComponent(data?.name || home.title)}`}
+        image={`/api/og/generate?title=${encodeURIComponent(
+          data?.name || home.title
+        )}`}
         author={{
           name: data?.name || "User",
           url: `${baseURL}/about`,
-          image: getImageUrl(data?.avatar) || `${process.env.NEXT_PUBLIC_BASE_URL}${data?.avatar}`,
+          image:
+            getImageUrl(data?.avatar) ||
+            `${process.env.NEXT_PUBLIC_BASE_URL}${data?.avatar}`,
         }}
       />
+
+      {/* Hero Section */}
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
           <PatienceImage width="12rem" height="12rem" />
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
+          <RevealFx
+            translateY="4"
+            fillWidth
+            horizontal="center"
+            paddingBottom="16"
+          >
             <Heading wrap="balance" variant="display-strong-l">
               {data?.intro?.intro}
             </Heading>
           </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
+          <RevealFx
+            translateY="8"
+            delay={0.2}
+            fillWidth
+            horizontal="center"
+            paddingBottom="32"
+          >
+            <Text
+              wrap="balance"
+              onBackground="neutral-weak"
+              variant="heading-default-xl"
+            >
               {data?.intro?.introDescription}
             </Text>
           </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
+          <RevealFx
+            paddingTop="12"
+            delay={0.4}
+            horizontal="center"
+            paddingLeft="12"
+          >
             <Row gap="12" wrap horizontal="center">
               <Button
                 id="about"
@@ -123,10 +193,35 @@ export default async function Home() {
         </Column>
       </Column>
 
-      {/* Featured Products with Visual Pipeline Showcase */}
-      <RevealFx translateY="16" delay={0.6} fillWidth>
-        <FeaturedShowcase />
-      </RevealFx>
+      {/* Products Section with Interactive Visual Pipelines */}
+      <Column fillWidth gap="xl">
+        <Column fillWidth gap="s">
+          <Heading variant="heading-strong-xl" align="center">
+            Products
+          </Heading>
+          <Text
+            variant="body-default-m"
+            onBackground="neutral-weak"
+            align="center"
+            wrap="balance"
+          >
+            Systems I have designed, built, and shipped — featuring interactive
+            architecture pipelines, offline-first platforms, and multi-agent
+            loops.
+          </Text>
+        </Column>
+        {projectCards.length > 0 ? (
+          <ProductCarousel items={projectCards} ariaLabel="Products carousel" />
+        ) : (
+          <Text
+            variant="body-default-m"
+            onBackground="neutral-weak"
+            align="center"
+          >
+            No products yet.
+          </Text>
+        )}
+      </Column>
 
       {/* Solutions Section */}
       <Column fillWidth gap="xl">
@@ -134,27 +229,44 @@ export default async function Home() {
           <Heading variant="heading-strong-xl" align="center">
             Solutions
           </Heading>
-          <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+          <Text
+            variant="body-default-m"
+            onBackground="neutral-weak"
+            align="center"
+            wrap="balance"
+          >
             How I apply those products — capabilities and services.
           </Text>
         </Column>
         {solutionCards.length > 0 ? (
-          <ProductCarousel items={solutionCards} ariaLabel="Solutions carousel" />
+          <ProductCarousel
+            items={solutionCards}
+            ariaLabel="Solutions carousel"
+          />
         ) : (
-          <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+          <Text
+            variant="body-default-m"
+            onBackground="neutral-weak"
+            align="center"
+          >
             Solutions coming soon.
           </Text>
         )}
       </Column>
 
-      {/* Research & Publications Section (for PhD & Academic Jobs) */}
+      {/* Research & Publications Section (PhD & Academic Careers) */}
       {research.display && (
         <Column fillWidth gap="xl">
           <Column fillWidth gap="s">
             <Heading variant="heading-strong-xl" align="center">
               {research.title}
             </Heading>
-            <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+            <Text
+              variant="body-default-m"
+              onBackground="neutral-weak"
+              align="center"
+              wrap="balance"
+            >
               {research.description}
             </Text>
           </Column>
@@ -173,15 +285,28 @@ export default async function Home() {
             {research.publications.length > 0 && (
               <Column fillWidth maxWidth="m" gap="m">
                 {research.publications.map((pub) => (
-                  <Column key={`${pub.title}-${pub.year}`} gap="2" horizontal="center">
+                  <Column
+                    key={`${pub.title}-${pub.year}`}
+                    gap="2"
+                    horizontal="center"
+                  >
                     <Heading as="h3" variant="heading-strong-m" align="center">
                       {pub.title}
                     </Heading>
-                    <Text variant="body-default-xs" onBackground="neutral-weak" align="center">
+                    <Text
+                      variant="body-default-xs"
+                      onBackground="neutral-weak"
+                      align="center"
+                    >
                       {pub.venue} · {pub.year}
                     </Text>
                     {pub.link && (
-                      <SmartLink href={pub.link} target="_blank" suffixIcon="arrowUpRightFromSquare" style={{ width: "fit-content", margin: "0" }}>
+                      <SmartLink
+                        href={pub.link}
+                        target="_blank"
+                        suffixIcon="arrowUpRightFromSquare"
+                        style={{ width: "fit-content", margin: "0" }}
+                      >
                         <Text variant="label-strong-m">Read paper</Text>
                       </SmartLink>
                     )}
@@ -215,13 +340,19 @@ export default async function Home() {
             <Heading variant="heading-strong-xl" align="center">
               Latest from the blog
             </Heading>
-            <Text variant="body-default-m" onBackground="neutral-weak" align="center" wrap="balance">
+            <Text
+              variant="body-default-m"
+              onBackground="neutral-weak"
+              align="center"
+              wrap="balance"
+            >
               Writing on software engineering, AI, and what I am building.
             </Text>
           </Column>
           <PostCarousel posts={posts} tenant={data} />
         </Column>
       )}
+
       <Mailchimp />
     </Column>
   );

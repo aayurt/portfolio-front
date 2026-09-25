@@ -10,8 +10,8 @@ export function SyasyahPipeline() {
     en: {
       headline: "Syasyah Samaj",
       sub: "Newar Community Platform",
-      badge: "Community Accounting & Archives",
-      action: "Offline Ready",
+      badge: "Accounting & Archives",
+      action: "Offline Capable",
     },
     ne: {
       headline: "स्यस्यः समाज",
@@ -21,7 +21,7 @@ export function SyasyahPipeline() {
     },
     new: {
       headline: "स्यस्यः गुथि",
-      sub: "नेवाः समाजया डिजिटलाइजेसन",
+      sub: "नेवाः समाज डिजिटलाइजेसन",
       badge: "दँया ल्याखं व अभिलेख",
       action: "इन्टरनेट म्वाय्कं ज्या जुइगु",
     },
@@ -30,173 +30,430 @@ export function SyasyahPipeline() {
   const current = langStrings[selectedLang];
 
   return (
-    <div className="w-full flex flex-col items-center bg-[#0d1117] rounded-xl border border-white/10 p-3 text-xs select-none overflow-hidden relative shadow-2xl">
-      {/* Background Subtle Grid */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: "radial-gradient(#ec4899 0.75px, transparent 0.75px)",
-          backgroundSize: "16px 16px",
-        }}
-      />
-
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        borderRadius: "14px",
+        overflow: "hidden",
+        border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+        background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.04))",
+        fontFamily: "var(--font-sans, inherit)",
+      }}
+    >
       {/* Top Header & Language Switcher */}
-      <div className="w-full flex items-center justify-between pb-2 mb-1 border-b border-white/10 z-10">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-          <span className="font-mono text-[11px] font-semibold text-rose-400 uppercase tracking-wider">
-            Offline-First Architecture
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 16px",
+          borderBottom: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: "#ec4899",
+              boxShadow: "0 0 8px #ec4899",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "11px",
+              fontFamily: "var(--font-code, monospace)",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--neutral-on-background-weak, #888)",
+            }}
+          >
+            Offline-First Architecture & i18n
           </span>
         </div>
-        <div className="flex gap-1 bg-white/5 p-0.5 rounded-lg border border-white/10">
+
+        {/* Trilingual Toggle Buttons */}
+        <div
+          style={{
+            display: "flex",
+            gap: "4px",
+            padding: "2px",
+            borderRadius: "6px",
+            background: "var(--neutral-background-medium, rgba(128, 128, 128, 0.08))",
+            border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+          }}
+        >
           {(["en", "ne", "new"] as const).map((lang) => (
             <button
               key={lang}
               onClick={() => setSelectedLang(lang)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-all ${
-                selectedLang === lang
-                  ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-                  : "text-white/40 hover:text-white/80"
-              }`}
+              style={{
+                padding: "3px 8px",
+                fontSize: "10px",
+                fontWeight: 600,
+                borderRadius: "4px",
+                border: "none",
+                background:
+                  selectedLang === lang ? "rgba(236, 72, 153, 0.2)" : "transparent",
+                color:
+                  selectedLang === lang
+                    ? "#ec4899"
+                    : "var(--neutral-on-background-weak, #888)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
             >
-              {lang === "en" ? "EN" : lang === "ne" ? "नेपाली" : "Newari"}
+              {lang === "en" ? "EN" : lang === "ne" ? "नेपाली" : "नेवाः"}
             </button>
           ))}
         </div>
       </div>
 
       {/* SVG System Architecture & Mobile Mockup */}
-      <svg
-        viewBox="0 0 380 230"
-        className="w-full h-auto max-h-[220px] z-10 overflow-visible"
+      <div style={{ position: "relative", width: "100%", padding: "12px 8px" }}>
+        <svg
+          viewBox="0 0 540 250"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          {/* Connector Paths */}
+          <path
+            d="M 100 125 L 140 125"
+            stroke="#ec4899"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 270 70 L 320 70 L 320 125 L 350 125"
+            stroke="#f43f5e"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 270 125 L 350 125"
+            stroke="#ec4899"
+            strokeWidth="2"
+          />
+          <path
+            d="M 270 180 L 320 180 L 320 125 L 350 125"
+            stroke="#8b5cf6"
+            strokeWidth="1.5"
+          />
+
+          {/* 1. Client / Community Users Node */}
+          <g
+            onClick={() => setActiveLayer("client")}
+            style={{ cursor: "pointer" }}
+            transform="translate(20, 85)"
+          >
+            <rect
+              width="80"
+              height="80"
+              rx="10"
+              fill={activeLayer === "client" ? "rgba(236, 72, 153, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeLayer === "client" ? "#ec4899" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.5"
+            />
+            <text x="40" y="38" textAnchor="middle" fontSize="22">
+              👥
+            </text>
+            <text
+              x="40"
+              y="58"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="11"
+              fontWeight="700"
+            >
+              Civic Users
+            </text>
+            <text
+              x="40"
+              y="70"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+            >
+              PWA Clients
+            </text>
+          </g>
+
+          {/* 2. Middle Stack: Next.js + IndexedDB + Payload */}
+          <g
+            onClick={() => setActiveLayer("nextjs")}
+            style={{ cursor: "pointer" }}
+            transform="translate(140, 50)"
+          >
+            <rect
+              width="130"
+              height="38"
+              rx="6"
+              fill={activeLayer === "nextjs" ? "rgba(244, 63, 94, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeLayer === "nextjs" ? "#f43f5e" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="65"
+              y="20"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="700"
+            >
+              Next.js 15 SPA
+            </text>
+            <text
+              x="65"
+              y="32"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Trilingual useT()
+            </text>
+          </g>
+
+          <g
+            onClick={() => setActiveLayer("cache")}
+            style={{ cursor: "pointer" }}
+            transform="translate(140, 105)"
+          >
+            <rect
+              width="130"
+              height="40"
+              rx="8"
+              fill={activeLayer === "cache" ? "rgba(236, 72, 153, 0.25)" : "var(--neutral-background-medium, rgba(128,128,128,0.12))"}
+              stroke={activeLayer === "cache" ? "#ec4899" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+              strokeWidth="1.5"
+            />
+            <text
+              x="65"
+              y="20"
+              textAnchor="middle"
+              fill="#ec4899"
+              fontSize="11"
+              fontWeight="700"
+            >
+              ⚡ IndexedDB Cache
+            </text>
+            <text
+              x="65"
+              y="33"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              useCachedList (&lt;2ms)
+            </text>
+          </g>
+
+          <g
+            onClick={() => setActiveLayer("backend")}
+            style={{ cursor: "pointer" }}
+            transform="translate(140, 160)"
+          >
+            <rect
+              width="130"
+              height="38"
+              rx="6"
+              fill={activeLayer === "backend" ? "rgba(139, 92, 246, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeLayer === "backend" ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="65"
+              y="20"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="700"
+            >
+              Payload CMS 3.75
+            </text>
+            <text
+              x="65"
+              y="32"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Postgres Relational DB
+            </text>
+          </g>
+
+          {/* 3. Live Phone Mockup with active language */}
+          <g transform="translate(360, 20)">
+            {/* Phone Bezel */}
+            <rect
+              width="155"
+              height="210"
+              rx="16"
+              fill="var(--neutral-background-strong, #1e1e24)"
+              stroke="var(--neutral-border-strong, #3f3f46)"
+              strokeWidth="2"
+            />
+            {/* Screen Area */}
+            <rect
+              x="6"
+              y="6"
+              width="143"
+              height="198"
+              rx="12"
+              fill="var(--neutral-background-weak, #111)"
+            />
+            {/* Speaker Notch */}
+            <rect
+              x="52"
+              y="10"
+              width="50"
+              height="4"
+              rx="2"
+              fill="var(--neutral-border-weak, #333)"
+            />
+
+            {/* In-app Card 1: Org Header */}
+            <rect
+              x="14"
+              y="24"
+              width="127"
+              height="46"
+              rx="6"
+              fill="rgba(236, 72, 153, 0.15)"
+              stroke="#ec4899"
+              strokeWidth="0.8"
+            />
+            <text
+              x="77"
+              y="44"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="11"
+              fontWeight="700"
+            >
+              {current.headline}
+            </text>
+            <text
+              x="77"
+              y="58"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="7.5"
+            >
+              {current.sub}
+            </text>
+
+            {/* In-app Card 2: Accounting Record */}
+            <rect
+              x="14"
+              y="78"
+              width="127"
+              height="38"
+              rx="6"
+              fill="var(--neutral-background-medium, rgba(128,128,128,0.1))"
+            />
+            <circle cx="28" cy="97" r="7" fill="#ec4899" />
+            <rect
+              x="42"
+              y="91"
+              width="75"
+              height="5"
+              rx="2.5"
+              fill="var(--neutral-on-background-strong, #ddd)"
+            />
+            <rect
+              x="42"
+              y="100"
+              width="50"
+              height="4"
+              rx="2"
+              fill="var(--neutral-on-background-weak, #777)"
+            />
+
+            {/* In-app Card 3: Offline Sync status */}
+            <rect
+              x="14"
+              y="124"
+              width="127"
+              height="28"
+              rx="6"
+              fill="rgba(6, 182, 212, 0.15)"
+            />
+            <text
+              x="77"
+              y="141"
+              textAnchor="middle"
+              fill="#06b6d4"
+              fontSize="8.5"
+              fontWeight="700"
+            >
+              ✓ {current.action}
+            </text>
+
+            {/* In-app Card 4: Languages */}
+            <rect
+              x="14"
+              y="160"
+              width="127"
+              height="24"
+              rx="4"
+              fill="var(--neutral-background-medium, rgba(128,128,128,0.1))"
+            />
+            <text
+              x="77"
+              y="175"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8"
+              fontFamily="var(--font-code, monospace)"
+            >
+              English · नेपाली · नेवाः
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      {/* Info Bar */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 16px",
+          borderTop: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
       >
-        <defs>
-          <linearGradient id="syasyahGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#f43f5e" />
-            <stop offset="100%" stopColor="#d946ef" />
-          </linearGradient>
-        </defs>
-
-        {/* Connectors */}
-        <g stroke="currentColor" fill="none" className="text-white/20">
-          <path d="M70 110 L100 110" stroke="#f43f5e" strokeWidth="1.5" />
-          <path d="M190 70 L210 70 L210 110 L230 110" stroke="#fb7185" strokeWidth="1.2" />
-          <path d="M190 110 L230 110" stroke="#ec4899" strokeWidth="1.2" />
-          <path d="M190 150 L210 150 L210 110 L230 110" stroke="#d946ef" strokeWidth="1.2" />
-        </g>
-
-        {/* 1. Client / User Node */}
-        <g 
-          onClick={() => setActiveLayer("client")}
-          className="cursor-pointer transition-transform hover:scale-105"
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: 700,
+            color: "var(--neutral-on-background-strong, inherit)",
+          }}
         >
-          <rect x="10" y="85" width="60" height="50" rx="8" fill="#18181b" stroke="#f43f5e" strokeWidth={activeLayer === "client" ? "2" : "1"} />
-          <text x="40" y="107" fill="#fda4af" fontSize="14" textAnchor="middle">👥</text>
-          <text x="40" y="124" fill="#fecdd3" fontSize="8" textAnchor="middle" fontWeight="bold">Users</text>
-        </g>
-
-        {/* 2. Middle Stack: Next.js + IndexedDB + Payload */}
-        <g 
-          onClick={() => setActiveLayer("nextjs")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="100" y="55" width="90" height="28" rx="6" fill="#1c1917" stroke="#fb7185" strokeWidth={activeLayer === "nextjs" ? "2" : "1"} />
-          <text x="145" y="72" fill="#fff" fontSize="8.5" textAnchor="middle" fontWeight="bold">
-            Next.js Frontend
-          </text>
-        </g>
-
-        <g 
-          onClick={() => setActiveLayer("cache")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="100" y="96" width="90" height="28" rx="6" fill="#271c24" stroke="#ec4899" strokeWidth={activeLayer === "cache" ? "2" : "1"} />
-          <text x="145" y="113" fill="#f472b6" fontSize="8.5" textAnchor="middle" fontWeight="bold">
-            ⚡ IndexedDB Cache
-          </text>
-        </g>
-
-        <g 
-          onClick={() => setActiveLayer("backend")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="100" y="136" width="90" height="28" rx="6" fill="#1c1917" stroke="#d946ef" strokeWidth={activeLayer === "backend" ? "2" : "1"} />
-          <text x="145" y="153" fill="#e879f9" fontSize="8.5" textAnchor="middle" fontWeight="bold">
-            Payload CMS 3.75
-          </text>
-        </g>
-
-        {/* 3. Database Node */}
-        <g 
-          onClick={() => setActiveLayer("db")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="100" y="174" width="90" height="24" rx="4" fill="#090d16" stroke="#64748b" strokeWidth={activeLayer === "db" ? "2" : "1"} />
-          <text x="145" y="189" fill="#cbd5e1" fontSize="8" textAnchor="middle" fontFamily="monospace">
-            PostgreSQL DB
-          </text>
-        </g>
-
-        {/* 4. Phone Mockup Displaying Live i18n */}
-        <g transform="translate(235, 15)">
-          {/* Phone Shell */}
-          <rect x="0" y="0" width="130" height="195" rx="14" fill="#121214" stroke="#3f3f46" strokeWidth="2" />
-          <rect x="5" y="5" width="120" height="185" rx="10" fill="#18181b" />
-          {/* Notch */}
-          <rect x="42" y="8" width="46" height="5" rx="2.5" fill="#27272a" />
-          
-          {/* Screen Content */}
-          <rect x="12" y="24" width="106" height="42" rx="6" fill="#271b26" stroke="#f43f5e" strokeWidth="0.75" />
-          <text x="65" y="42" fill="#fda4af" fontSize="9" textAnchor="middle" fontWeight="bold">
-            {current.headline}
-          </text>
-          <text x="65" y="55" fill="#fecdd3" fontSize="6.5" textAnchor="middle">
-            {current.sub}
-          </text>
-
-          {/* Member Card */}
-          <rect x="12" y="74" width="106" height="32" rx="4" fill="#27272a" />
-          <circle cx="26" cy="90" r="7" fill="#fb7185" />
-          <rect x="38" y="85" width="60" height="4" rx="2" fill="#a1a1aa" />
-          <rect x="38" y="92" width="40" height="3" rx="1.5" fill="#71717a" />
-
-          {/* Badge */}
-          <rect x="12" y="114" width="106" height="20" rx="4" fill="#1e293b" />
-          <text x="65" y="127" fill="#38bdf8" fontSize="6.5" textAnchor="middle" fontWeight="bold">
-            {current.action}
-          </text>
-
-          {/* Languages pill bar */}
-          <rect x="12" y="142" width="106" height="16" rx="3" fill="#090d16" />
-          <text x="65" y="153" fill="#cbd5e1" fontSize="6" textAnchor="middle">
-            EN · नेपाली · Newari
-          </text>
-        </g>
-      </svg>
-
-      {/* Info bar */}
-      <div className="w-full mt-2 pt-2 border-t border-white/10 z-10 flex flex-col gap-1">
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-white/90 text-[11px]">
-            {activeLayer === "cache"
-              ? "Cache-First Architecture (useCachedList)"
-              : activeLayer === "client"
-              ? "Localized PWA & Civic Members"
-              : activeLayer === "nextjs"
-              ? "Next.js SSR + Client Routing"
-              : activeLayer === "db"
-              ? "PostgreSQL Relational Storage"
-              : "Payload CMS 3.75 Multi-tenant"}
-          </span>
-          <span className="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-300 text-[9px] font-mono border border-rose-500/20">
-            0ms Latency on Cached Read
-          </span>
-        </div>
-        <p className="text-[10px] text-white/60 leading-relaxed">
           {activeLayer === "cache"
-            ? "Offline-first SPA reads instantly from IndexedDB before syncing with remote Postgres in the background."
-            : "Multi-tenant system serving community management, accounting ledger, and cultural archives in three languages."}
-        </p>
+            ? "IndexedDB Cache-First Architecture"
+            : activeLayer === "client"
+            ? "Offline-First Mobile PWA"
+            : "PostgreSQL & Payload CMS Backend"}
+        </span>
+        <span
+          style={{
+            fontSize: "10px",
+            fontFamily: "var(--font-code, monospace)",
+            padding: "2px 8px",
+            borderRadius: "4px",
+            background: "rgba(236, 72, 153, 0.15)",
+            color: "#ec4899",
+            fontWeight: 600,
+          }}
+        >
+          0ms Cached Read
+        </span>
       </div>
     </div>
   );

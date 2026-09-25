@@ -10,271 +10,571 @@ interface NodeDetail {
 
 const NODE_DETAILS: Record<string, NodeDetail> = {
   task: {
-    title: "Task Specification",
-    desc: "Autonomous prompt intake parsed from issues or chat with context and verification criteria.",
-    tags: ["Goal Decomposition", "Context Injection"],
+    title: "1. Task Intake & Analysis",
+    desc: "Analyzes user request, repository AST, and project dependencies into an actionable specification.",
+    tags: ["Issue", "Spec", "AST Analysis"],
   },
   planner: {
-    title: "Hermes Orchestrator",
-    desc: "Central planner engine that analyzes repo structure and splits tasks into a parallel DAG.",
-    tags: ["Task Tree", "Dependency Graph", "OpenClaw"],
+    title: "2. Hermes Planner (Brain)",
+    desc: "Decomposes complex requests into a directed acyclic graph (DAG) of parallel subtasks with skill injection.",
+    tags: ["DAG Planner", "Skills", "Memory"],
   },
   worker1: {
-    title: "Worker 01: Dev + Tests",
-    desc: "Isolated container implementing feature logic and accompanying unit tests.",
-    tags: ["TDD", "Nemotron-3.5", "TypeScript"],
+    title: "3a. Worker 01 (Dev & Test)",
+    desc: "Executes test-driven development (TDD), generating tests and fixing code against failure outputs.",
+    tags: ["TDD", "Jest / Vitest", "Logic"],
   },
   worker2: {
-    title: "Worker 02: API Contract",
-    desc: "Handles payload schemas, REST/RPC endpoints, and database migrations.",
-    tags: ["Payload CMS", "PostgreSQL", "TypeCheck"],
+    title: "3b. Worker 02 (API Contract)",
+    desc: "Updates schemas, Payload collections, GraphQL/REST endpoints, and type declarations.",
+    tags: ["Payload CMS", "Types", "Contracts"],
   },
   worker3: {
-    title: "Worker N: Refactor & Docs",
-    desc: "Parallel cleanup, code style enforcement, and architecture documentation.",
-    tags: ["Linter", "AST Clean", "Docs"],
+    title: "3c. Worker 03 (Refactor)",
+    desc: "Performs AST-level refactors, code deduplication, and dependency cleanups.",
+    tags: ["Refactoring", "Clean Code", "AST"],
   },
   tools: {
-    title: "Tool & Sandbox Layer",
-    desc: "Isolated execution environment ensuring zero host pollution with standard tool protocols.",
-    tags: ["MCP Protocol", "Docker Sandboxing", "Git CLI"],
+    title: "4. Sandboxed Tool Integration",
+    desc: "Runs operations inside isolated Docker containers using MCP (Model Context Protocol) and Git CLI.",
+    tags: ["Docker Sandbox", "MCP Protocol", "Git"],
   },
   eval: {
-    title: "Evaluation & Verification Gate",
-    desc: "Deterministic verification running builds, test suites, and strict lint checks before commit.",
-    tags: ["Automated Review", "Self-Correction", "CI Pass"],
+    title: "5. Review & Evaluation Gate",
+    desc: "Automated gate enforcing zero linter errors, passing test suites, and clean builds before merge.",
+    tags: ["Lint Gate", "E2E Tests", "Typecheck"],
   },
   done: {
-    title: "Merged Artifact",
-    desc: "Clean git commit pushed to main with verified pass@1 criteria and benchmark metrics.",
-    tags: ["Production Ready", "Git Push"],
+    title: "6. Production Merge (Done)",
+    desc: "Atomic commit with work log verification, pushed to main branch with automated notification.",
+    tags: ["Atomic Commit", "Origin Main", "Telegram Alert"],
   },
   retry: {
-    title: "Self-Correction Feedback Loop",
-    desc: "Captures error logs, AST diagnostics, and stack traces to feed back into workers for iteration.",
-    tags: ["Error Recovery", "Max 3 Retries"],
+    title: "Self-Correction Loop",
+    desc: "When verification fails, captures error stack traces and loops back to workers for automated healing.",
+    tags: ["Self-Correction", "Feedback Loop", "Max Retries"],
   },
 };
 
 export function HermesPipeline() {
   const [activeNode, setActiveNode] = useState<string>("planner");
   const [isSimulating, setIsSimulating] = useState(false);
-
-  const activeDetail = NODE_DETAILS[activeNode] || NODE_DETAILS.planner;
+  const [simStep, setSimStep] = useState<number>(0);
 
   const triggerSimulation = () => {
+    if (isSimulating) return;
     setIsSimulating(true);
-    setTimeout(() => setIsSimulating(false), 2400);
+    setSimStep(1);
+    setActiveNode("task");
+
+    const steps = [
+      { step: 1, node: "task", delay: 700 },
+      { step: 2, node: "planner", delay: 1400 },
+      { step: 3, node: "worker1", delay: 2200 },
+      { step: 4, node: "tools", delay: 3000 },
+      { step: 5, node: "eval", delay: 3700 },
+      { step: 6, node: "done", delay: 4500 },
+    ];
+
+    steps.forEach(({ step, node, delay }) => {
+      setTimeout(() => {
+        setSimStep(step);
+        setActiveNode(node);
+        if (step === 6) {
+          setTimeout(() => {
+            setIsSimulating(false);
+            setSimStep(0);
+          }, 1500);
+        }
+      }, delay);
+    });
   };
 
-  return (
-    <div className="w-full flex flex-col items-center bg-[#0d1117] rounded-xl border border-white/10 p-3 text-xs select-none overflow-hidden relative shadow-2xl">
-      {/* Background Subtle Grid */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: "radial-gradient(#38bdf8 0.75px, transparent 0.75px)",
-          backgroundSize: "16px 16px",
-        }}
-      />
+  const selected = NODE_DETAILS[activeNode] || NODE_DETAILS.planner;
 
-      {/* Top Controls Header */}
-      <div className="w-full flex items-center justify-between pb-2 mb-1 border-b border-white/10 z-10">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-mono text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">
-            Agentic Pipeline Loop
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        borderRadius: "14px",
+        overflow: "hidden",
+        border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+        background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.04))",
+        fontFamily: "var(--font-sans, inherit)",
+      }}
+    >
+      {/* Top Controls Bar */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 16px",
+          borderBottom: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: "#06b6d4",
+              boxShadow: "0 0 8px #06b6d4",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "11px",
+              fontFamily: "var(--font-code, monospace)",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--neutral-on-background-weak, #888)",
+            }}
+          >
+            Multi-Agent Orchestration DAG
           </span>
         </div>
+
         <button
           onClick={triggerSimulation}
-          className="px-2 py-0.5 rounded bg-sky-500/10 hover:bg-sky-500/25 border border-sky-500/30 text-sky-300 font-mono text-[10px] transition-all flex items-center gap-1"
+          disabled={isSimulating}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "4px 10px",
+            fontSize: "11px",
+            fontWeight: 600,
+            borderRadius: "6px",
+            border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.25))",
+            background: isSimulating
+              ? "rgba(6, 182, 212, 0.15)"
+              : "var(--neutral-background-medium, rgba(128, 128, 128, 0.08))",
+            color: isSimulating ? "#06b6d4" : "var(--neutral-on-background-strong, inherit)",
+            cursor: isSimulating ? "default" : "pointer",
+            transition: "all 0.2s ease",
+          }}
         >
-          <span className={`inline-block w-1.5 h-1.5 rounded-full ${isSimulating ? "bg-amber-400 animate-ping" : "bg-sky-400"}`} />
-          {isSimulating ? "Running..." : "Simulate"}
+          <span>{isSimulating ? "⚡ Simulating Run..." : "▶ Simulate Flow"}</span>
         </button>
       </div>
 
-      {/* Main SVG Architecture Diagram */}
-      <svg
-        viewBox="0 0 380 240"
-        className="w-full h-auto max-h-[230px] z-10 overflow-visible"
-      >
-        <defs>
-          <linearGradient id="hermesBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#818cf8" />
-          </linearGradient>
-          <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#a855f7" />
-            <stop offset="100%" stopColor="#6366f1" />
-          </linearGradient>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
+      {/* Main SVG Graph */}
+      <div style={{ position: "relative", width: "100%", padding: "12px 8px" }}>
+        <svg
+          viewBox="0 0 540 270"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          <defs>
+            <linearGradient id="hermesGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
+            </linearGradient>
+            <filter id="hermesGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
 
-        {/* Dynamic Connection Lines with Flowing Dash Animation */}
-        <g stroke="currentColor" fill="none" className="text-white/20">
+          {/* Connection Lines */}
           {/* Task -> Planner */}
-          <line x1="190" y1="28" x2="190" y2="48" stroke="#38bdf8" strokeWidth="1.5" />
-          
-          {/* Planner -> 3 Workers */}
-          <path d="M190 74 L190 85 L70 85 L70 98" stroke="#38bdf8" strokeWidth="1.2" strokeDasharray={isSimulating ? "4 4" : "none"} className={isSimulating ? "animate-[dash_1s_linear_infinite]" : ""} />
-          <path d="M190 74 L190 98" stroke="#818cf8" strokeWidth="1.2" strokeDasharray={isSimulating ? "4 4" : "none"} className={isSimulating ? "animate-[dash_1s_linear_infinite]" : ""} />
-          <path d="M190 74 L190 85 L310 85 L310 98" stroke="#a855f7" strokeWidth="1.2" strokeDasharray={isSimulating ? "4 4" : "none"} className={isSimulating ? "animate-[dash_1s_linear_infinite]" : ""} />
-
-          {/* 3 Workers -> Tools */}
-          <path d="M70 126 L70 138 L190 138" stroke="#38bdf8" strokeWidth="1.2" />
-          <path d="M190 126 L190 148" stroke="#818cf8" strokeWidth="1.2" />
-          <path d="M310 126 L310 138 L190 138" stroke="#a855f7" strokeWidth="1.2" />
-
-          {/* Tools -> Evaluation */}
-          <line x1="190" y1="168" x2="190" y2="182" stroke="#60a5fa" strokeWidth="1.5" />
-
-          {/* Evaluation -> Done */}
-          <line x1="240" y1="195" x2="285" y2="195" stroke="#34d399" strokeWidth="1.5" markerEnd="url(#arrow)" />
-
-          {/* Evaluation -> Retry Feedback Loop */}
           <path
-            d="M140 195 L25 195 L25 60 L140 60"
+            d="M 270 32 L 270 56"
+            stroke="var(--neutral-border-strong, #06b6d4)"
+            strokeWidth="2"
+            strokeDasharray={isSimulating && simStep === 1 ? "4 3" : "none"}
+            style={{ transition: "stroke 0.3s" }}
+          />
+
+          {/* Planner -> Workers (branching) */}
+          <path
+            d="M 270 94 L 110 120"
+            stroke={simStep >= 3 ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+            strokeDasharray={isSimulating && simStep === 2 ? "4 3" : "none"}
+          />
+          <path
+            d="M 270 94 L 270 120"
+            stroke={simStep >= 3 ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+            strokeDasharray={isSimulating && simStep === 2 ? "4 3" : "none"}
+          />
+          <path
+            d="M 270 94 L 430 120"
+            stroke={simStep >= 3 ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+            strokeDasharray={isSimulating && simStep === 2 ? "4 3" : "none"}
+          />
+
+          {/* Workers -> Tools (merging) */}
+          <path
+            d="M 110 156 L 270 178"
+            stroke={simStep >= 4 ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 270 156 L 270 178"
+            stroke={simStep >= 4 ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 430 156 L 270 178"
+            stroke={simStep >= 4 ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="1.5"
+          />
+
+          {/* Tools -> Eval */}
+          <path
+            d="M 270 206 L 270 220"
+            stroke={simStep >= 5 ? "#10b981" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="2"
+          />
+
+          {/* Eval -> Done (Right) */}
+          <path
+            d="M 330 236 L 415 236"
+            stroke={simStep >= 6 ? "#10b981" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+            strokeWidth="2"
+          />
+
+          {/* Eval -> Retry Loopback (Left to Planner) */}
+          <path
+            d="M 210 236 C 30 236, 30 75, 205 75"
             stroke="#f59e0b"
             strokeWidth="1.5"
-            strokeDasharray="4 3"
-            className="animate-[pulse_2s_ease-in-out_infinite]"
+            strokeDasharray="4 4"
+            fill="none"
+            opacity={activeNode === "retry" ? "1" : "0.5"}
           />
-        </g>
+          <text
+            x="48"
+            y="155"
+            fill="#f59e0b"
+            fontSize="9"
+            fontFamily="var(--font-code, monospace)"
+            fontWeight="600"
+          >
+            ↺ Self-Correct Loop
+          </text>
 
-        {/* 1. Task Intake Node */}
-        <g 
-          onClick={() => setActiveNode("task")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="125" y="8" width="130" height="20" rx="10" fill="#1e293b" stroke="#38bdf8" strokeWidth={activeNode === "task" ? "2" : "1"} />
-          <text x="190" y="22" fill="#93c5fd" fontSize="9" textAnchor="middle" fontFamily="monospace" fontWeight="bold">
-            Task: "Refactor & Tests"
-          </text>
-        </g>
+          {/* NODES */}
 
-        {/* 2. Planner / Brain (Hermes) */}
-        <g 
-          onClick={() => setActiveNode("planner")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="135" y="48" width="110" height="26" rx="6" fill="#1e1b4b" stroke="#818cf8" strokeWidth={activeNode === "planner" ? "2" : "1"} filter={activeNode === "planner" ? "url(#glow)" : ""} />
-          <text x="190" y="65" fill="#e0e7ff" fontSize="10" textAnchor="middle" fontWeight="bold" fontFamily="sans-serif">
-            🧠 Planner / Brain
-          </text>
-        </g>
+          {/* Node 1: Task Intake */}
+          <g
+            onClick={() => setActiveNode("task")}
+            style={{ cursor: "pointer" }}
+            transform="translate(200, 10)"
+          >
+            <rect
+              width="140"
+              height="24"
+              rx="12"
+              fill={activeNode === "task" ? "rgba(6, 182, 212, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.1))"}
+              stroke={activeNode === "task" ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.5"
+            />
+            <text
+              x="70"
+              y="16"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="600"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Task: "Refactor API"
+            </text>
+          </g>
 
-        {/* 3. Parallel Workers */}
-        {/* Worker 1 */}
-        <g 
-          onClick={() => setActiveNode("worker1")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="15" y="98" width="110" height="28" rx="5" fill="#0f172a" stroke="#38bdf8" strokeWidth={activeNode === "worker1" ? "2" : "1"} />
-          <text x="70" y="111" fill="#7dd3fc" fontSize="9" textAnchor="middle" fontWeight="bold">
-            Worker 1 (Dev)
-          </text>
-          <text x="70" y="121" fill="#94a3b8" fontSize="7.5" textAnchor="middle">
-            Unit Tests + Logic
-          </text>
-        </g>
+          {/* Node 2: Planner (Brain) */}
+          <g
+            onClick={() => setActiveNode("planner")}
+            style={{ cursor: "pointer" }}
+            transform="translate(195, 56)"
+          >
+            <rect
+              width="150"
+              height="38"
+              rx="8"
+              fill={activeNode === "planner" ? "rgba(6, 182, 212, 0.25)" : "var(--neutral-background-medium, rgba(128,128,128,0.1))"}
+              stroke={activeNode === "planner" ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.3))"}
+              strokeWidth="1.5"
+            />
+            <text
+              x="75"
+              y="20"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="11"
+              fontWeight="700"
+            >
+              🧠 Hermes Planner
+            </text>
+            <text
+              x="75"
+              y="32"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="9"
+              fontFamily="var(--font-code, monospace)"
+            >
+              DAG Decomposition
+            </text>
+          </g>
 
-        {/* Worker 2 */}
-        <g 
-          onClick={() => setActiveNode("worker2")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="135" y="98" width="110" height="28" rx="5" fill="#0f172a" stroke="#818cf8" strokeWidth={activeNode === "worker2" ? "2" : "1"} />
-          <text x="190" y="111" fill="#c7d2fe" fontSize="9" textAnchor="middle" fontWeight="bold">
-            Worker 2 (API)
-          </text>
-          <text x="190" y="121" fill="#94a3b8" fontSize="7.5" textAnchor="middle">
-            Payload Contracts
-          </text>
-        </g>
+          {/* Node 3a: Worker 1 */}
+          <g
+            onClick={() => setActiveNode("worker1")}
+            style={{ cursor: "pointer" }}
+            transform="translate(45, 120)"
+          >
+            <rect
+              width="130"
+              height="36"
+              rx="6"
+              fill={activeNode === "worker1" ? "rgba(6, 182, 212, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeNode === "worker1" ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="65"
+              y="18"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="600"
+            >
+              Worker 01: Dev
+            </text>
+            <text
+              x="65"
+              y="30"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Tests & Logic
+            </text>
+          </g>
 
-        {/* Worker 3 */}
-        <g 
-          onClick={() => setActiveNode("worker3")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="255" y="98" width="110" height="28" rx="5" fill="#0f172a" stroke="#a855f7" strokeWidth={activeNode === "worker3" ? "2" : "1"} />
-          <text x="310" y="111" fill="#e9d5ff" fontSize="9" textAnchor="middle" fontWeight="bold">
-            Worker N (Refactor)
-          </text>
-          <text x="310" y="121" fill="#94a3b8" fontSize="7.5" textAnchor="middle">
-            AST + Typings
-          </text>
-        </g>
+          {/* Node 3b: Worker 2 */}
+          <g
+            onClick={() => setActiveNode("worker2")}
+            style={{ cursor: "pointer" }}
+            transform="translate(205, 120)"
+          >
+            <rect
+              width="130"
+              height="36"
+              rx="6"
+              fill={activeNode === "worker2" ? "rgba(139, 92, 246, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeNode === "worker2" ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="65"
+              y="18"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="600"
+            >
+              Worker 02: API
+            </text>
+            <text
+              x="65"
+              y="30"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Payload Contracts
+            </text>
+          </g>
 
-        {/* 4. Tool & Sandbox Layer */}
-        <g 
-          onClick={() => setActiveNode("tools")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="110" y="148" width="160" height="20" rx="4" fill="#090d16" stroke="#64748b" strokeWidth={activeNode === "tools" ? "2" : "1"} />
-          <text x="190" y="162" fill="#cbd5e1" fontSize="8.5" textAnchor="middle" fontFamily="monospace">
-            Tools: MCP · Docker · Git
-          </text>
-        </g>
+          {/* Node 3c: Worker 3 */}
+          <g
+            onClick={() => setActiveNode("worker3")}
+            style={{ cursor: "pointer" }}
+            transform="translate(365, 120)"
+          >
+            <rect
+              width="130"
+              height="36"
+              rx="6"
+              fill={activeNode === "worker3" ? "rgba(6, 182, 212, 0.2)" : "var(--neutral-background-medium, rgba(128,128,128,0.08))"}
+              stroke={activeNode === "worker3" ? "#06b6d4" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="65"
+              y="18"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="600"
+            >
+              Worker 03: AST
+            </text>
+            <text
+              x="65"
+              y="30"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8.5"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Refactor & Clean
+            </text>
+          </g>
 
-        {/* 5. Evaluation Gate */}
-        <g 
-          onClick={() => setActiveNode("eval")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="140" y="182" width="100" height="26" rx="6" fill="#172554" stroke="#60a5fa" strokeWidth={activeNode === "eval" ? "2" : "1"} />
-          <text x="190" y="198" fill="#bfdbfe" fontSize="9" textAnchor="middle" fontWeight="bold">
-            Review & Eval
-          </text>
-        </g>
+          {/* Node 4: Tools (MCP / Docker) */}
+          <g
+            onClick={() => setActiveNode("tools")}
+            style={{ cursor: "pointer" }}
+            transform="translate(195, 178)"
+          >
+            <rect
+              width="150"
+              height="28"
+              rx="6"
+              fill={activeNode === "tools" ? "rgba(139, 92, 246, 0.25)" : "var(--neutral-background-medium, rgba(128,128,128,0.1))"}
+              stroke={activeNode === "tools" ? "#8b5cf6" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.2"
+            />
+            <text
+              x="75"
+              y="18"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="9.5"
+              fontWeight="600"
+              fontFamily="var(--font-code, monospace)"
+            >
+              ⚡ Docker + MCP Tools
+            </text>
+          </g>
 
-        {/* 6. Success (Done) */}
-        <g 
-          onClick={() => setActiveNode("done")}
-          className="cursor-pointer transition-transform hover:scale-105"
-        >
-          <rect x="290" y="182" width="75" height="26" rx="13" fill="#064e3b" stroke="#34d399" strokeWidth={activeNode === "done" ? "2" : "1"} />
-          <text x="327" y="198" fill="#a7f3d0" fontSize="9" textAnchor="middle" fontWeight="bold">
-            ✓ Done
-          </text>
-        </g>
+          {/* Node 5: Evaluation Gate */}
+          <g
+            onClick={() => setActiveNode("eval")}
+            style={{ cursor: "pointer" }}
+            transform="translate(210, 220)"
+          >
+            <rect
+              width="120"
+              height="32"
+              rx="6"
+              fill={activeNode === "eval" ? "rgba(16, 185, 129, 0.25)" : "var(--neutral-background-medium, rgba(128,128,128,0.1))"}
+              stroke={activeNode === "eval" ? "#10b981" : "var(--neutral-border-weak, rgba(128,128,128,0.25))"}
+              strokeWidth="1.5"
+            />
+            <text
+              x="60"
+              y="16"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-strong, #fff)"
+              fontSize="10"
+              fontWeight="700"
+            >
+              Eval Gate
+            </text>
+            <text
+              x="60"
+              y="27"
+              textAnchor="middle"
+              fill="var(--neutral-on-background-weak, #888)"
+              fontSize="8"
+              fontFamily="var(--font-code, monospace)"
+            >
+              Lint · Test · Build
+            </text>
+          </g>
 
-        {/* 7. Retry Badge on Feedback Loop */}
-        <g 
-          onClick={() => setActiveNode("retry")}
-          className="cursor-pointer"
-        >
-          <rect x="10" y="125" width="46" height="15" rx="3" fill="#451a03" stroke="#f59e0b" strokeWidth="1" />
-          <text x="33" y="136" fill="#fde68a" fontSize="7.5" textAnchor="middle" fontWeight="bold">
-            ↺ Retry
-          </text>
-        </g>
-      </svg>
+          {/* Node 6: Done (Pass) */}
+          <g
+            onClick={() => setActiveNode("done")}
+            style={{ cursor: "pointer" }}
+            transform="translate(415, 220)"
+          >
+            <rect
+              width="105"
+              height="32"
+              rx="6"
+              fill={activeNode === "done" ? "rgba(16, 185, 129, 0.3)" : "rgba(16, 185, 129, 0.1)"}
+              stroke="#10b981"
+              strokeWidth="1.5"
+            />
+            <text
+              x="52"
+              y="20"
+              textAnchor="middle"
+              fill="#10b981"
+              fontSize="10"
+              fontWeight="700"
+            >
+              ✓ Done (Main)
+            </text>
+          </g>
+        </svg>
+      </div>
 
-      {/* Interactive Tooltip Inspector Bar */}
-      <div className="w-full mt-2 pt-2 border-t border-white/10 z-10 flex flex-col gap-1">
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-white/90 text-[11px]">
-            {activeDetail.title}
+      {/* Interactive Node Inspector Drawer */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px",
+          padding: "10px 16px",
+          borderTop: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.15))",
+          background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.02))",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span
+            style={{
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "var(--neutral-on-background-strong, inherit)",
+            }}
+          >
+            {selected.title}
           </span>
-          <div className="flex gap-1">
-            {activeDetail.tags.map((tag) => (
+          <div style={{ display: "flex", gap: "4px" }}>
+            {selected.tags.map((t) => (
               <span
-                key={tag}
-                className="px-1.5 py-0.5 rounded bg-white/5 text-[9px] font-mono text-white/60 border border-white/5"
+                key={t}
+                style={{
+                  fontSize: "9px",
+                  fontFamily: "var(--font-code, monospace)",
+                  padding: "1px 6px",
+                  borderRadius: "4px",
+                  background: "var(--neutral-background-medium, rgba(128, 128, 128, 0.1))",
+                  border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2))",
+                  color: "var(--neutral-on-background-weak, #888)",
+                }}
               >
-                {tag}
+                {t}
               </span>
             ))}
           </div>
         </div>
-        <p className="text-[10px] text-white/60 leading-relaxed">
-          {activeDetail.desc}
+        <p
+          style={{
+            margin: 0,
+            fontSize: "11.5px",
+            lineHeight: "1.4",
+            color: "var(--neutral-on-background-weak, #888)",
+          }}
+        >
+          {selected.desc}
         </p>
       </div>
     </div>

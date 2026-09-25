@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   Column,
   Grid,
@@ -15,6 +17,7 @@ import {
 export type ProductCardData = {
   title: string;
   image?: string | null;
+  pipeline?: React.ReactNode;
   subtitle?: string | null;
   shortDescription?: string | null;
   description?: string | null;
@@ -29,6 +32,9 @@ export type ProductCardData = {
 export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
   const metricsCount = data.metrics?.length || 0;
   const featuresCount = data.features?.length || 0;
+  const [viewMode, setViewMode] = useState<"pipeline" | "image">(
+    data.pipeline ? "pipeline" : "image"
+  );
 
   return (
     <Column
@@ -37,20 +43,76 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       gap="l"
       style={{
         borderRadius: "16px",
-        border: "1px solid rgba(128, 128, 128, 0.25)",
-        background: "rgba(128, 128, 128, 0.05)",
+        border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.25))",
+        background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.04))",
       }}
     >
-      {data.image && (
-        <Media
-          priority
-          sizes="(max-width: 768px) 100vw, 640px"
-          border="neutral-alpha-weak"
-          radius="l"
-          src={data.image}
-          alt={`${data.title} preview`}
-          aspectRatio="16 / 9"
-        />
+      {/* Top Visual Showcase: Pipeline or Image with view mode toggle */}
+      {(data.pipeline || data.image) && (
+        <Column fillWidth gap="8">
+          {data.pipeline && data.image && (
+            <Row horizontal="end" gap="4">
+              <button
+                onClick={() => setViewMode("pipeline")}
+                style={{
+                  padding: "4px 10px",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  borderRadius: "6px",
+                  border: "none",
+                  background:
+                    viewMode === "pipeline"
+                      ? "var(--neutral-background-medium, rgba(128, 128, 128, 0.2))"
+                      : "transparent",
+                  color:
+                    viewMode === "pipeline"
+                      ? "var(--neutral-on-background-strong, inherit)"
+                      : "var(--neutral-on-background-weak, #888)",
+                  cursor: "pointer",
+                }}
+              >
+                ⚡ Architecture Pipeline
+              </button>
+              <button
+                onClick={() => setViewMode("image")}
+                style={{
+                  padding: "4px 10px",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  borderRadius: "6px",
+                  border: "none",
+                  background:
+                    viewMode === "image"
+                      ? "var(--neutral-background-medium, rgba(128, 128, 128, 0.2))"
+                      : "transparent",
+                  color:
+                    viewMode === "image"
+                      ? "var(--neutral-on-background-strong, inherit)"
+                      : "var(--neutral-on-background-weak, #888)",
+                  cursor: "pointer",
+                }}
+              >
+                🖼️ Screenshot
+              </button>
+            </Row>
+          )}
+
+          {data.pipeline && viewMode === "pipeline" ? (
+            <div style={{ width: "100%", overflow: "hidden" }}>
+              {data.pipeline}
+            </div>
+          ) : data.image ? (
+            <Media
+              priority
+              sizes="(max-width: 768px) 100vw, 640px"
+              border="neutral-alpha-weak"
+              radius="l"
+              src={data.image}
+              alt={`${data.title} preview`}
+              aspectRatio="16 / 9"
+            />
+          ) : null}
+        </Column>
       )}
 
       <Row gap="16" wrap vertical="center">
@@ -76,7 +138,7 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
         <Row gap="16" wrap horizontal="center" fillWidth>
           {data.metrics!.slice(0, 3).map((metric) => (
             <Column
-              key={metric.id}
+              key={metric.id || metric.label}
               horizontal="center"
               gap="2"
               minWidth={0}
@@ -113,7 +175,7 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       {featuresCount > 0 && (
         <Grid columns="2" s={{ columns: 1 }} gap="12" fillWidth>
           {data.features!.map((feature) => (
-            <Column key={feature.id} gap="2">
+            <Column key={feature.id || feature.title} gap="2">
               <Heading as="h4" variant="heading-strong-s">
                 {feature.title}
               </Heading>
@@ -130,7 +192,7 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       {data.benefits && data.benefits.length > 0 && (
         <List as="ul">
           {data.benefits.map((b) => (
-            <ListItem key={b.id} marginTop="2" marginBottom="4">
+            <ListItem key={b.id || b.benefit} marginTop="2" marginBottom="4">
               <Text variant="body-default-s">{b.benefit}</Text>
             </ListItem>
           ))}
@@ -140,7 +202,7 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       {data.techStack && data.techStack.length > 0 && (
         <Row gap="8" wrap>
           {data.techStack.map((t) => (
-            <Tag key={t.id} variant="tertiary">
+            <Tag key={t.id || t.tech} variant="tertiary">
               <Text variant="label-strong-xs" onBackground="neutral-weak">
                 {t.tech}
               </Text>
