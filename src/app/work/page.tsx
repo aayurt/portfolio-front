@@ -1,3 +1,4 @@
+import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
@@ -31,6 +32,8 @@ export default async function Work() {
     pipeline:
       project.slug === "hermes" ? (
         <HermesPipeline />
+      ) : project.slug === "afno-events" || project.slug === "afno" ? (
+        <AfnoPipeline />
       ) : project.slug === "syasyah-samaj" ? (
         <SyasyahPipeline />
       ) : project.slug === "astro-guru" ? (

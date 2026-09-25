@@ -150,6 +150,125 @@ const HERMES_PROJECT: Project = {
     }
 };
 
+function enrichProject(p: Project): Project {
+    if (p.slug === "syasyah-samaj") {
+        return {
+            ...p,
+            title: "Syasyah Samaj — Civic Governance & Cultural Platform",
+            description:
+                "Civic governance, cultural heritage, and financial accounting platform for the Newar Syasyah community in Patan (Yala). Features 10 territorial Ilakas, family & Guthi directories, community welfare calendar (AGMs, Yenya Samay Baji, health camps), and an offline-first IndexedDB billing SPA for street collections.",
+            links: {
+                ...p.links,
+                liveUrl: "https://syasyahsamaj.com",
+            },
+            metrics: [
+                { value: "10 Ilakas", label: "Civic governance wards", id: "s1" },
+                { value: "100% Offline", label: "IndexedDB sync engine", id: "s2" },
+                { value: "Trilingual", label: "EN · नेपाली · नेवाः भाय्", id: "s3" },
+            ],
+            features: [
+                {
+                    title: "10 Territorial Ilakas & Guthi Index",
+                    description: "Structured regional governance across historical wards of Lalitpur with family and lineage records.",
+                    id: "sf1",
+                },
+                {
+                    title: "Offline-First Accounting SPA",
+                    description: "Vite + React SPA with IndexedDB caching and optimistic balance sync for street collections.",
+                    id: "sf2",
+                },
+                {
+                    title: "Community Calendar & Welfare",
+                    description: "Central AGMs, Yenya (Indra Jatra) Samay Baji processions, blood donation drives, and scholarships.",
+                    id: "sf3",
+                },
+                {
+                    title: "Trilingual Cultural Dictionaries",
+                    description: "Seamless switching between English, standard Nepali, and authentic Nepal Bhasa (Newari).",
+                    id: "sf4",
+                },
+            ],
+            benefits: [
+                {
+                    benefit: "Allows volunteers to issue verifiable financial receipts inside Patan courtyards without internet access.",
+                    id: "sb1",
+                },
+                {
+                    benefit: "Preserves tangible and intangible Newari cultural heritage while modernizing community administration.",
+                    id: "sb2",
+                },
+            ],
+            techStack: [
+                { tech: "Next.js 15", id: "st1" },
+                { tech: "Payload CMS 3.75", id: "st2" },
+                { tech: "IndexedDB", id: "st3" },
+                { tech: "React 19", id: "st4" },
+                { tech: "PostgreSQL", id: "st5" },
+            ],
+        };
+    }
+
+    if (p.slug === "afno-events" || p.slug === "afno") {
+        return {
+            ...p,
+            title: "Afno Events — Ticketing, Mobile App & Marketing Platform",
+            description:
+                "Comprehensive event ticketing and marketing platform connecting the Nepalese diaspora across Britain. Integrates Next.js 15 web discovery, a Flutter cross-platform mobile app, Stripe multi-tier checkout, dynamic HMAC QR tickets, real-time gate scanner, and multi-tenant promoter dashboards.",
+            links: {
+                ...p.links,
+                liveUrl: "https://afnoevents.co.uk",
+            },
+            metrics: [
+                { value: "8+ Cities", label: "UK diaspora reach", id: "a1" },
+                { value: "0% Fee", label: "Promoter listing tier", id: "a2" },
+                { value: "< 1s", label: "Door QR check-in", id: "a3" },
+            ],
+            features: [
+                {
+                    title: "Cross-Platform Web & Mobile App",
+                    description: "Next.js 15 web catalog with spotlight marquee and Flutter mobile app with FCM push notifications.",
+                    id: "af1",
+                },
+                {
+                    title: "Stripe Ticketing & Instant QR Delivery",
+                    description: "Secure multi-tier checkout with automated Resend transactional email and PDF tickets.",
+                    id: "af2",
+                },
+                {
+                    title: "Real-time Door Scanner",
+                    description: "PWA/mobile barcode & QR code validator for venue staff with offline validation tolerance.",
+                    id: "af3",
+                },
+                {
+                    title: "Promoter Studio & Marketing Engine",
+                    description: "Self-service multi-tenant portal for organizers with sales analytics, attendee tracking, and newsletter blasts.",
+                    id: "af4",
+                },
+            ],
+            benefits: [
+                {
+                    benefit: "Unifies arena concerts (OVO Wembley), cultural festivals (Teej), and boat parties on a verified platform.",
+                    id: "ab1",
+                },
+                {
+                    benefit: "Empowers promoters with self-serve onboarding, real-time sales visibility, and instant door validation.",
+                    id: "ab2",
+                },
+            ],
+            techStack: [
+                { tech: "Next.js 15", id: "at1" },
+                { tech: "Flutter", id: "at2" },
+                { tech: "Payload CMS 3", id: "at3" },
+                { tech: "Stripe Connect", id: "at4" },
+                { tech: "FCM Push", id: "at5" },
+                { tech: "Tailwind CSS", id: "at6" },
+            ],
+        };
+    }
+
+    return p;
+}
+
 export async function getProjects(): Promise<Project[]> {
     try {
         const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
@@ -161,9 +280,9 @@ export async function getProjects(): Promise<Project[]> {
         }
 
         const data: Project[] = await res.json();
-        const filtered = data.filter(
-            (p) => p.slug && !EXCLUDED_PROJECT_SLUGS.includes(p.slug)
-        );
+        const filtered = data
+            .filter((p) => p.slug && !EXCLUDED_PROJECT_SLUGS.includes(p.slug))
+            .map(enrichProject);
 
         // Ensure Hermes is featured in projects list if not present in remote DB
         if (!filtered.some((p) => p.slug === "hermes")) {
@@ -194,7 +313,8 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
             return undefined;
         }
 
-        return res.json();
+        const project: Project = await res.json();
+        return enrichProject(project);
     } catch {
         return undefined;
     }

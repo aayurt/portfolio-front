@@ -1,4 +1,5 @@
 import { RichText, ScrollToHash } from "@/components";
+import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
@@ -185,18 +186,37 @@ export default async function Project({
         </Column>
       )}
 
+      {(project.slug === "afno-events" || project.slug === "afno") && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              Multi-Platform Ecosystem & Real-Time Ticketing Pipeline
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Interactive Ticketing & Gate Simulator</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Explore the end-to-end event lifecycle across Next.js 15 web discovery, Flutter mobile app, Stripe multi-tier checkout, HMAC QR issuance, and sub-second organizer door validation.
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <AfnoPipeline />
+          </div>
+        </Column>
+      )}
+
       {project.slug === "syasyah-samaj" && (
         <Column fillWidth gap="12" marginY="16">
           <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
             <Heading as="h2" variant="heading-strong-l">
-              Offline-First Architecture & Trilingual Data Flow
+              Civic Governance, 10 Ilakas & Offline-First Accounting
             </Heading>
             <Tag variant="brand" radius="m">
-              <Text variant="label-strong-s">Interactive Systems Architecture</Text>
+              <Text variant="label-strong-s">Civic & Systems Architecture</Text>
             </Tag>
           </Row>
           <Text variant="body-default-m" onBackground="neutral-weak">
-            Inspect the client-side IndexedDB caching layer, optimistic mutation pipeline, and trilingual translation dictionaries.
+            Inspect the 10 territorial Ilakas across Patan/Yala, community welfare & Guthi records, and the client-side IndexedDB caching layer with trilingual localization.
           </Text>
           <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
             <SyasyahPipeline />

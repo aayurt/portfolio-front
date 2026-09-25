@@ -1,5 +1,6 @@
 import { Mailchimp } from "@/components";
 import { PostCarousel } from "@/components/blog/PostCarousel";
+import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
@@ -48,8 +49,8 @@ export default async function Home() {
     ),
   ]);
 
-  // Priority order for products: Hermes, Syasyah Samaj, Astro Guru first
-  const prioritySlugs = ["hermes", "syasyah-samaj", "astro-guru"];
+  // Priority order for products: Hermes, Afno Events, Syasyah Samaj, Astro Guru first
+  const prioritySlugs = ["hermes", "afno-events", "syasyah-samaj", "astro-guru"];
 
   const sortedProjects = [...projects].sort((a, b) => {
     const idxA = prioritySlugs.indexOf(a.slug || "");
@@ -64,6 +65,8 @@ export default async function Home() {
     let pipeline: React.ReactNode | undefined = undefined;
     if (project.slug === "hermes") {
       pipeline = <HermesPipeline />;
+    } else if (project.slug === "afno-events" || project.slug === "afno") {
+      pipeline = <AfnoPipeline />;
     } else if (project.slug === "syasyah-samaj") {
       pipeline = <SyasyahPipeline />;
     } else if (project.slug === "astro-guru") {
