@@ -1,4 +1,7 @@
 import { RichText, ScrollToHash } from "@/components";
+import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
+import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, work } from "@/resources";
 import { getImageUrl, getProjectBySlug, getProjects, getTenantBySlug } from "@/utils/payload";
@@ -160,6 +163,64 @@ export default async function Project({
           )}
         </Row>
       )}
+      {/* Interactive System Pipeline / Simulator Showcase */}
+      {project.slug === "hermes" && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              System Architecture & Agentic DAG Simulation
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Live Interactive Simulator</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Interactive multi-agent execution pipeline. Click nodes to inspect runtime responsibilities, or trigger simulation to observe parallel worker dispatch and verification self-healing loops.
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <HermesPipeline />
+          </div>
+        </Column>
+      )}
+
+      {project.slug === "syasyah-samaj" && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              Offline-First Architecture & Trilingual Data Flow
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Interactive Systems Architecture</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Inspect the client-side IndexedDB caching layer, optimistic mutation pipeline, and trilingual translation dictionaries.
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <SyasyahPipeline />
+          </div>
+        </Column>
+      )}
+
+      {project.slug === "astro-guru" && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              Vedic Ephemeris & LLM Reasoning Simulator
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Interactive Query Simulator</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Explore the dynamic celestial calculation engine, house aspect mapping, and LLM astrological reasoning prompt pipeline.
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <AstroPipeline />
+          </div>
+        </Column>
+      )}
+
       {imageUrl && (
         <Media priority aspectRatio="16 / 9" radius="m" alt={project.title} src={imageUrl} />
       )}

@@ -1,3 +1,6 @@
+import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
+import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
 import type { ProductCardData } from "@/components/work/ProductSlide";
 import { about, baseURL, person } from "@/resources";
@@ -25,6 +28,14 @@ export default async function Work() {
   const projectCards: ProductCardData[] = projects.map((project) => ({
     title: project.title,
     image: project.images?.[0] ? getImageUrl(project.images[0]) : undefined,
+    pipeline:
+      project.slug === "hermes" ? (
+        <HermesPipeline />
+      ) : project.slug === "syasyah-samaj" ? (
+        <SyasyahPipeline />
+      ) : project.slug === "astro-guru" ? (
+        <AstroPipeline />
+      ) : undefined,
     subtitle: project.role || project.client || undefined,
     shortDescription: project.description || undefined,
     metrics: project.metrics || undefined,
