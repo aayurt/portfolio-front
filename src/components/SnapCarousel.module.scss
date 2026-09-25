@@ -16,14 +16,16 @@
 }
 
 .card {
-    flex: 0 0 calc((100% - 64px) / 2);
+    flex: 0 0 calc((100% - 32px) / 2.15);
     scroll-snap-align: start;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: breakpoints.$s) {
     .card {
-        flex-basis: 82%;
+        flex-basis: 88%;
     }
 }
 

@@ -122,15 +122,15 @@ export default async function Home() {
       {/* Hero Section */}
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
-          <PatienceImage width="12rem" height="12rem" />
+          <PatienceImage width="10rem" height="10rem" />
           <RevealFx
             translateY="4"
             fillWidth
             horizontal="center"
-            paddingBottom="16"
+            paddingBottom="12"
           >
-            <Heading wrap="balance" variant="display-strong-l">
-              {data?.intro?.intro}
+            <Heading wrap="balance" variant="display-strong-l" align="center">
+              {data?.intro?.intro || "I build things that matter"}
             </Heading>
           </RevealFx>
           <RevealFx
@@ -138,14 +138,16 @@ export default async function Home() {
             delay={0.2}
             fillWidth
             horizontal="center"
-            paddingBottom="32"
+            paddingBottom="24"
           >
             <Text
               wrap="balance"
               onBackground="neutral-weak"
               variant="heading-default-xl"
+              align="center"
             >
-              {data?.intro?.introDescription}
+              {data?.intro?.introDescription ||
+                "Full-Stack Engineer & Systems Builder specializing in autonomous agent infrastructure, offline-first platforms, and high-performance applications."}
             </Text>
           </RevealFx>
           <RevealFx

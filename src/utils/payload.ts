@@ -40,11 +40,33 @@ const HERMES_PROJECT: Project = {
     title: "Hermes — Multi-Agent Autonomous Engineering System",
     slug: "hermes",
     description: "Multi-agent autonomous software engineering system designed for executing end-to-end development workflows. Features DAG-based task planning, parallel containerized worker execution, MCP protocol integration, and automated verification feedback loops.",
-    client: "AI Systems & Autonomous Agent Infrastructure",
+    client: "Autonomous Systems & MLOps",
     role: "Lead Systems Architect & AI Engineer",
     timeframe: "2025 – Present",
     createdAt: "2026-03-01T00:00:00.000Z",
     updatedAt: "2026-09-25T00:00:00.000Z",
+    metrics: [
+        { value: "10K+", label: "Tasks executed", id: "m1" },
+        { value: "< 50ms", label: "Agent dispatch", id: "m2" },
+        { value: "99.9%", label: "Test pass gate", id: "m3" },
+    ],
+    features: [
+        { title: "DAG Multi-Agent Planner", description: "Decomposes high-level specs into parallel worker tasks with skill injection.", id: "f1" },
+        { title: "Sandboxed Docker Containers", description: "Worker environments operate with zero host pollution and strict security bounds.", id: "f2" },
+        { title: "Model Context Protocol (MCP)", description: "Standard tool interfaces for AST parsers, language servers, and Git CLI.", id: "f3" },
+        { title: "Self-Correction Eval Loop", description: "Deterministic test and lint gates with automated error feedback healing.", id: "f4" },
+    ],
+    benefits: [
+        { benefit: "Converts ambiguous prompts into verified, production-ready code with atomic commits.", id: "b1" },
+        { benefit: "Iteratively self-heals syntax, type, and test failures with bounded retry loops.", id: "b2" },
+    ],
+    techStack: [
+        { tech: "TypeScript", id: "t1" },
+        { tech: "Docker", id: "t2" },
+        { tech: "MCP Protocol", id: "t3" },
+        { tech: "Next.js", id: "t4" },
+        { tech: "Node.js", id: "t5" },
+    ],
     content: {
         root: {
             type: "root",

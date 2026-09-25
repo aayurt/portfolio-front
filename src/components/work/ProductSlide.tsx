@@ -45,6 +45,10 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
         borderRadius: "16px",
         border: "1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.25))",
         background: "var(--neutral-background-weak, rgba(128, 128, 128, 0.04))",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
     >
       {/* Top Visual Showcase: Pipeline or Image with view mode toggle */}
@@ -212,7 +216,7 @@ export const ProductSlide: React.FC<{ data: ProductCardData }> = ({ data }) => {
       )}
 
       {(data.links?.liveUrl || data.links?.repoUrl || data.href) && (
-        <Row gap="16" wrap>
+        <Row gap="16" wrap style={{ marginTop: "auto", paddingTop: "16px" }}>
           {data.links?.liveUrl && (
             <SmartLink
               suffixIcon="arrowUpRightFromSquare"
