@@ -1,6 +1,7 @@
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
 import type { ProductCardData } from "@/components/work/ProductSlide";
@@ -38,6 +39,8 @@ export default async function Work() {
         <SyasyahPipeline />
       ) : project.slug === "astro-guru" ? (
         <AstroPipeline />
+      ) : project.slug === "nepse-analyser" ? (
+        <NepsePipeline />
       ) : undefined,
     subtitle: project.role || project.client || undefined,
     shortDescription: project.description || undefined,

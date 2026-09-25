@@ -266,6 +266,120 @@ function enrichProject(p: Project): Project {
         };
     }
 
+    if (p.slug === "nepse-analyser") {
+        return {
+            ...p,
+            title: "Nepse Pro — Market Scraper, Quantitative ETL & AI Signals",
+            description:
+                "Automated quantitative Nepal Stock Exchange (NEPSE) market intelligence pipeline and web terminal. Scrapes daily floor-sheets via n8n workflows, computes technical indicators (EMA, RSI, MACD), and leverages Gemini & Ollama for buy/accumulate/hold signals.",
+            links: {
+                ...p.links,
+                liveUrl: "https://nepse.ratosuryaonline.com",
+            },
+            metrics: [
+                { value: "Daily", label: "Automated Floor Scraper", id: "n1" },
+                { value: "Buy · Hold · Sell", label: "AI Quantitative Signals", id: "n2" },
+                { value: "Gemini + Ollama", label: "Dual Reasoning Engines", id: "n3" },
+            ],
+            features: [
+                {
+                    title: "Automated Floor-Sheet Scraping",
+                    description: "Autonomous n8n workflows scraping closing prices, broker activity, and floor-sheet turnover.",
+                    id: "nf1",
+                },
+                {
+                    title: "Technical Indicator Computation",
+                    description: "Real-time computation of 20/50/200 Day EMAs, RSI momentum, and MACD divergence levels.",
+                    id: "nf2",
+                },
+                {
+                    title: "AI-Driven Quantitative Signals",
+                    description: "Multi-model synthesis utilizing Google Gemini and local Ollama for actionable market conviction.",
+                    id: "nf3",
+                },
+                {
+                    title: "Nepse Pro Web Terminal",
+                    description: "Interactive financial dashboard featuring real-time charts, sector heatmaps, and ticker screeners.",
+                    id: "nf4",
+                },
+            ],
+            benefits: [
+                {
+                    benefit: "Eliminates manual market tracking with autonomous end-of-day data ingestion and normalization.",
+                    id: "nb1",
+                },
+                {
+                    benefit: "Bridges institutional-grade quantitative indicators with transparent LLM market analysis.",
+                    id: "nb2",
+                },
+            ],
+            techStack: [
+                { tech: "n8n", id: "nt1" },
+                { tech: "Google Gemini", id: "nt2" },
+                { tech: "Ollama", id: "nt3" },
+                { tech: "React 19", id: "nt4" },
+                { tech: "Tailwind CSS", id: "nt5" },
+            ],
+        };
+    }
+
+    if (p.slug === "astro-guru") {
+        return {
+            ...p,
+            title: "Astro Guru — Vedic Ephemeris & AI Chart Reasoning",
+            description:
+                "Personalized Vedic astrology and celestial calculation platform. Computes high-precision natal charts, planetary house coordinates, and aspect profiles, paired with an interactive AI reasoning assistant answering career, relationship, and transit questions.",
+            links: {
+                ...p.links,
+                liveUrl: "https://astro.ratosuryaonline.com",
+            },
+            metrics: [
+                { value: "Instant", label: "Vedic Natal Charts", id: "ag1" },
+                { value: "AI Reasoning", label: "Interactive Chart Guide", id: "ag2" },
+                { value: "12 Houses", label: "Aspect Calculation", id: "ag3" },
+            ],
+            features: [
+                {
+                    title: "High-Precision Natal Chart Engine",
+                    description: "Calculates rising signs, planetary degrees, and house placements directly from birth time and coordinates.",
+                    id: "agf1",
+                },
+                {
+                    title: "Vedic Ephemeris Calculations",
+                    description: "Tracks planetary transits, retrogrades, and Dasha cycles according to sidereal astrological rules.",
+                    id: "agf2",
+                },
+                {
+                    title: "Interactive AI Cosmic Assistant",
+                    description: "Contextual LLM query engine synthesizing personalized life guidance grounded in individual chart placements.",
+                    id: "agf3",
+                },
+                {
+                    title: "Human-Friendly Astrological Insights",
+                    description: "Demystifies intricate planetary aspects into intuitive, empowering interpretations.",
+                    id: "agf4",
+                },
+            ],
+            benefits: [
+                {
+                    benefit: "Provides mathematical ephemeris precision coupled with empathetic, conversational life guidance.",
+                    id: "agb1",
+                },
+                {
+                    benefit: "Accessible on mobile and web with instant chart generation and interactive chat interface.",
+                    id: "agb2",
+                },
+            ],
+            techStack: [
+                { tech: "Next.js", id: "agt1" },
+                { tech: "Swiss Ephemeris / Astrolabe", id: "agt2" },
+                { tech: "LLM Reasoning", id: "agt3" },
+                { tech: "React", id: "agt4" },
+                { tech: "Tailwind CSS", id: "agt5" },
+            ],
+        };
+    }
+
     return p;
 }
 

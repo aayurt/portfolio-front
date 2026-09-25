@@ -3,6 +3,7 @@ import { PostCarousel } from "@/components/blog/PostCarousel";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import PatienceImage from "@/components/patienceImage";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
@@ -49,8 +50,8 @@ export default async function Home() {
     ),
   ]);
 
-  // Priority order for products: Hermes, Afno Events, Syasyah Samaj, Astro Guru first
-  const prioritySlugs = ["hermes", "afno-events", "syasyah-samaj", "astro-guru"];
+  // Priority order for products: Hermes, Afno Events, Syasyah Samaj, Astro Guru, Nepse Pro
+  const prioritySlugs = ["hermes", "afno-events", "syasyah-samaj", "astro-guru", "nepse-analyser"];
 
   const sortedProjects = [...projects].sort((a, b) => {
     const idxA = prioritySlugs.indexOf(a.slug || "");
@@ -71,6 +72,8 @@ export default async function Home() {
       pipeline = <SyasyahPipeline />;
     } else if (project.slug === "astro-guru") {
       pipeline = <AstroPipeline />;
+    } else if (project.slug === "nepse-analyser") {
+      pipeline = <NepsePipeline />;
     }
 
     return {

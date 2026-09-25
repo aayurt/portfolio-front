@@ -2,6 +2,7 @@ import { RichText, ScrollToHash } from "@/components";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
+import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, work } from "@/resources";
@@ -235,10 +236,29 @@ export default async function Project({
             </Tag>
           </Row>
           <Text variant="body-default-m" onBackground="neutral-weak">
-            Explore the dynamic celestial calculation engine, house aspect mapping, and LLM astrological reasoning prompt pipeline.
+            Explore the dynamic celestial calculation engine, house aspect mapping, and LLM astrological reasoning prompt pipeline. Live web app: <a href="https://astro.ratosuryaonline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--brand-on-background-strong, #a855f7)", textDecoration: "underline" }}>astro.ratosuryaonline.com</a>
           </Text>
           <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
             <AstroPipeline />
+          </div>
+        </Column>
+      )}
+
+      {project.slug === "nepse-analyser" && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              Nepse Pro Quantitative Pipeline & Financial AI
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Automated Ingestion & Signals</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Inspect the autonomous n8n floor-sheet scraper, technical indicator computation (EMA/MACD/RSI), and multi-model financial AI engine. Live platform: <a href="https://nepse.ratosuryaonline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--brand-on-background-strong, #10b981)", textDecoration: "underline" }}>nepse.ratosuryaonline.com</a>
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <NepsePipeline />
           </div>
         </Column>
       )}

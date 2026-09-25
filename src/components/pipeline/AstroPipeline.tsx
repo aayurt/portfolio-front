@@ -82,31 +82,46 @@ export function AstroPipeline() {
           </span>
         </div>
 
-        {/* Query Switcher Pills */}
-        <div style={{ display: "flex", gap: "6px" }}>
-          {QUERIES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIdx(i)}
-              style={{
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                fontSize: "10px",
-                fontWeight: 700,
-                border: "none",
-                background:
-                  activeIdx === i
-                    ? "#a855f7"
-                    : "var(--neutral-background-medium, rgba(128, 128, 128, 0.12))",
-                color: activeIdx === i ? "#fff" : "var(--neutral-on-background-weak, #888)",
-                cursor: "pointer",
-                transition: "all 0.15s ease",
-              }}
-            >
-              {i + 1}
-            </button>
-          ))}
+        {/* Header link & Query Switcher Pills */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <a
+            href="https://astro.ratosuryaonline.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "10.5px",
+              color: "#a855f7",
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            astro.ratosuryaonline.com ↗
+          </a>
+          <div style={{ display: "flex", gap: "6px" }}>
+            {QUERIES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIdx(i)}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  border: "none",
+                  background:
+                    activeIdx === i
+                      ? "#a855f7"
+                      : "var(--neutral-background-medium, rgba(128, 128, 128, 0.12))",
+                  color: activeIdx === i ? "#fff" : "var(--neutral-on-background-weak, #888)",
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
