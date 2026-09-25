@@ -102,7 +102,9 @@ export default async function Project({
         </SmartLink>
         {project.timeframe && (
           <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
-            {new Date(project.timeframe).toLocaleString("en-us", { month: "long", year: "numeric" })}
+            {!isNaN(Date.parse(project.timeframe))
+              ? new Date(project.timeframe).toLocaleString("en-us", { month: "long", year: "numeric" })
+              : project.timeframe}
           </Text>
         )}
         <Heading variant="display-strong-m">{project.title}</Heading>
