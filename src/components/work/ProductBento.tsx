@@ -165,7 +165,7 @@ const BENTO_ITEMS: BentoItem[] = [
       </div>
     ),
     specsLeft: "Inquiry: AST Gates · Offline Engines · Edge SSR",
-    specsRight: "Focus: Kathmandu (UTC+5:45) · Open to PhD & Staff Roles",
+    specsRight: "Focus: Kathmandu (UTC+5:45) · Open to Work",
     footerTagline: "Bridging academic rigor with high-performance production systems.",
     caseStudyHref: "/about",
   },

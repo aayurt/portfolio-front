@@ -79,7 +79,7 @@ export default async function About() {
 
             <div className={styles.statusPill}>
               <span className={styles.statusDot}></span>
-              <span>Open to Staff & PhD Roles</span>
+              <span>Open to Work</span>
             </div>
 
             <div className={styles.sidebarActions}>
