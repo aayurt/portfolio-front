@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 05: Interactive Solution Workbench & 3-Column Dispatches</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #5e5e67;
+      --text-sub: #878792;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 64px; }
+    .header-block { text-align: center; display: flex; flex-direction: column; gap: 8px; }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      background: var(--border-light);
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
+    .lead { font-size: 15px; color: var(--text-muted); max-width: 580px; margin: 0 auto; }
+
+    /* WORKBENCH SOLUTIONS */
+    .workbench {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    @media (max-width: 860px) { .workbench { grid-template-columns: 1fr; } }
+    .nav-column {
+      border-right: 1px solid var(--card-border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #f4f4f7;
+    }
+    @media (max-width: 860px) { .nav-column { border-right: none; border-bottom: 1px solid var(--card-border); } }
+    .nav-item {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.15s ease;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    .nav-item:hover { background: #eaebee; }
+    .nav-item.active {
+      background: var(--bg);
+      border-color: var(--card-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .nav-num { font-family: var(--mono); font-size: 10px; color: var(--text-sub); }
+    .nav-title { font-size: 14px; font-weight: 700; color: var(--text-main); }
+    
+    .display-column {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+      background: var(--bg);
+    }
+    .display-header { display: flex; flex-direction: column; gap: 8px; }
+    .display-badge { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-sub); }
+    .display-title { font-size: 22px; font-weight: 700; color: var(--text-main); }
+    .display-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+    .arch-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+    @media (max-width: 600px) { .arch-strip { grid-template-columns: 1fr; } }
+    .arch-cell { display: flex; flex-direction: column; gap: 4px; }
+    .arch-label { font-family: var(--mono); font-size: 11px; color: var(--text-sub); }
+    .arch-value { font-size: 13px; font-weight: 600; font-family: var(--mono); }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .feature-bullet { font-family: var(--mono); font-weight: 700; color: var(--text-main); }
+
+    /* BLOG SECTION: 3-COLUMN DISPATCHES */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 860px) { .blog-grid { grid-template-columns: 1fr; } }
+    .blog-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .blog-card:hover { border-color: #888; }
+    .blog-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-family: var(--mono); color: var(--text-sub); }
+    .blog-tag { background: #e8e8ed; padding: 2px 6px; border-radius: 4px; font-weight: 600; color: #333; }
+    .blog-title { font-size: 16px; font-weight: 700; line-height: 1.35; color: var(--text-main); }
+    .blog-snippet { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+    .blog-footer { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- SOLUTIONS SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Workbench Console</span>
+        <h2>Engineering Solutions</h2>
+        <p class="lead">Interactive breakdown of core architectural specializations and enterprise-grade deliverables.</p>
+      </div>
+
+      <div class="workbench">
+        <div class="nav-column">
+          <div class="nav-item active" onclick="switchSolution(0, this)">
+            <span class="nav-num">SOLUTION 01</span>
+            <span class="nav-title">Multi-Tenant SaaS</span>
+          </div>
+          <div class="nav-item" onclick="switchSolution(1, this)">
+            <span class="nav-num">SOLUTION 02</span>
+            <span class="nav-title">AI & Automation Pipelines</span>
+          </div>
+          <div class="nav-item" onclick="switchSolution(2, this)">
+            <span class="nav-num">SOLUTION 03</span>
+            <span class="nav-title">Cross-Platform Mobile</span>
+          </div>
+        </div>
+
+        <div class="display-column" id="workbench-display">
+          <div class="display-header">
+            <span class="display-badge" id="wb-badge">Product Engineering · Cloud Architecture</span>
+            <h3 class="display-title" id="wb-title">Multi-Tenant SaaS Platforms</h3>
+            <p class="display-desc" id="wb-desc">
+              Design and build multi-tenant platforms where each tenant receives an isolated workspace, dynamic custom domain support, and hierarchical role-based permissions under one scalable Next.js monorepo.
+            </p>
+          </div>
+
+          <div class="arch-strip" id="wb-strip">
+            <div class="arch-cell">
+              <span class="arch-label">TENANT ISOLATION</span>
+              <span class="arch-value">Postgres Schema</span>
+            </div>
+            <div class="arch-cell">
+              <span class="arch-label">EDGE ROUTER</span>
+              <span class="arch-value">&lt; 15ms Rewrite</span>
+            </div>
+            <div class="arch-cell">
+              <span class="arch-label">DATABASE</span>
+              <span class="arch-value">Payload CMS 3.75</span>
+            </div>
+          </div>
+
+          <div class="feature-list" id="wb-features">
+            <div class="feature-item"><span class="feature-bullet">[+]</span> <span>Per-tenant isolated data partitions with row-level security barriers.</span></div>
+            <div class="feature-item"><span class="feature-bullet">[+]</span> <span>Automated custom domain provisioning with Let's Encrypt SSL automation.</span></div>
+            <div class="feature-item"><span class="feature-bullet">[+]</span> <span>Shared Next.js 15 standalone build serving infinite independent tenant brands.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Recent Dispatches</span>
+        <h2>Technical Writing</h2>
+        <p class="lead">Thoughts on software architecture, agentic workflows, fintech pipelines, and deployment systems.</p>
+      </div>
+
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-tag">AI RESEARCH</span>
+            <span>SEP 2026</span>
+          </div>
+          <h3 class="blog-title">Autonomy in the Clinic: The Research Frontier of Agentic AI</h3>
+          <p class="blog-snippet">Examining closed-loop multi-agent evaluation gates and safety thresholds in mission-critical environments.</p>
+          <div class="blog-footer">Read Dispatch →</div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-tag">FINTECH & ETL</span>
+            <span>AUG 2026</span>
+          </div>
+          <h3 class="blog-title">Building a NEPSE Financial Analyzer with n8n & Local Ollama</h3>
+          <p class="blog-snippet">Scraping equity floor-sheets daily and piping technical indicators to local LLMs for signal extraction.</p>
+          <div class="blog-footer">Read Dispatch →</div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-tag">DEVOPS & VPS</span>
+            <span>JUL 2026</span>
+          </div>
+          <h3 class="blog-title">Server Deployment: Standalone Next.js, Nginx & PM2</h3>
+          <p class="blog-snippet">Zero-downtime production deployment pipelines using standalone build symlinks and systemd process management.</p>
+          <div class="blog-footer">Read Dispatch →</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const solutions = [
+      {
+        badge: "Product Engineering · Cloud Architecture",
+        title: "Multi-Tenant SaaS Platforms",
+        desc: "Design and build multi-tenant platforms where each tenant receives an isolated workspace, dynamic custom domain support, and hierarchical role-based permissions under one scalable Next.js monorepo.",
+        strip: [
+          ["TENANT ISOLATION", "Postgres Schema"],
+          ["EDGE ROUTER", "< 15ms Rewrite"],
+          ["DATABASE", "Payload CMS 3.75"]
+        ],
+        features: [
+          "Per-tenant isolated data partitions with row-level security barriers.",
+          "Automated custom domain provisioning with Let's Encrypt SSL automation.",
+          "Shared Next.js 15 standalone build serving infinite independent tenant brands."
+        ]
+      },
+      {
+        badge: "AI/ML Engineering · Pipeline Automation",
+        title: "AI & Automation Pipelines",
+        desc: "Automate complex data collection, timeseries transformations, and local/remote LLM reasoning workflows with deterministic execution gates.",
+        strip: [
+          ["DATA INGESTION", "n8n Scheduled Daemons"],
+          ["MODELS", "Gemini 1.5 + Ollama Local"],
+          ["OUTPUT FORMAT", "Normalized Timescale JSON"]
+        ],
+        features: [
+          "Scheduled floor scraping with automatic retry and rate-limiting safeguards.",
+          "Cost-optimized hybrid inference: fast local models for filtering, cloud APIs for deep reasoning.",
+          "Real-time webhook dispatches to Telegram, Slack, and web dashboard terminals."
+        ]
+      },
+      {
+        badge: "Mobile Engineering · Hybrid Architecture",
+        title: "Cross-Platform Mobile Development",
+        desc: "Build and publish production iOS, Android, and web apps from a unified Flutter codebase with sub-second camera scanner performance.",
+        strip: [
+          ["FRAMEWORK", "Flutter 3 + Dart"],
+          ["SCAN SPEED", "< 0.8s Camera HMAC QR"],
+          ["OFFLINE RESILIENCE", "SQLite Local Sync"]
+        ],
+        features: [
+          "Single unified UI codebase reducing engineering maintenance by 60%.",
+          "High-speed HMAC QR door scanner with offline ticket validation and fraud prevention.",
+          "Stripe Connect and native hardware payment integrations for point-of-sale checkout."
+        ]
+      }
+    ];
+
+    function switchSolution(idx, el) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      const s = solutions[idx];
+      document.getElementById('wb-badge').innerText = s.badge;
+      document.getElementById('wb-title').innerText = s.title;
+      document.getElementById('wb-desc').innerText = s.desc;
+      document.getElementById('wb-strip').innerHTML = s.strip.map(item => `
+        <div class="arch-cell">
+          <span class="arch-label">${item[0]}</span>
+          <span class="arch-value">${item[1]}</span>
+        </div>
+      `).join('');
+      document.getElementById('wb-features').innerHTML = s.features.map(f => `
+        <div class="feature-item"><span class="feature-bullet">[+]</span> <span>${f}</span></div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

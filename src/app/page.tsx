@@ -1,5 +1,4 @@
-import { Mailchimp, ProductBento } from "@/components";
-import { PostCarousel } from "@/components/blog/PostCarousel";
+import { Mailchimp, ProductBento, ResearchFeed, SolutionsRails } from "@/components";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
@@ -219,11 +218,11 @@ export default async function Home() {
         <ProductBento />
       </Column>
 
-      {/* Solutions Section */}
-      <Column fillWidth gap="xl">
+      {/* Solutions Section — Pattern-to-Architecture Rails */}
+      <Column fillWidth gap="l">
         <Column fillWidth gap="s">
           <Heading variant="heading-strong-xl" align="center">
-            Solutions
+            Engineering Solutions & Patterns
           </Heading>
           <Text
             variant="body-default-m"
@@ -231,23 +230,10 @@ export default async function Home() {
             align="center"
             wrap="balance"
           >
-            How I apply those products — capabilities and services.
+            From architectural bottlenecks to hardened production topologies — patterns applied across my systems.
           </Text>
         </Column>
-        {solutionCards.length > 0 ? (
-          <ProductCarousel
-            items={solutionCards}
-            ariaLabel="Solutions carousel"
-          />
-        ) : (
-          <Text
-            variant="body-default-m"
-            onBackground="neutral-weak"
-            align="center"
-          >
-            Solutions coming soon.
-          </Text>
-        )}
+        <SolutionsRails solutions={solutions} />
       </Column>
 
       {/* Research & Publications Section (PhD & Academic Careers) */}
@@ -329,12 +315,12 @@ export default async function Home() {
         </Column>
       )}
 
-      {/* Blog Section */}
+      {/* Blog & Publications Section — Scholarly Research Feed */}
       {routes["/blog"] && posts.length > 0 && (
-        <Column fillWidth gap="xl">
+        <Column fillWidth gap="l">
           <Column fillWidth gap="s">
             <Heading variant="heading-strong-xl" align="center">
-              Latest from the blog
+              Publications & Engineering Dispatches
             </Heading>
             <Text
               variant="body-default-m"
@@ -342,10 +328,10 @@ export default async function Home() {
               align="center"
               wrap="balance"
             >
-              Writing on software engineering, AI, and what I am building.
+              Research papers, architectural retrospectives, and technical guides.
             </Text>
           </Column>
-          <PostCarousel posts={posts} tenant={data} />
+          <ResearchFeed posts={posts} tenant={data} />
         </Column>
       )}
 

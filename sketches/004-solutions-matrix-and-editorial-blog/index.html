@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 04: Capabilities Matrix & Editorial Ledger</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #5e5e67;
+      --text-sub: #878792;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 64px; }
+    .header-block { text-align: center; display: flex; flex-direction: column; gap: 8px; }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      background: var(--border-light);
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
+    .lead { font-size: 15px; color: var(--text-muted); max-width: 580px; margin: 0 auto; }
+
+    /* SOLUTIONS SECTION: CAPABILITIES MATRIX */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 14px;
+    }
+    .segmented-control {
+      display: inline-flex;
+      background: var(--border-light);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      gap: 2px;
+    }
+    .seg-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .seg-btn.active {
+      background: var(--bg);
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) { .matrix-grid { grid-template-columns: 1fr; } }
+    .matrix-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      transition: border-color 0.15s ease;
+    }
+    .matrix-card:hover { border-color: #999; }
+    .card-top { display: flex; flex-direction: column; gap: 8px; }
+    .card-meta { display: flex; justify-content: space-between; align-items: center; }
+    .card-num { font-family: var(--mono); font-size: 11px; color: var(--text-sub); }
+    .card-cat { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; background: #e8e8ed; padding: 2px 6px; border-radius: 4px; }
+    .card-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+    .card-summary { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+    
+    .dynamic-spec {
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .spec-item { display: flex; justify-content: space-between; font-size: 12px; }
+    .spec-key { color: var(--text-sub); font-family: var(--mono); }
+    .spec-val { font-weight: 600; color: var(--text-main); font-family: var(--mono); }
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-family: var(--mono); font-size: 11px; background: #e8e8ed; padding: 3px 7px; border-radius: 4px; color: #444; }
+
+    /* BLOG SECTION: EDITORIAL LEDGER */
+    .blog-ledger {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 860px) { .blog-ledger { grid-template-columns: 1fr; } }
+    
+    .featured-article {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .featured-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #111;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .featured-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #111; }
+    .featured-title { font-size: 22px; font-weight: 700; line-height: 1.3; }
+    .featured-snippet { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+    .featured-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--card-border);
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--text-sub);
+    }
+    .read-link { color: var(--text-main); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .read-link:hover { text-decoration: underline; }
+
+    .articles-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sidebar-article {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .sidebar-article:hover { background: var(--card-bg); border-color: #999; }
+    .side-meta { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--mono); color: var(--text-sub); }
+    .side-title { font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--text-main); }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- SOLUTIONS SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Systems Architecture & Services</span>
+        <h2>Engineering Solutions</h2>
+        <p class="lead">How I apply full-stack architectures and autonomous workflows to client and enterprise problems.</p>
+      </div>
+
+      <div class="controls-row">
+        <span style="font-size: 13px; font-family: var(--mono); color: var(--text-muted);">VIEW SPECIFICATION:</span>
+        <div class="segmented-control">
+          <button class="seg-btn active" onclick="setMode('deliverables', this)">Architectural Deliverables</button>
+          <button class="seg-btn" onclick="setMode('topology', this)">Deployment Topology</button>
+        </div>
+      </div>
+
+      <div class="matrix-grid" style="margin-top: 20px;">
+        <!-- Card 1 -->
+        <div class="matrix-card">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-num">01 / CAPABILITY</span>
+              <span class="card-cat">Product Engineering</span>
+            </div>
+            <h3 class="card-title">Multi-Tenant SaaS Platforms</h3>
+            <p class="card-summary">Architecting isolated tenant databases, dynamic domain routing, and role-based ACLs under a single consolidated codebase.</p>
+          </div>
+          <div class="dynamic-spec" id="spec-1">
+            <div class="spec-item"><span class="spec-key">Isolation</span><span class="spec-val">Schema-Level Postgres</span></div>
+            <div class="spec-item"><span class="spec-key">Routing</span><span class="spec-val">Next.js Edge Middleware</span></div>
+            <div class="spec-item"><span class="spec-key">Permission</span><span class="spec-val">Tenant / Admin RBAC</span></div>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Payload CMS 3</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="matrix-card">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-num">02 / CAPABILITY</span>
+              <span class="card-cat">AI/ML Engineering</span>
+            </div>
+            <h3 class="card-title">AI & Automation Pipelines</h3>
+            <p class="card-summary">Scheduled scraping daemons, local and remote LLM reasoning engines (Gemini & Ollama), and structured timeseries indicator extraction.</p>
+          </div>
+          <div class="dynamic-spec" id="spec-2">
+            <div class="spec-item"><span class="spec-key">Ingestion</span><span class="spec-val">n8n Floor Daemons</span></div>
+            <div class="spec-item"><span class="spec-key">Models</span><span class="spec-val">Gemini 1.5 + Ollama</span></div>
+            <div class="spec-item"><span class="spec-key">Synthesis</span><span class="spec-val">Buy/Sell/Hold Indicator</span></div>
+          </div>
+          <div class="card-tags">
+            <span class="tag">n8n</span>
+            <span class="tag">Ollama</span>
+            <span class="tag">Gemini API</span>
+            <span class="tag">TimescaleDB</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="matrix-card">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-num">03 / CAPABILITY</span>
+              <span class="card-cat">Mobile Engineering</span>
+            </div>
+            <h3 class="card-title">Cross-Platform Mobile Development</h3>
+            <p class="card-summary">Native-feeling, cross-platform applications shipping from a single unified Flutter codebase with sub-second door check-in scanners.</p>
+          </div>
+          <div class="dynamic-spec" id="spec-3">
+            <div class="spec-item"><span class="spec-key">Runtime</span><span class="spec-val">Flutter 3 & Dart</span></div>
+            <div class="spec-item"><span class="spec-key">Gate Check-in</span><span class="spec-val">&lt; 0.8s Camera HMAC QR</span></div>
+            <div class="spec-item"><span class="spec-key">State</span><span class="spec-val">Riverpod + Offline DB</span></div>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Flutter</span>
+            <span class="tag">Dart</span>
+            <span class="tag">Stripe Terminal</span>
+            <span class="tag">SQLite</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Dispatches & Papers</span>
+        <h2>Engineering & Research Writing</h2>
+        <p class="lead">Dispatches on autonomous agents, systems architecture, full-stack performance, and distributed systems.</p>
+      </div>
+
+      <div class="blog-ledger">
+        <!-- Main Featured Article -->
+        <div class="featured-article">
+          <div>
+            <div class="featured-badge">Featured Paper · AI Research</div>
+            <h3 class="featured-title" style="margin-top: 14px;">Autonomy in the Clinic: The Research Frontier of Agentic AI</h3>
+            <p class="featured-snippet" style="margin-top: 12px;">
+              An investigation into how autonomous agent loops, deterministic evaluation gates, and multi-turn verification workflows can be safely applied to high-stakes decision-making domains.
+            </p>
+          </div>
+          <div class="featured-footer">
+            <span>Published September 2026 · 11 min read</span>
+            <a href="#" class="read-link">Read Full Paper →</a>
+          </div>
+        </div>
+
+        <!-- Secondary Articles List -->
+        <div class="articles-sidebar">
+          <div class="sidebar-article">
+            <div class="side-meta">
+              <span>AI & AUTOMATION</span>
+              <span>8 MIN READ</span>
+            </div>
+            <div class="side-title">Building a NEPSE Financial Analyzer with n8n, Timeseries Indicators & Local Ollama</div>
+          </div>
+          <div class="sidebar-article">
+            <div class="side-meta">
+              <span>SYSTEMS & I18N</span>
+              <span>5 MIN READ</span>
+            </div>
+            <div class="side-title">Offline-First Trilingual Support (EN / नेपाली / नेपाल भाषा) in Client-Side SPAs</div>
+          </div>
+          <div class="sidebar-article">
+            <div class="side-meta">
+              <span>INFRASTRUCTURE & DEVOPS</span>
+              <span>6 MIN READ</span>
+            </div>
+            <div class="side-title">Production Server Deployments with Next.js Standalone, Nginx Reverse Proxy & PM2</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const specs = {
+      deliverables: [
+        [ ["Isolation", "Schema-Level Postgres"], ["Routing", "Next.js Edge Middleware"], ["Permission", "Tenant / Admin RBAC"] ],
+        [ ["Ingestion", "n8n Floor Daemons"], ["Models", "Gemini 1.5 + Ollama"], ["Synthesis", "Buy/Sell/Hold Indicator"] ],
+        [ ["Runtime", "Flutter 3 & Dart"], ["Gate Check-in", "< 0.8s Camera HMAC QR"], ["State", "Riverpod + Offline DB"] ]
+      ],
+      topology: [
+        [ ["Edge Node", "Cloudflare CDN + SSL"], ["App Server", "Node 22 Standalone VPS"], ["Storage", "Managed S3 Media Bucket"] ],
+        [ ["Execution", "Dockerized Celery / n8n"], ["Vector Store", "pgvector Indexing"], ["Inference", "Local GPU + API Gateway"] ],
+        [ ["Distribution", "Apple App Store & Play Store"], ["API Protocol", "gRPC & REST Webhooks"], ["Telemetry", "Sentry Crashlytics"] ]
+      ]
+    };
+
+    function setMode(mode, btn) {
+      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const data = specs[mode];
+      for (let i = 0; i < 3; i++) {
+        const el = document.getElementById(`spec-${i+1}`);
+        el.innerHTML = data[i].map(item => `
+          <div class="spec-item"><span class="spec-key">${item[0]}</span><span class="spec-val">${item[1]}</span></div>
+        `).join('');
+      }
+    }
+  </script>
+</body>
+</html>

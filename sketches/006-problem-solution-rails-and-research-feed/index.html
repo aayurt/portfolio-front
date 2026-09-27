@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 06: Problem-to-Architecture Rails & Scholarly Research Feed</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #5e5e67;
+      --text-sub: #878792;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper { width: 100%; max-width: 1050px; display: flex; flex-direction: column; gap: 64px; }
+    .header-block { text-align: center; display: flex; flex-direction: column; gap: 8px; }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      background: var(--border-light);
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
+    .lead { font-size: 15px; color: var(--text-muted); max-width: 580px; margin: 0 auto; }
+
+    /* SOLUTIONS: PROBLEM-TO-ARCHITECTURE RAILS */
+    .rails-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .solution-rail {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      display: grid;
+      grid-template-columns: 240px 1fr 220px;
+      align-items: center;
+      gap: 24px;
+      transition: border-color 0.15s ease;
+    }
+    @media (max-width: 900px) {
+      .solution-rail { grid-template-columns: 1fr; gap: 16px; }
+    }
+    .solution-rail:hover { border-color: #888; }
+    .rail-domain { display: flex; flex-direction: column; gap: 4px; }
+    .rail-num { font-family: var(--mono); font-size: 11px; color: var(--text-sub); }
+    .rail-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+
+    .rail-body { display: flex; flex-direction: column; gap: 8px; }
+    .rail-row { display: flex; font-size: 13px; line-height: 1.45; gap: 8px; }
+    .rail-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text-sub); min-width: 80px; text-transform: uppercase; }
+    .rail-desc { color: var(--text-muted); }
+
+    .rail-aside {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    @media (max-width: 900px) { .rail-aside { align-items: flex-start; } }
+    .rail-tags { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+    @media (max-width: 900px) { .rail-tags { justify-content: flex-start; } }
+    .rail-tag { font-family: var(--mono); font-size: 10px; background: #e8e8ed; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .rail-metric { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text-main); }
+
+    /* BLOG: SCHOLARLY RESEARCH FEED */
+    .filter-pills {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .filter-pill {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-pill.active {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .feed-container {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .feed-item {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-item:hover { background: var(--card-bg); }
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+    .feed-category { font-weight: 700; text-transform: uppercase; color: var(--text-main); background: #eee; padding: 2px 6px; border-radius: 4px; }
+    .feed-title { font-size: 16px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
+    .feed-abstract { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+    .feed-footer { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--mono); color: var(--text-sub); padding-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- SOLUTIONS SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Architecture Patterns</span>
+        <h2>Engineering Solutions</h2>
+        <p class="lead">From operational bottlenecks to hardened production topologies.</p>
+      </div>
+
+      <div class="rails-container">
+        <!-- Solution Rail 1 -->
+        <div class="solution-rail">
+          <div class="rail-domain">
+            <span class="rail-num">PATTERN 01</span>
+            <h3 class="rail-title">Multi-Tenant SaaS</h3>
+          </div>
+          <div class="rail-body">
+            <div class="rail-row">
+              <span class="rail-label">Problem</span>
+              <span class="rail-desc">Data bleed and escalating infrastructure costs across fragmented client deployments.</span>
+            </div>
+            <div class="rail-row">
+              <span class="rail-label">Pattern</span>
+              <span class="rail-desc">Row-level Postgres tenancy with Next.js edge rewrites and single monorepo deployments.</span>
+            </div>
+          </div>
+          <div class="rail-aside">
+            <span class="rail-metric">&lt; 15ms Rewrite Latency</span>
+            <div class="rail-tags">
+              <span class="rail-tag">Next.js 15</span>
+              <span class="rail-tag">Payload 3</span>
+              <span class="rail-tag">Postgres</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solution Rail 2 -->
+        <div class="solution-rail">
+          <div class="rail-domain">
+            <span class="rail-num">PATTERN 02</span>
+            <h3 class="rail-title">AI & ETL Pipelines</h3>
+          </div>
+          <div class="rail-body">
+            <div class="rail-row">
+              <span class="rail-label">Problem</span>
+              <span class="rail-desc">Unreliable floor data extraction, high cloud API costs, and unverified LLM hallucinations.</span>
+            </div>
+            <div class="rail-row">
+              <span class="rail-label">Pattern</span>
+              <span class="rail-desc">Hybrid inference: local Ollama for fast feature filtering, Gemini 1.5 for reasoning, deterministic gate pass.</span>
+            </div>
+          </div>
+          <div class="rail-aside">
+            <span class="rail-metric">91.4% Signal Accuracy</span>
+            <div class="rail-tags">
+              <span class="rail-tag">n8n</span>
+              <span class="rail-tag">Ollama</span>
+              <span class="rail-tag">Gemini</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solution Rail 3 -->
+        <div class="solution-rail">
+          <div class="rail-domain">
+            <span class="rail-num">PATTERN 03</span>
+            <h3 class="rail-title">Cross-Platform Mobile</h3>
+          </div>
+          <div class="rail-body">
+            <div class="rail-row">
+              <span class="rail-label">Problem</span>
+              <span class="rail-desc">Duplicate iOS/Android teams, slow door entry lines, and fraudulent ticket screenshots.</span>
+            </div>
+            <div class="rail-row">
+              <span class="rail-label">Pattern</span>
+              <span class="rail-desc">Unified Flutter codebase with rolling HMAC QR vouchers and sub-second offline camera scanning.</span>
+            </div>
+          </div>
+          <div class="rail-aside">
+            <span class="rail-metric">&lt; 0.8s Scan Latency</span>
+            <div class="rail-tags">
+              <span class="rail-tag">Flutter</span>
+              <span class="rail-tag">Stripe</span>
+              <span class="rail-tag">SQLite</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section>
+      <div class="header-block" style="margin-bottom: 24px;">
+        <span class="badge">Research & Publications</span>
+        <h2>Engineering Publications Feed</h2>
+        <p class="lead">Chronological archive of research papers, architectural retrospectives, and technical guides.</p>
+      </div>
+
+      <div class="filter-pills">
+        <button class="filter-pill active" onclick="filterFeed('all', this)">All Dispatches (5)</button>
+        <button class="filter-pill" onclick="filterFeed('ai', this)">AI & Agents</button>
+        <button class="filter-pill" onclick="filterFeed('infra', this)">DevOps & Infra</button>
+        <button class="filter-pill" onclick="filterFeed('systems', this)">Systems & i18n</button>
+      </div>
+
+      <div class="feed-container">
+        <div class="feed-item" data-cat="ai">
+          <div class="feed-header">
+            <span class="feed-category">AI Research</span>
+            <span>SEP 2026 · 11 MIN READ</span>
+          </div>
+          <h3 class="feed-title">Autonomy in the Clinic: The Research Frontier of Agentic AI</h3>
+          <p class="feed-abstract">Investigating closed-loop autonomous agent architectures, AST verification gates, and deterministic reliability in mission-critical applications.</p>
+          <div class="feed-footer">
+            <span>Author: Aayurt Shrestha</span>
+            <span>Read Publication →</span>
+          </div>
+        </div>
+
+        <div class="feed-item" data-cat="ai">
+          <div class="feed-header">
+            <span class="feed-category">Fintech & ETL</span>
+            <span>AUG 2026 · 8 MIN READ</span>
+          </div>
+          <h3 class="feed-title">Building a NEPSE Financial Analyzer with n8n, Timeseries Indicators & Local Ollama</h3>
+          <p class="feed-abstract">Designing automated daily scraping daemons for 250+ equity tickers and piping normalized technical indicators (EMA/MACD/RSI) to local LLM models.</p>
+          <div class="feed-footer">
+            <span>Author: Aayurt Shrestha</span>
+            <span>Read Publication →</span>
+          </div>
+        </div>
+
+        <div class="feed-item" data-cat="systems">
+          <div class="feed-header">
+            <span class="feed-category">Systems & i18n</span>
+            <span>JUL 2026 · 5 MIN READ</span>
+          </div>
+          <h3 class="feed-title">Adding Multi-language Support (EN / नेपाली / नेपाल भाषा) in Client-Side SPAs</h3>
+          <p class="feed-abstract">Architectural patterns for zero-latency runtime language switching, dictionary fallback trees, and offline IndexedDB persistent localization.</p>
+          <div class="feed-footer">
+            <span>Author: Aayurt Shrestha</span>
+            <span>Read Publication →</span>
+          </div>
+        </div>
+
+        <div class="feed-item" data-cat="infra">
+          <div class="feed-header">
+            <span class="feed-category">DevOps & Infra</span>
+            <span>JUN 2026 · 6 MIN READ</span>
+          </div>
+          <h3 class="feed-title">Server Deployment: Standalone Next.js 15, Nginx Reverse Proxy & PM2</h3>
+          <p class="feed-abstract">Complete production deployment handbook for hosting high-throughput Next.js standalone builds with zero-downtime symlink deploys.</p>
+          <div class="feed-footer">
+            <span>Author: Aayurt Shrestha</span>
+            <span>Read Publication →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function filterFeed(cat, btn) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.feed-item').forEach(item => {
+        if (cat === 'all' || item.getAttribute('data-cat') === cat) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
