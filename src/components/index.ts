@@ -15,3 +15,4 @@ export { FeaturedShowcase } from "@/components/pipeline/FeaturedShowcase";
 export { ProductBento } from "@/components/work/ProductBento";
 export { SolutionsRails } from "@/components/solutions/SolutionsRails";
 export { ResearchFeed } from "@/components/blog/ResearchFeed";
+export { SystemsCatalog } from "@/components/work/SystemsCatalog";

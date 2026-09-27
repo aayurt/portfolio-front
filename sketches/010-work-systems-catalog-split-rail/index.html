@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work Layout 10: Filterable Systems Catalog</title>
+  <style>
+    :root {
+      --bg: #0c0d0e;
+      --card: #141618;
+      --card-hover: #1a1c1e;
+      --border: #26292d;
+      --border-accent: #3b4046;
+      --text: #f0f2f4;
+      --text-muted: #8e949e;
+      --text-dim: #606670;
+      --badge-bg: #1c1f23;
+      --btn-primary-bg: #f0f2f4;
+      --btn-primary-text: #0c0d0e;
+      --btn-sec-bg: #1c1f23;
+      --btn-sec-border: #2d3137;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 48px 24px 80px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .eyebrow {
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .lead {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .filter-pill {
+      font-size: 12px;
+      font-family: monospace;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--border-accent);
+      color: var(--text);
+    }
+    .filter-pill.active {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border-color: var(--btn-primary-bg);
+      font-weight: 600;
+    }
+
+    /* GRID */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 860px) {
+      .catalog-grid { grid-template-columns: 1fr; }
+    }
+
+    /* CARD */
+    .work-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .work-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+    .card-visual {
+      height: 200px;
+      background: #090a0b;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .card-visual svg {
+      width: 100%;
+      height: 100%;
+      max-height: 190px;
+    }
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(12, 13, 14, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 12px;
+    }
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .card-role {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* METRICS RAIL */
+    .metrics-rail {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: monospace;
+    }
+    .metric-lbl {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* STACK TAGS */
+    .stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .tag {
+      font-size: 11px;
+      font-family: monospace;
+      padding: 2px 7px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    /* ACTION BUTTONS */
+    .action-row {
+      display: flex;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      font-weight: 600;
+    }
+    .btn-secondary {
+      background: var(--btn-sec-bg);
+      color: var(--text);
+      border: 1px solid var(--btn-sec-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="eyebrow">Engineering Systems & Products</span>
+      <h1>Systems Catalog</h1>
+      <p class="lead">Production distributed platforms, autonomous AI engines, quantitative analytics tools, and offline-first mobile applications.</p>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <button class="filter-pill active" onclick="filterCategory('all', this)">All Platforms (6)</button>
+      <button class="filter-pill" onclick="filterCategory('ai', this)">Autonomous AI (2)</button>
+      <button class="filter-pill" onclick="filterCategory('saas', this)">Multi-Tenant SaaS (2)</button>
+      <button class="filter-pill" onclick="filterCategory('fintech', this)">Fintech & Quant (1)</button>
+      <button class="filter-pill" onclick="filterCategory('astronomy', this)">Vedic Astrometry (1)</button>
+    </div>
+
+    <!-- CATALOG GRID -->
+    <div class="catalog-grid" id="catalogGrid">
+      
+      <!-- Card 1: Hermes -->
+      <div class="work-card" data-cat="ai">
+        <div class="card-visual">
+          <span class="card-badge">AGENT HARNESS</span>
+          <!-- Inline DAG SVG -->
+          <svg viewBox="0 0 400 160">
+            <rect x="20" y="55" width="80" height="50" rx="6" fill="#181a1d" stroke="#333" stroke-width="1.5"/>
+            <text x="60" y="85" fill="#fff" font-size="11" text-anchor="middle">Task Planner</text>
+            <path d="M 100 80 L 140 50 M 100 80 L 140 110" stroke="#555" stroke-width="1.5" fill="none"/>
+            <rect x="140" y="25" width="90" height="45" rx="6" fill="#181a1d" stroke="#444" stroke-width="1.5"/>
+            <text x="185" y="52" fill="#8e949e" font-size="11" text-anchor="middle">Worker A (Tool)</text>
+            <rect x="140" y="90" width="90" height="45" rx="6" fill="#181a1d" stroke="#444" stroke-width="1.5"/>
+            <text x="185" y="117" fill="#8e949e" font-size="11" text-anchor="middle">Worker B (Code)</text>
+            <path d="M 230 48 L 270 80 M 230 112 L 270 80" stroke="#555" stroke-width="1.5" fill="none"/>
+            <rect x="270" y="55" width="105" height="50" rx="6" fill="#20242a" stroke="#fff" stroke-width="1.5"/>
+            <text x="322" y="80" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">AST Eval Gate</text>
+            <text x="322" y="94" fill="#a0a8b2" font-size="9" text-anchor="middle">99.9% Pass Rate</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Hermes Agent Engine</div>
+              <div class="card-role">Autonomous Multi-Agent CLI & Harness</div>
+            </div>
+          </div>
+          <p class="card-desc">Production harness orchestrating DAG task decomposition, sandboxed Docker container execution, and deterministic AST verification gates.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">10K+</div><div class="metric-lbl">Tasks Ran</div></div>
+            <div><div class="metric-val">&lt; 50ms</div><div class="metric-lbl">Dispatch</div></div>
+            <div><div class="metric-val">99.9%</div><div class="metric-lbl">AST Gate</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Docker</span>
+            <span class="tag">MCP</span>
+            <span class="tag">Next.js 15</span>
+          </div>
+          <div class="action-row">
+            <a href="/work/hermes" class="btn btn-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Afno Events -->
+      <div class="work-card" data-cat="saas">
+        <div class="card-visual">
+          <span class="card-badge">LIVE EVENT SAAS</span>
+          <!-- Inline Gate SVG -->
+          <svg viewBox="0 0 400 160">
+            <rect x="30" y="50" width="90" height="60" rx="6" fill="#181a1d" stroke="#333" stroke-width="1.5"/>
+            <text x="75" y="77" fill="#fff" font-size="11" text-anchor="middle">Buyer Phone</text>
+            <text x="75" y="95" fill="#8e949e" font-size="9" text-anchor="middle">HMAC Dynamic QR</text>
+            <path d="M 120 80 L 170 80" stroke="#555" stroke-dasharray="3 3" stroke-width="1.5"/>
+            <rect x="170" y="50" width="100" height="60" rx="6" fill="#181a1d" stroke="#444" stroke-width="1.5"/>
+            <text x="220" y="77" fill="#fff" font-size="11" text-anchor="middle">Flutter Scanner</text>
+            <text x="220" y="95" fill="#a0a8b2" font-size="9" text-anchor="middle">Offline SQLite</text>
+            <path d="M 270 80 L 310 80" stroke="#555" stroke-width="1.5"/>
+            <circle cx="340" cy="80" r="22" fill="#20242a" stroke="#fff" stroke-width="1.5"/>
+            <text x="340" y="84" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">&lt; 0.8s</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Afno Events</div>
+              <div class="card-role">Ticketing & Gate Verification Platform</div>
+            </div>
+          </div>
+          <p class="card-desc">End-to-end ticketing platform operating across the UK and Nepal. Features sub-second offline gate scanning and Stripe Terminal payment routing.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">&lt; 0.8s</div><div class="metric-lbl">Gate Scan</div></div>
+            <div><div class="metric-val">100%</div><div class="metric-lbl">Offline Sync</div></div>
+            <div><div class="metric-val">Zero</div><div class="metric-lbl">Dup Passes</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Flutter 3</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Stripe</span>
+          </div>
+          <div class="action-row">
+            <a href="https://afnoevents.co.uk" target="_blank" class="btn btn-secondary">Live Demo ↗</a>
+            <a href="/work/afno-events" class="btn btn-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Syasyah Samaj -->
+      <div class="work-card" data-cat="saas">
+        <div class="card-visual">
+          <span class="card-badge">OFFLINE SPA</span>
+          <svg viewBox="0 0 400 160">
+            <rect x="40" y="45" width="100" height="70" rx="6" fill="#181a1d" stroke="#333" stroke-width="1.5"/>
+            <text x="90" y="73" fill="#fff" font-size="11" text-anchor="middle">Billing SPA</text>
+            <text x="90" y="91" fill="#8e949e" font-size="9" text-anchor="middle">IndexedDB Cache</text>
+            <path d="M 140 80 L 190 80" stroke="#555" stroke-dasharray="4 2" stroke-width="1.5"/>
+            <rect x="190" y="45" width="100" height="70" rx="6" fill="#181a1d" stroke="#444" stroke-width="1.5"/>
+            <text x="240" y="73" fill="#fff" font-size="11" text-anchor="middle">Sync Daemon</text>
+            <text x="240" y="91" fill="#a0a8b2" font-size="9" text-anchor="middle">10 Territorial Ilakas</text>
+            <path d="M 290 80 L 330 80" stroke="#555" stroke-width="1.5"/>
+            <circle cx="350" cy="80" r="18" fill="#20242a" stroke="#fff" stroke-width="1.5"/>
+            <text x="350" y="84" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">0ms</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Syasyah Samaj (स्यस्यः समाज)</div>
+              <div class="card-role">Offline-First Accounting & Trilingual Civic App</div>
+            </div>
+          </div>
+          <p class="card-desc">Civic accounting platform built for the Newar community in Lalitpur. Full IndexedDB offline-first architecture with instant sub-millisecond local queries.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">0ms</div><div class="metric-lbl">Offline Read</div></div>
+            <div><div class="metric-val">3 Langs</div><div class="metric-lbl">EN / NE / NEW</div></div>
+            <div><div class="metric-val">10</div><div class="metric-lbl">Ilakas</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">React 19</span>
+            <span class="tag">IndexedDB</span>
+            <span class="tag">Payload CMS 3</span>
+            <span class="tag">Tailwind</span>
+          </div>
+          <div class="action-row">
+            <a href="https://syasyahsamaj.com" target="_blank" class="btn btn-secondary">Live Demo ↗</a>
+            <a href="/work/syasyah-samaj" class="btn btn-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Nepse Pro -->
+      <div class="work-card" data-cat="fintech">
+        <div class="card-visual">
+          <span class="card-badge">QUANT FINANCE</span>
+          <svg viewBox="0 0 400 160">
+            <polyline points="30,120 70,105 110,115 150,70 190,85 230,40 270,55 310,25 350,45" fill="none" stroke="#fff" stroke-width="2"/>
+            <circle cx="230" cy="40" r="4" fill="#fff"/>
+            <text x="230" y="28" fill="#8e949e" font-size="9" text-anchor="middle">Breakout Signal</text>
+            <line x1="30" y1="130" x2="370" y2="130" stroke="#333" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Nepse Pro</div>
+              <div class="card-role">Quantitative Market Terminal & ETL Engine</div>
+            </div>
+          </div>
+          <p class="card-desc">High-frequency financial market terminal ingesting live floor orders into TimescaleDB with automated algorithmic pattern recognition and signal alerts.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">&lt; 150ms</div><div class="metric-lbl">Live Ingestion</div></div>
+            <div><div class="metric-val">250+</div><div class="metric-lbl">Equities</div></div>
+            <div><div class="metric-val">91.4%</div><div class="metric-lbl">Signal Prec</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">Node.js</span>
+            <span class="tag">TimescaleDB</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">WebSockets</span>
+          </div>
+          <div class="action-row">
+            <a href="https://nepse.ratosuryaonline.com" target="_blank" class="btn btn-secondary">Live Demo ↗</a>
+            <a href="/work/nepse-analyser" class="btn btn-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Astro Guru -->
+      <div class="work-card" data-cat="astronomy">
+        <div class="card-visual">
+          <span class="card-badge">CELESTIAL AI</span>
+          <svg viewBox="0 0 400 160">
+            <circle cx="200" cy="80" r="50" fill="none" stroke="#333" stroke-width="1.5"/>
+            <circle cx="200" cy="80" r="25" fill="none" stroke="#222" stroke-width="1"/>
+            <line x1="150" y1="80" x2="250" y2="80" stroke="#444" stroke-width="1"/>
+            <line x1="200" y1="30" x2="200" y2="130" stroke="#444" stroke-width="1"/>
+            <circle cx="225" cy="55" r="4" fill="#fff"/>
+            <text x="235" y="52" fill="#8e949e" font-size="9">Sun 14°</text>
+            <circle cx="170" cy="95" r="4" fill="#a0a8b2"/>
+            <text x="145" y="105" fill="#8e949e" font-size="9">Moon 28°</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Astro Guru</div>
+              <div class="card-role">Vedic Astrometry & AI Reasoning Engine</div>
+            </div>
+          </div>
+          <p class="card-desc">C-based Swiss Ephemeris astronomical calculation engine paired with structured LLM reasoning to compute complex planetary transit aspects instantaneously.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">&lt; 2s</div><div class="metric-lbl">Inference</div></div>
+            <div><div class="metric-val">12</div><div class="metric-lbl">Houses</div></div>
+            <div><div class="metric-val">Exact</div><div class="metric-lbl">Swiss Calc</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Swiss Ephemeris</span>
+            <span class="tag">Gemini API</span>
+            <span class="tag">Prisma</span>
+          </div>
+          <div class="action-row">
+            <a href="https://astro.ratosuryaonline.com" target="_blank" class="btn btn-secondary">Live Demo ↗</a>
+            <a href="/work/astro-guru" class="btn btn-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Research Foundations -->
+      <div class="work-card" data-cat="ai">
+        <div class="card-visual">
+          <span class="card-badge">THEORETICAL FOUNDATION</span>
+          <svg viewBox="0 0 400 160">
+            <rect x="50" y="30" width="130" height="100" rx="8" fill="#181a1d" stroke="#333" stroke-width="1.5"/>
+            <text x="115" y="65" fill="#fff" font-size="11" text-anchor="middle">Bounded Autonomy</text>
+            <text x="115" y="85" fill="#8e949e" font-size="9" text-anchor="middle">AST Static Guarantees</text>
+            <path d="M 180 80 L 220 80" stroke="#fff" stroke-width="1.5"/>
+            <rect x="220" y="30" width="130" height="100" rx="8" fill="#20242a" stroke="#fff" stroke-width="1.5"/>
+            <text x="285" y="65" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">Doctoral Inquiry</text>
+            <text x="285" y="85" fill="#a0a8b2" font-size="9" text-anchor="middle">Kingston MSc &amp; Patan BSc</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="title-row">
+            <div>
+              <div class="card-title">Agentic Safety &amp; AST Research</div>
+              <div class="card-role">Doctoral Research Agenda &amp; Formal Verification</div>
+            </div>
+          </div>
+          <p class="card-desc">Academic inquiry into deterministic runtime verification gates, sandboxed multi-turn execution, and bounding autonomous reasoning in mission-critical applications.</p>
+          <div class="metrics-rail">
+            <div><div class="metric-val">Formal</div><div class="metric-lbl">AST Checks</div></div>
+            <div><div class="metric-val">100%</div><div class="metric-lbl">Deterministic</div></div>
+            <div><div class="metric-val">PhD</div><div class="metric-lbl">Candidate</div></div>
+          </div>
+          <div class="stack-row">
+            <span class="tag">Compiler AST</span>
+            <span class="tag">Static Analysis</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Formal Methods</span>
+          </div>
+          <div class="action-row">
+            <a href="/about#research" class="btn btn-primary">Research Agenda →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function filterCategory(cat, btn) {
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('.work-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

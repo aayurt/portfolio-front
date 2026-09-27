@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work Layout 12: Chronological Systems Ledger</title>
+  <style>
+    :root {
+      --bg: #0c0d0e;
+      --card: #141618;
+      --card-hover: #191c1f;
+      --border: #26292d;
+      --border-accent: #444b54;
+      --text: #f0f2f4;
+      --text-muted: #8e949e;
+      --text-dim: #606670;
+      --badge-bg: #1c1f23;
+      --btn-primary-bg: #f0f2f4;
+      --btn-primary-text: #0c0d0e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 48px 24px 80px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .header {
+      margin-bottom: 48px;
+    }
+    .eyebrow {
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .lead {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 640px;
+    }
+
+    /* LEDGER LIST */
+    .ledger {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--card);
+    }
+    .ledger-entry {
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: background 0.15s ease;
+    }
+    .ledger-entry:last-child {
+      border-bottom: none;
+    }
+    .ledger-entry:hover {
+      background: var(--card-hover);
+    }
+    .entry-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .entry-year {
+      color: var(--text-dim);
+    }
+    .entry-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .entry-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .entry-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .entry-role {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .entry-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* METRICS ROW */
+    .entry-metrics {
+      display: flex;
+      gap: 20px;
+      font-family: monospace;
+      font-size: 12px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      flex-wrap: wrap;
+    }
+    .metric-item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .metric-val {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .metric-lbl {
+      color: var(--text-dim);
+    }
+
+    /* FOOTER ROW */
+    .entry-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: monospace;
+      font-size: 11px;
+      padding: 2px 7px;
+      background: #0c0d0e;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .links {
+      display: flex;
+      gap: 12px;
+    }
+    .link-primary {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .link-primary:hover {
+      text-decoration: underline;
+    }
+    .link-sec {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .link-sec:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="eyebrow">Engineering Systems &amp; Platforms</span>
+      <h1>Systems Production Ledger</h1>
+      <p class="lead">A chronological record of distributed platforms, autonomous agents, and systems shipped to production.</p>
+    </div>
+
+    <div class="ledger">
+      <!-- 01: Hermes -->
+      <div class="ledger-entry">
+        <div class="entry-meta-row">
+          <span class="entry-year">2026 – PRESENT</span>
+          <span class="entry-badge">AUTONOMOUS MULTI-AGENT AI</span>
+        </div>
+        <div class="entry-title-row">
+          <div>
+            <div class="entry-title">Hermes Agent Engine</div>
+            <div class="entry-role">Lead Systems Architect &amp; AI Engineer</div>
+          </div>
+        </div>
+        <p class="entry-desc">
+          Autonomous multi-agent CLI harness featuring directed acyclic graph (DAG) task planning, sandboxed Docker container execution, and deterministic AST verification gates for continuous test/code evaluation loops.
+        </p>
+        <div class="entry-metrics">
+          <div class="metric-item"><span class="metric-val">10K+</span><span class="metric-lbl">Tasks Ran</span></div>
+          <div class="metric-item"><span class="metric-val">&lt; 50ms</span><span class="metric-lbl">Agent Dispatch</span></div>
+          <div class="metric-item"><span class="metric-val">99.9%</span><span class="metric-lbl">AST Pass Rate</span></div>
+        </div>
+        <div class="entry-footer">
+          <div class="tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Docker</span>
+            <span class="tag">MCP</span>
+            <span class="tag">Next.js 15</span>
+          </div>
+          <div class="links">
+            <a href="/work/hermes" class="link-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02: Afno Events -->
+      <div class="ledger-entry">
+        <div class="entry-meta-row">
+          <span class="entry-year">2024 – PRESENT</span>
+          <span class="entry-badge">LIVE TICKETING SAAS</span>
+        </div>
+        <div class="entry-title-row">
+          <div>
+            <div class="entry-title">Afno Events</div>
+            <div class="entry-role">Full-Stack Lead · UK &amp; Nepal Operations</div>
+          </div>
+        </div>
+        <p class="entry-desc">
+          Multi-tenant live event ticketing and gate management platform. Supports sub-second offline gate scanning using Flutter camera barcode readers, HMAC dynamic QR codes, and multi-currency Stripe Terminal payment routing.
+        </p>
+        <div class="entry-metrics">
+          <div class="metric-item"><span class="metric-val">&lt; 0.8s</span><span class="metric-lbl">Gate Scan</span></div>
+          <div class="metric-item"><span class="metric-val">100%</span><span class="metric-lbl">Offline SQLite</span></div>
+          <div class="metric-item"><span class="metric-val">Zero</span><span class="metric-lbl">Dup Passes</span></div>
+        </div>
+        <div class="entry-footer">
+          <div class="tags">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Flutter 3</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Stripe</span>
+          </div>
+          <div class="links">
+            <a href="https://afnoevents.co.uk" target="_blank" class="link-sec">Live Demo ↗</a>
+            <a href="/work/afno-events" class="link-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03: Syasyah Samaj -->
+      <div class="ledger-entry">
+        <div class="entry-meta-row">
+          <span class="entry-year">2024 – 2026</span>
+          <span class="entry-badge">OFFLINE BILLING SPA</span>
+        </div>
+        <div class="entry-title-row">
+          <div>
+            <div class="entry-title">Syasyah Samaj (स्यस्यः समाज)</div>
+            <div class="entry-role">Lead Engineer · Newar Community Lalitpur</div>
+          </div>
+        </div>
+        <p class="entry-desc">
+          Civic accounting platform serving 10 territorial Ilakas in Lalitpur. Engineered with an IndexedDB cache-first store for sub-millisecond offline lookups and automated cloud sync with trilingual localization (English, Nepali, Newar).
+        </p>
+        <div class="entry-metrics">
+          <div class="metric-item"><span class="metric-val">0ms</span><span class="metric-lbl">Offline Read</span></div>
+          <div class="metric-item"><span class="metric-val">3 Langs</span><span class="metric-lbl">EN / NE / NEW</span></div>
+          <div class="metric-item"><span class="metric-val">10</span><span class="metric-lbl">Ilakas</span></div>
+        </div>
+        <div class="entry-footer">
+          <div class="tags">
+            <span class="tag">React 19</span>
+            <span class="tag">IndexedDB</span>
+            <span class="tag">Payload CMS 3</span>
+            <span class="tag">Tailwind</span>
+          </div>
+          <div class="links">
+            <a href="https://syasyahsamaj.com" target="_blank" class="link-sec">Live Demo ↗</a>
+            <a href="/work/syasyah-samaj" class="link-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04: Nepse Pro -->
+      <div class="ledger-entry">
+        <div class="entry-meta-row">
+          <span class="entry-year">2025 – 2026</span>
+          <span class="entry-badge">QUANT FINANCE &amp; TIMESERIES</span>
+        </div>
+        <div class="entry-title-row">
+          <div>
+            <div class="entry-title">Nepse Pro</div>
+            <div class="entry-role">Systems Engineer · TimescaleDB ETL</div>
+          </div>
+        </div>
+        <p class="entry-desc">
+          Financial market terminal ingesting live trading floor data into TimescaleDB with automated algorithmic pattern recognition, candlestick breakout detection, and automated Telegram trading alerts.
+        </p>
+        <div class="entry-metrics">
+          <div class="metric-item"><span class="metric-val">&lt; 150ms</span><span class="metric-lbl">Live Ingestion</span></div>
+          <div class="metric-item"><span class="metric-val">250+</span><span class="metric-lbl">Equities Tracked</span></div>
+          <div class="metric-item"><span class="metric-val">91.4%</span><span class="metric-lbl">Signal Prec</span></div>
+        </div>
+        <div class="entry-footer">
+          <div class="tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">TimescaleDB</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">WebSockets</span>
+          </div>
+          <div class="links">
+            <a href="https://nepse.ratosuryaonline.com" target="_blank" class="link-sec">Live Demo ↗</a>
+            <a href="/work/nepse-analyser" class="link-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05: Astro Guru -->
+      <div class="ledger-entry">
+        <div class="entry-meta-row">
+          <span class="entry-year">2024 – 2025</span>
+          <span class="entry-badge">VEDIC ASTROMETRY &amp; AI</span>
+        </div>
+        <div class="entry-title-row">
+          <div>
+            <div class="entry-title">Astro Guru</div>
+            <div class="entry-role">Full-Stack Developer · Swiss Ephemeris</div>
+          </div>
+        </div>
+        <p class="entry-desc">
+          Astronomical calculation engine computing precise planetary longitudes, divisional charts (D1 to D60), and transit aspects paired with structured Gemini 1.5 LLM celestial interpretations.
+        </p>
+        <div class="entry-metrics">
+          <div class="metric-item"><span class="metric-val">&lt; 2s</span><span class="metric-lbl">AI Inference</span></div>
+          <div class="metric-item"><span class="metric-val">12</span><span class="metric-lbl">Houses Calc</span></div>
+          <div class="metric-item"><span class="metric-val">Exact</span><span class="metric-lbl">Swiss Ephemeris</span></div>
+        </div>
+        <div class="entry-footer">
+          <div class="tags">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Swiss Ephemeris</span>
+            <span class="tag">Gemini API</span>
+            <span class="tag">Prisma</span>
+          </div>
+          <div class="links">
+            <a href="https://astro.ratosuryaonline.com" target="_blank" class="link-sec">Live Demo ↗</a>
+            <a href="/work/astro-guru" class="link-primary">Case Study →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work Layout 11: Interactive Systems Workbench</title>
+  <style>
+    :root {
+      --bg: #0c0d0e;
+      --card: #141618;
+      --card-hover: #191c1f;
+      --card-active: #1d2126;
+      --border: #26292d;
+      --border-accent: #444b54;
+      --text: #f0f2f4;
+      --text-muted: #8e949e;
+      --text-dim: #606670;
+      --badge-bg: #1c1f23;
+      --btn-primary-bg: #f0f2f4;
+      --btn-primary-text: #0c0d0e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 48px 24px 80px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .header {
+      margin-bottom: 36px;
+    }
+    .eyebrow {
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .lead {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 640px;
+    }
+
+    /* WORKBENCH LAYOUT */
+    .workbench {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 28px;
+      align-items: flex-start;
+    }
+    @media (max-width: 960px) {
+      .workbench { grid-template-columns: 1fr; }
+    }
+
+    /* MASTER LIST (LEFT) */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .project-item:hover {
+      border-color: var(--border-accent);
+      background: var(--card-hover);
+    }
+    .project-item.active {
+      border-color: #f0f2f4;
+      background: var(--card-active);
+      box-shadow: 0 0 0 1px #f0f2f4;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .item-badge {
+      font-family: monospace;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .item-role {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .item-metric-row {
+      display: flex;
+      gap: 12px;
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 4px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* DETAIL INSPECTOR (RIGHT, STICKY) */
+    .inspector {
+      position: sticky;
+      top: 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .inspector-visual {
+      height: 260px;
+      background: #090a0b;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 16px;
+    }
+    .inspector-visual svg {
+      width: 100%;
+      height: 100%;
+    }
+    .inspector-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .inspector-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .inspector-role {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .inspector-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .inspector-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .inspector-metrics .val {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: monospace;
+    }
+    .inspector-metrics .lbl {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+    .inspector-actions {
+      display: flex;
+      gap: 12px;
+      padding-top: 8px;
+    }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+    }
+    .btn-secondary {
+      background: var(--badge-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="eyebrow">Interactive Engineering Workbench</span>
+      <h1>Systems &amp; Architecture Workbench</h1>
+      <p class="lead">Select any production system to inspect its live architectural pipeline DAG, performance metrics, and implementation specs.</p>
+    </div>
+
+    <div class="workbench">
+      <!-- LEFT: MASTER PROJECT LIST -->
+      <div class="project-list" id="projectList">
+        <div class="project-item active" onclick="selectProject('hermes', this)">
+          <div class="item-header">
+            <span class="item-title">Hermes Agent Engine</span>
+            <span class="item-badge">AUTONOMOUS AI</span>
+          </div>
+          <div class="item-role">Lead Systems Architect &amp; AI Engineer</div>
+          <div class="item-metric-row">
+            <span>⚡ &lt; 50ms Dispatch</span>
+            <span>🛡️ 99.9% AST Gate</span>
+          </div>
+        </div>
+
+        <div class="project-item" onclick="selectProject('afno', this)">
+          <div class="item-header">
+            <span class="item-title">Afno Events</span>
+            <span class="item-badge">TICKETING SAAS</span>
+          </div>
+          <div class="item-role">Full-Stack Lead · UK &amp; Nepal</div>
+          <div class="item-metric-row">
+            <span>⚡ &lt; 0.8s Gate Scan</span>
+            <span>📱 Flutter Offline</span>
+          </div>
+        </div>
+
+        <div class="project-item" onclick="selectProject('syasyah', this)">
+          <div class="item-header">
+            <span class="item-title">Syasyah Samaj (स्यस्यः समाज)</span>
+            <span class="item-badge">OFFLINE SPA</span>
+          </div>
+          <div class="item-role">Lead Engineer · Newar Community</div>
+          <div class="item-metric-row">
+            <span>⚡ 0ms Read</span>
+            <span>🌐 3 Languages</span>
+          </div>
+        </div>
+
+        <div class="project-item" onclick="selectProject('nepse', this)">
+          <div class="item-header">
+            <span class="item-title">Nepse Pro</span>
+            <span class="item-badge">QUANT FINANCE</span>
+          </div>
+          <div class="item-role">Systems Engineer · TimescaleDB ETL</div>
+          <div class="item-metric-row">
+            <span>⚡ &lt; 150ms ETL</span>
+            <span>📈 91.4% Precision</span>
+          </div>
+        </div>
+
+        <div class="project-item" onclick="selectProject('astro', this)">
+          <div class="item-header">
+            <span class="item-title">Astro Guru</span>
+            <span class="item-badge">VEDIC ASTROMETRY</span>
+          </div>
+          <div class="item-role">Full-Stack Developer · Swiss Ephemeris</div>
+          <div class="item-metric-row">
+            <span>⚡ &lt; 2s AI Inference</span>
+            <span>🪐 12 Houses Calc</span>
+          </div>
+        </div>
+
+        <div class="project-item" onclick="selectProject('research', this)">
+          <div class="item-header">
+            <span class="item-title">Research Foundations</span>
+            <span class="item-badge">DOCTORAL INQUIRY</span>
+          </div>
+          <div class="item-role">PhD Candidate · Formal Verification</div>
+          <div class="item-metric-row">
+            <span>⚡ Deterministic AST</span>
+            <span>🎓 Kingston / Patan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: DETAIL INSPECTOR (STICKY) -->
+      <div class="inspector" id="inspector">
+        <div class="inspector-visual" id="inspectorVisual">
+          <!-- Default: Hermes DAG -->
+          <svg viewBox="0 0 500 200">
+            <rect x="20" y="70" width="100" height="60" rx="8" fill="#181a1d" stroke="#444" stroke-width="1.5"/>
+            <text x="70" y="105" fill="#fff" font-size="12" text-anchor="middle">Task Planner</text>
+            <path d="M 120 100 L 170 60 M 120 100 L 170 140" stroke="#666" stroke-width="1.5" fill="none"/>
+            <rect x="170" y="35" width="110" height="50" rx="8" fill="#181a1d" stroke="#555" stroke-width="1.5"/>
+            <text x="225" y="65" fill="#8e949e" font-size="12" text-anchor="middle">Worker A (Tool)</text>
+            <rect x="170" y="115" width="110" height="50" rx="8" fill="#181a1d" stroke="#555" stroke-width="1.5"/>
+            <text x="225" y="145" fill="#8e949e" font-size="12" text-anchor="middle">Worker B (Code)</text>
+            <path d="M 280 60 L 330 100 M 280 140 L 330 100" stroke="#666" stroke-width="1.5" fill="none"/>
+            <rect x="330" y="70" width="140" height="60" rx="8" fill="#20242a" stroke="#fff" stroke-width="1.5"/>
+            <text x="400" y="98" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">AST Verification Gate</text>
+            <text x="400" y="116" fill="#a0a8b2" font-size="11" text-anchor="middle">99.9% Pass Rate</text>
+          </svg>
+        </div>
+
+        <div class="inspector-header">
+          <div>
+            <div class="inspector-title" id="inspectorTitle">Hermes Agent Engine</div>
+            <div class="inspector-role" id="inspectorRole">Autonomous Multi-Agent Engineering CLI &amp; Sandboxed Runtime</div>
+          </div>
+        </div>
+
+        <p class="inspector-desc" id="inspectorDesc">
+          Production harness orchestrating DAG task decomposition, sandboxed Docker container execution, and deterministic AST verification gates. Allows LLM coding agents to autonomously run tests, generate patches, and verify side effects.
+        </p>
+
+        <div class="inspector-metrics" id="inspectorMetrics">
+          <div><div class="val">10K+</div><div class="lbl">Tasks Ran</div></div>
+          <div><div class="val">&lt; 50ms</div><div class="lbl">Agent Dispatch</div></div>
+          <div><div class="val">99.9%</div><div class="lbl">AST Verification</div></div>
+        </div>
+
+        <div class="inspector-actions" id="inspectorActions">
+          <a href="/work/hermes" class="btn btn-primary">Full Architecture Case Study →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      hermes: {
+        title: "Hermes Agent Engine",
+        role: "Autonomous Multi-Agent Engineering CLI & Sandboxed Runtime",
+        desc: "Production harness orchestrating DAG task decomposition, sandboxed Docker container execution, and deterministic AST verification gates. Allows LLM coding agents to autonomously run tests, generate patches, and verify side effects.",
+        metrics: [["10K+", "Tasks Ran"], ["< 50ms", "Agent Dispatch"], ["99.9%", "AST Verification"]],
+        link: "/work/hermes",
+        live: null
+      },
+      afno: {
+        title: "Afno Events",
+        role: "Live Ticketing & Gate Verification Platform (UK & Nepal)",
+        desc: "High-throughput ticketing engine with sub-second offline gate scanning using Flutter camera barcode listeners, rolling HMAC QR vouchers, and multi-currency Stripe Terminal payment routing.",
+        metrics: [["< 0.8s", "Gate Scan"], ["100%", "Offline SQLite"], ["Zero", "Duplicate Entries"]],
+        link: "/work/afno-events",
+        live: "https://afnoevents.co.uk"
+      },
+      syasyah: {
+        title: "Syasyah Samaj (स्यस्यः समाज)",
+        role: "Offline-First Accounting SPA & Trilingual Civic App",
+        desc: "Civic community accounting platform serving 10 territorial Ilakas in Lalitpur. Engineered with an IndexedDB cache-first store for sub-millisecond offline lookups and automated cloud sync.",
+        metrics: [["0ms", "Offline Read"], ["3 Langs", "EN / NE / NEW"], ["10", "Territorial Ilakas"]],
+        link: "/work/syasyah-samaj",
+        live: "https://syasyahsamaj.com"
+      },
+      nepse: {
+        title: "Nepse Pro",
+        role: "Quantitative Financial Market Terminal & TimescaleDB ETL",
+        desc: "Financial analytics platform ingesting real-time trading floor orders into TimescaleDB. Runs automated algorithmic pattern recognition, candlestick breakout detection, and automated Telegram trading alerts.",
+        metrics: [["< 150ms", "Live Ingestion"], ["250+", "Equities Tracked"], ["91.4%", "Signal Precision"]],
+        link: "/work/nepse-analyser",
+        live: "https://nepse.ratosuryaonline.com"
+      },
+      astro: {
+        title: "Astro Guru",
+        role: "Vedic Astrometry & AI Reasoning Engine",
+        desc: "Swiss Ephemeris astronomical calculation engine calculating precise planetary longitudes, divisional charts (D1 to D60), and transit aspects paired with structured Gemini 1.5 LLM celestial interpretations.",
+        metrics: [["< 2s", "AI Inference"], ["12", "Houses Calc"], ["Exact", "Swiss Ephemeris"]],
+        link: "/work/astro-guru",
+        live: "https://astro.ratosuryaonline.com"
+      },
+      research: {
+        title: "Agentic Safety & AST Research",
+        role: "Doctoral Research Agenda & Formal Verification",
+        desc: "Academic inquiry into deterministic runtime verification gates, sandboxed multi-turn execution, and bounding autonomous reasoning in mission-critical applications.",
+        metrics: [["Formal", "AST Checks"], ["100%", "Deterministic"], ["PhD", "Candidate"]],
+        link: "/about#research",
+        live: null
+      }
+    };
+
+    function selectProject(key, el) {
+      document.querySelectorAll('.project-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      const p = data[key];
+      document.getElementById('inspectorTitle').innerText = p.title;
+      document.getElementById('inspectorRole').innerText = p.role;
+      document.getElementById('inspectorDesc').innerText = p.desc;
+      
+      const metricsContainer = document.getElementById('inspectorMetrics');
+      metricsContainer.innerHTML = p.metrics.map(m => `<div><div class="val">${m[0]}</div><div class="lbl">${m[1]}</div></div>`).join('');
+
+      const actionsContainer = document.getElementById('inspectorActions');
+      let btns = `<a href="${p.link}" class="btn btn-primary">Full Architecture Case Study →</a>`;
+      if (p.live) {
+        btns = `<a href="${p.live}" target="_blank" class="btn btn-secondary">Live Demo ↗</a> ` + btns;
+      }
+      actionsContainer.innerHTML = btns;
+    }
+  </script>
+</body>
+</html>
