@@ -60,9 +60,13 @@ export default async function About() {
         <aside className={styles.sidebar}>
           {/* Identity & Profile Card */}
           <div className={styles.profileCard}>
-            <div className={styles.profileAvatar}>
-              <Avatar src={avatarUrl} size="xl" />
-            </div>
+            <Avatar
+              src={avatarUrl}
+              size="xl"
+              style={{
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+              }}
+            />
 
             <Column fillWidth gap="4" horizontal="center">
               <Heading as="h2" variant="heading-strong-l">

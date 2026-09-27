@@ -30,15 +30,6 @@
   gap: var(--static-space-16);
 }
 
-.profileAvatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 2px solid var(--neutral-border-medium);
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
 .statusPill {
   font-family: var(--font-mono, monospace);
   font-size: 11px;
