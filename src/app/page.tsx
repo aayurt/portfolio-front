@@ -128,6 +128,19 @@ export default async function Home() {
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
           <PatienceImage width="10rem" height="10rem" />
+          <Tag
+            variant="neutral"
+            size="m"
+            style={{
+              marginTop: "8px",
+              marginBottom: "8px",
+              letterSpacing: "0.04em",
+              fontFamily: "var(--font-mono, monospace)",
+              fontWeight: 600,
+            }}
+          >
+            Senior Systems & Full-Stack Engineer
+          </Tag>
           <RevealFx
             translateY="4"
             fillWidth

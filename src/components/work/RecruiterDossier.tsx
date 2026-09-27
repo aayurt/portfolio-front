@@ -67,7 +67,7 @@ export function RecruiterDossier({
       {/* Quick Actions Row */}
       <div className={styles.actionsRow}>
         <div className={styles.specsNote}>
-          Location: Kathmandu (UTC+5:45) · Availability: Remote / Relocation / Full-Time
+          Kathmandu (UTC+5:45) · 4+ hrs US/UK/EU overlap · Remote / Relocation / Full-Time
         </div>
 
         <div className={styles.buttonGroup}>
