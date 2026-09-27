@@ -63,23 +63,26 @@
   display: flex;
   flex-direction: column;
   background: var(--neutral-background-weak);
-  border: 1px solid var(--neutral-border-weak);
-  border-radius: var(--radius-l);
-  overflow: hidden;
+  border: 1px solid var(--neutral-border-medium);
+  border-radius: var(--radius-xl, 20px);
+  padding: var(--static-space-16);
+  gap: var(--static-space-16);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    border-color: var(--neutral-border-medium);
+    border-color: var(--neutral-on-background-weak);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
   }
 }
 
-/* CARD VISUAL CONTAINER */
+/* INSET WINDOWED VISUAL CONTAINER */
 .cardVisual {
   height: 220px;
   background: var(--neutral-background-strong);
-  border-bottom: 1px solid var(--neutral-border-weak);
+  border: 1px solid var(--neutral-border-weak);
+  border-radius: var(--radius-l, 14px);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -89,14 +92,14 @@
   svg {
     width: 100%;
     height: 100%;
-    max-height: 210px;
+    max-height: 200px;
   }
 }
 
 .cardBadge {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 10px;
+  left: 10px;
   z-index: 5;
   font-family: var(--font-mono, monospace);
   font-size: 10px;
@@ -113,7 +116,7 @@
 
 /* CARD BODY */
 .cardBody {
-  padding: var(--static-space-20);
+  padding: 0 var(--static-space-4) var(--static-space-4);
   display: flex;
   flex-direction: column;
   flex: 1;
