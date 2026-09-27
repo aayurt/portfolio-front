@@ -1,4 +1,4 @@
-import { Mailchimp, ProductBento, ResearchFeed, SolutionsRails } from "@/components";
+import { Mailchimp, ProductBento, RecruiterDossier, ResearchFeed, SolutionsRails } from "@/components";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
@@ -198,6 +198,20 @@ export default async function Home() {
             </Row>
           </RevealFx>
         </Column>
+
+        <RevealFx delay={0.5} fillWidth horizontal="center">
+          <RecruiterDossier
+            email={data?.contactInfo?.email || data?.email || person.email}
+            githubUrl={
+              (data?.socialMedia as Record<string, string>)?.github ||
+              "https://github.com/aayurt"
+            }
+            linkedinUrl={
+              (data?.socialMedia as Record<string, string>)?.linkedin ||
+              "https://www.linkedin.com/in/aayurt-shrestha/"
+            }
+          />
+        </RevealFx>
       </Column>
 
       {/* Products Section with Interactive Bento Grid */}
