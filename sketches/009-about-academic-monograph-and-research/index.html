@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Layout 09: Academic Monograph & Research Profile</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #494952;
+      --text-sub: #7a7a85;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --serif: "Charter", "Georgia", "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.6;
+      padding: 48px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 48px; }
+
+    .scholar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #111;
+      padding-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .scholar-name { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; }
+    .scholar-meta { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+
+    .scholar-intro {
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.7;
+      color: #222;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: var(--mono);
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+    }
+
+    .pub-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--border-light);
+    }
+    .pub-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
+    .pub-authors { font-size: 13px; color: var(--text-muted); }
+    .pub-venue { font-family: var(--mono); font-size: 12px; color: var(--text-sub); }
+    .bib-toggle {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #111;
+      cursor: pointer;
+      text-decoration: underline;
+      width: fit-content;
+      margin-top: 4px;
+    }
+    .bib-box {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      white-space: pre-wrap;
+    }
+
+    .cv-entry {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+    }
+    .cv-dates { font-family: var(--mono); font-size: 12px; color: var(--text-sub); }
+    .cv-detail { display: flex; flex-direction: column; gap: 2px; }
+    .cv-bold { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="scholar-header">
+      <div>
+        <h1 class="scholar-name">Aayurt Shrestha</h1>
+        <div class="scholar-meta">Software Systems Architect · Kathmandu, Nepal (UTC+5:45)</div>
+      </div>
+      <div style="font-family: var(--mono); font-size: 12px;">
+        <a href="#" style="color: #111; font-weight: 700;">Curriculum Vitae (PDF) ↗</a>
+      </div>
+    </header>
+
+    <div class="scholar-intro">
+      I investigate autonomous agentic execution architectures, formal AST verification gates, and offline-first community synchronization systems. My technical practice bridges empirical software engineering in high-throughput cloud infrastructure with formal inquiry into bounded agent reasoning in safety-critical domains.
+    </div>
+
+    <!-- Research Publications -->
+    <section>
+      <div class="section-title">Research Publications & Working Papers</div>
+      
+      <div class="pub-entry">
+        <h3 class="pub-title">Autonomy in the Clinic: The Research Frontier of Agentic AI</h3>
+        <div class="pub-authors">Aayurt Shrestha (2026)</div>
+        <div class="pub-venue">Working Monograph on Autonomous Agent Reliability & AST Evaluation Gates</div>
+        <div class="bib-toggle" onclick="toggleBib('bib1')">[Show BibTeX Citation]</div>
+        <div class="bib-box" id="bib1">@article{shrestha2026autonomy,
+  title={Autonomy in the Clinic: The Research Frontier of Agentic AI},
+  author={Shrestha, Aayurt},
+  journal={Working Monograph on Autonomous Agent Systems},
+  year={2026}
+}</div>
+      </div>
+
+      <div class="pub-entry">
+        <h3 class="pub-title">Offline State Synchronization in Civic Administration Ledgers</h3>
+        <div class="pub-authors">Aayurt Shrestha (2025)</div>
+        <div class="pub-venue">Technical Monograph on IndexedDB & Cache-First Reconciliation Topologies</div>
+      </div>
+    </section>
+
+    <!-- Industry Engineering Appointments -->
+    <section>
+      <div class="section-title">Professional Appointments</div>
+      
+      <div class="cv-entry">
+        <span class="cv-dates">2023 – 2025</span>
+        <div class="cv-detail">
+          <span class="cv-bold">Software Engineer, Multi-Tenant Platforms</span>
+          <span>Pageup People · Melbourne / Global</span>
+          <span style="color: var(--text-muted); font-size: 13px;">Architecture of WebSocket chat infrastructure, timeseries ETL pipelines, and Next.js frontend modernization.</span>
+        </div>
+      </div>
+
+      <div class="cv-entry">
+        <span class="cv-dates">2022 – 2023</span>
+        <div class="cv-detail">
+          <span class="cv-bold">Software Engineer, Mobile & Systems</span>
+          <span>MobileKraft · Kathmandu, Nepal</span>
+          <span style="color: var(--text-muted); font-size: 13px;">Bespoke cross-platform mobile apps with Flutter, SQLite offline state caching, and high-performance Redis endpoints.</span>
+        </div>
+      </div>
+
+      <div class="cv-entry">
+        <span class="cv-dates">2019 – 2022</span>
+        <div class="cv-detail">
+          <span class="cv-bold">Software Engineer, Public Sector Systems</span>
+          <span>Himalayan Techies · Lalitpur, Nepal</span>
+          <span style="color: var(--text-muted); font-size: 13px;">Municipal civic administration tools and offline-first progressive web applications for low-connectivity regions.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic Degrees -->
+    <section>
+      <div class="section-title">Academic Qualifications</div>
+      
+      <div class="cv-entry">
+        <span class="cv-dates">Postgraduate</span>
+        <div class="cv-detail">
+          <span class="cv-bold">MSc in Software Engineering with Management Studies</span>
+          <span>Kingston University London, United Kingdom</span>
+        </div>
+      </div>
+
+      <div class="cv-entry">
+        <span class="cv-dates">Undergraduate</span>
+        <div class="cv-detail">
+          <span class="cv-bold">BSc in Computer Science and Information Technology (BSc CSIT)</span>
+          <span>Patan Campus, Tribhuvan University, Nepal</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function toggleBib(id) {
+      const box = document.getElementById(id);
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

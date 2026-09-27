@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Layout 08: Two-Pane Systems Dossier</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #5e5e67;
+      --text-sub: #878792;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper { width: 100%; max-width: 1080px; display: grid; grid-template-columns: 340px 1fr; gap: 40px; }
+    @media (max-width: 860px) { .wrapper { grid-template-columns: 1fr; } }
+    
+    .dossier-left {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 40px;
+    }
+    .dossier-badge { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-sub); }
+    .dossier-name { font-size: 24px; font-weight: 800; line-height: 1.2; }
+    .dossier-bio { font-size: 14px; color: var(--text-muted); line-height: 1.55; }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      padding: 16px 0;
+    }
+    .stat-box { display: flex; flex-direction: column; gap: 2px; }
+    .stat-num { font-size: 18px; font-weight: 800; font-family: var(--mono); }
+    .stat-label { font-size: 11px; color: var(--text-sub); font-family: var(--mono); text-transform: uppercase; }
+
+    .dossier-ctas { display: flex; flex-direction: column; gap: 8px; }
+    .btn {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-dark { background: #111; color: #fff; border: 1px solid #111; }
+    .btn-light { background: #fff; color: #111; border: 1px solid var(--card-border); }
+
+    /* RIGHT TABS PANE */
+    .dossier-right { display: flex; flex-direction: column; gap: 20px; }
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .tab-content { display: none; flex-direction: column; gap: 20px; }
+    .tab-content.active { display: flex; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .card-title { font-size: 16px; font-weight: 700; }
+    .card-time { font-family: var(--mono); font-size: 11px; color: var(--text-sub); }
+    .card-role { font-family: var(--mono); font-size: 12px; font-weight: 600; color: #333; }
+    .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="dossier-left">
+      <span class="dossier-badge">STAFF PROFILE / DOSSIER</span>
+      <h1 class="dossier-name">Aayurt Shrestha</h1>
+      <p class="dossier-bio">Full-stack software architect specializing in multi-tenant SaaS, autonomous agent execution engines, and offline-first community infrastructure.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-box"><span class="stat-num">6+ YRS</span><span class="stat-label">Production Exp</span></div>
+        <div class="stat-box"><span class="stat-num">10K+</span><span class="stat-label">Agent Tasks</span></div>
+        <div class="stat-box"><span class="stat-num">3 PROD</span><span class="stat-label">SaaS Platforms</span></div>
+        <div class="stat-box"><span class="stat-num">2 DEGREES</span><span class="stat-label">UK MSc & Nepal BSc</span></div>
+      </div>
+
+      <div class="dossier-ctas">
+        <a href="#" class="btn btn-dark">Download Curriculum Vitae (PDF) ↗</a>
+        <a href="mailto:aayurtshrestha@gmail.com" class="btn btn-light">Initiate Contact →</a>
+      </div>
+    </div>
+
+    <div class="dossier-right">
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="setTab(0, this)">Production History</button>
+        <button class="tab-btn" onclick="setTab(1, this)">Systems Architecture</button>
+        <button class="tab-btn" onclick="setTab(2, this)">Academic Degrees & Research</button>
+      </div>
+
+      <!-- Tab 0: Production History -->
+      <div class="tab-content active" id="tab-0">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Pageup People</h3>
+            <span class="card-time">Oct 2023 – Jun 2025</span>
+          </div>
+          <div class="card-role">Software Engineer · Multi-Tenant Cloud Platform</div>
+          <p class="card-desc">Architected scalable enterprise features in a multi-tenant recruitment marketing platform. Built real-time WebSocket chat infrastructure, timeseries ETL pipelines, and led Next.js frontend modernization reducing bundle sizes by 38%.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">MobileKraft</h3>
+            <span class="card-time">Sep 2022 – Jul 2023</span>
+          </div>
+          <div class="card-role">Software Engineer · Mobile & Full-Stack</div>
+          <p class="card-desc">Engineered full-stack and Flutter apps with offline SQLite caches, sub-second door check-in camera scanners, and Redis high-throughput caching.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Himalayan Techies</h3>
+            <span class="card-time">Dec 2019 – Jul 2022</span>
+          </div>
+          <div class="card-role">Software Engineer · Public Sector & Systems</div>
+          <p class="card-desc">Developed offline-first civic platforms and government auditing ledgers with zero-downtime local synchronization.</p>
+        </div>
+      </div>
+
+      <!-- Tab 1: Systems Architecture -->
+      <div class="tab-content" id="tab-1">
+        <div class="card">
+          <h3 class="card-title">Autonomous AI & Multi-Agent Execution</h3>
+          <p class="card-desc">Hermes Agent CLI orchestration, parallel subagent sandboxing, AST verification gates, Ollama local inference, Gemini 1.5 API.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Distributed Backend & Storage Topologies</h3>
+          <p class="card-desc">PostgreSQL schema isolation, Payload CMS 3 monorepos, TimescaleDB financial timeseries, Redis cache layers, Node.js 22 runtime.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">High-Throughput Frontend & Mobile PWA</h3>
+          <p class="card-desc">Next.js 15 standalone builds, React 19, Flutter 3 cross-platform apps, offline-first IndexedDB client caches, Once UI design systems.</p>
+        </div>
+      </div>
+
+      <!-- Tab 2: Academic Degrees & Research -->
+      <div class="tab-content" id="tab-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Kingston University | London</h3>
+            <span class="card-time">Postgraduate MSc</span>
+          </div>
+          <div class="card-role">MSc in Software Engineering with Management Studies</div>
+          <p class="card-desc">Focus on software architecture, distributed system engineering, project governance, and formal verification methodologies.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Patan Campus | Tribhuvan University</h3>
+            <span class="card-time">Undergraduate BSc</span>
+          </div>
+          <div class="card-role">BSc in Computer Science and Information Technology</div>
+          <p class="card-desc">Foundational studies in algorithms, data structures, discrete mathematics, and operating systems.</p>
+        </div>
+        <div class="card" style="border: 2px dashed #999;">
+          <h3 class="card-title">Doctoral Inquiry: Autonomy in the Clinic (Agentic AI)</h3>
+          <p class="card-desc">Investigating closed-loop autonomous agent verification gates, AST static analysis, and deterministic reliability in mission-critical environments.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setTab(idx, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`tab-${idx}`).classList.add('active');
+    }
+  </script>
+</body>
+</html>

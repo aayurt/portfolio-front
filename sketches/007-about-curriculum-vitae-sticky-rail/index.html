@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Layout 07: Sticky Rail Curriculum Vitae & Categorized Competencies</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff;
+      --card-bg: #f9f9fb;
+      --card-border: #e2e2e7;
+      --border-light: #ececf1;
+      --text-main: #111113;
+      --text-muted: #5e5e67;
+      --text-sub: #878792;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .wrapper { grid-template-columns: 1fr; }
+    }
+
+    /* LEFT STICKY SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+      align-items: center;
+    }
+    .avatar-ph {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid var(--text-main);
+      background: #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .profile-name { font-size: 20px; font-weight: 700; }
+    .profile-role { font-size: 13px; color: var(--text-muted); font-family: var(--mono); }
+    .status-pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: #222;
+      background: #e5e5ea;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #111; }
+    
+    .sidebar-actions { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: var(--sans);
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary { background: #111; color: #fff; border: 1px solid #111; }
+    .btn-secondary { background: var(--bg); color: var(--text-main); border: 1px solid var(--card-border); }
+    .btn:hover { opacity: 0.9; }
+
+    .sidebar-meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 16px;
+      width: 100%;
+      text-align: left;
+    }
+    .meta-row { display: flex; justify-content: space-between; font-size: 12px; }
+    .meta-key { font-family: var(--mono); color: var(--text-sub); }
+    .meta-val { font-weight: 600; color: var(--text-main); }
+
+    .toc-card {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toc-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-sub); margin-bottom: 4px; }
+    .toc-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: all 0.1s ease;
+    }
+    .toc-link:hover, .toc-link.active {
+      color: var(--text-main);
+      font-weight: 600;
+      background: var(--card-bg);
+    }
+
+    /* RIGHT MAIN CONTENT */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .bio-block { display: flex; flex-direction: column; gap: 16px; }
+    .bio-title { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+    .bio-text { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+    
+    /* CATEGORIZED COMPETENCIES */
+    .section-header { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .section-eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-sub); }
+    .section-h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+
+    .skills-quad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 650px) { .skills-quad { grid-template-columns: 1fr; } }
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .skill-card-title { font-size: 14px; font-weight: 700; font-family: var(--mono); display: flex; justify-content: space-between; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      background: #e8e8ed;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #333;
+    }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 24px; border-left: 2px solid var(--border-light); padding-left: 20px; margin-left: 8px; }
+    .timeline-item { display: flex; flex-direction: column; gap: 8px; position: relative; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #111;
+      border: 3px solid #fff;
+    }
+    .timeline-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; }
+    .timeline-company { font-size: 17px; font-weight: 700; }
+    .timeline-role { font-family: var(--mono); font-size: 12px; font-weight: 600; color: #444; }
+    .timeline-period { font-family: var(--mono); font-size: 12px; color: var(--text-sub); }
+    .timeline-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+    .timeline-bullets { list-style: square; padding-left: 18px; font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+
+    /* EDUCATION & RESEARCH */
+    .studies-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    @media (max-width: 650px) { .studies-grid { grid-template-columns: 1fr; } }
+    .study-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .study-inst { font-size: 15px; font-weight: 700; }
+    .study-degree { font-size: 13px; color: var(--text-muted); }
+    .study-time { font-family: var(--mono); font-size: 11px; color: var(--text-sub); margin-top: 4px; }
+
+    .research-highlight-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- LEFT STICKY SIDEBAR -->
+    <aside class="sidebar">
+      <div class="profile-card">
+        <div class="avatar-ph">AS / 2026</div>
+        <div>
+          <h2 class="profile-name">Aayurt Shrestha</h2>
+          <div class="profile-role">Full-Stack & Systems Engineer</div>
+        </div>
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span>Open to Staff & PhD Roles</span>
+        </div>
+
+        <div class="sidebar-actions">
+          <a href="#" class="btn btn-primary">Download CV (PDF) ↗</a>
+          <a href="mailto:aayurtshrestha@gmail.com" class="btn btn-secondary">Get in Touch →</a>
+        </div>
+
+        <div class="sidebar-meta-list">
+          <div class="meta-row"><span class="meta-key">LOCATION</span><span class="meta-val">Kathmandu, Nepal</span></div>
+          <div class="meta-row"><span class="meta-key">TIMEZONE</span><span class="meta-val">UTC+5:45 (Asia/KTM)</span></div>
+          <div class="meta-row"><span class="meta-key">EXPERIENCE</span><span class="meta-val">6+ Years</span></div>
+          <div class="meta-row"><span class="meta-key">LANGUAGES</span><span class="meta-val">English, Nepali, Newar</span></div>
+        </div>
+      </div>
+
+      <nav class="toc-card">
+        <span class="toc-title">Page Navigation</span>
+        <a href="#overview" class="toc-link active" onclick="setActiveToc(this)">01. Overview</a>
+        <a href="#competencies" class="toc-link" onclick="setActiveToc(this)">02. Systems Competencies</a>
+        <a href="#experience" class="toc-link" onclick="setActiveToc(this)">03. Work Experience</a>
+        <a href="#education" class="toc-link" onclick="setActiveToc(this)">04. Academic Degrees</a>
+        <a href="#research" class="toc-link" onclick="setActiveToc(this)">05. Research Agenda</a>
+      </nav>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT -->
+    <main class="main-content">
+      <!-- 01. Overview -->
+      <section id="overview" class="bio-block">
+        <h1 class="bio-title">Architecting autonomous AI engines, offline-first systems, and scalable full-stack products.</h1>
+        <p class="bio-text">
+          I am a software engineer and product builder with technical depth in distributed architectures, agentic code execution, and high-performance web systems. Over the past 6+ years, I have engineered multi-tenant recruitment marketing platforms, offline-resilient civic software, automated quantitative trading pipelines, and autonomous multi-agent developer CLI harnesses.
+        </p>
+        <p class="bio-text">
+          My work bridges practical systems engineering with academic rigor — pairing deterministic evaluation gates and AST verification with production reliability.
+        </p>
+      </section>
+
+      <!-- 02. Categorized Competencies -->
+      <section id="competencies">
+        <div class="section-header">
+          <span class="section-eyebrow">Technical Architecture</span>
+          <h2 class="section-h2">Systems Competencies</h2>
+        </div>
+        <div class="skills-quad">
+          <div class="skill-card">
+            <div class="skill-card-title"><span>01 / AI & AGENTS</span><span>MLOps</span></div>
+            <div class="skill-pills">
+              <span class="skill-pill">Hermes CLI</span>
+              <span class="skill-pill">Ollama</span>
+              <span class="skill-pill">Gemini API</span>
+              <span class="skill-pill">AST Verification</span>
+              <span class="skill-pill">n8n Daemons</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-title"><span>02 / BACKEND & STORAGE</span><span>Core Infra</span></div>
+            <div class="skill-pills">
+              <span class="skill-pill">Node.js 22</span>
+              <span class="skill-pill">Python 3</span>
+              <span class="skill-pill">PostgreSQL</span>
+              <span class="skill-pill">Payload CMS 3</span>
+              <span class="skill-pill">TimescaleDB</span>
+              <span class="skill-pill">Redis</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-title"><span>03 / FRONTEND & MOBILE</span><span>Client Apps</span></div>
+            <div class="skill-pills">
+              <span class="skill-pill">Next.js 15/16</span>
+              <span class="skill-pill">React 19</span>
+              <span class="skill-pill">TypeScript</span>
+              <span class="skill-pill">Flutter 3 & Dart</span>
+              <span class="skill-pill">IndexedDB PWA</span>
+              <span class="skill-pill">Once UI</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-title"><span>04 / DEVOPS & SYSTEMS</span><span>Deployment</span></div>
+            <div class="skill-pills">
+              <span class="skill-pill">Docker Containers</span>
+              <span class="skill-pill">Nginx Standalone</span>
+              <span class="skill-pill">PM2 Clustering</span>
+              <span class="skill-pill">Linux VPS</span>
+              <span class="skill-pill">Git Hooks & CI</span>
+              <span class="skill-pill">AWS S3</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03. Experience -->
+      <section id="experience">
+        <div class="section-header">
+          <span class="section-eyebrow">Production History</span>
+          <h2 class="section-h2">Work Experience</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <span class="timeline-company">Pageup People</span>
+              <span class="timeline-period">Oct 2023 – Jun 2025</span>
+            </div>
+            <div class="timeline-role">Software Engineer · Multi-Tenant Cloud Platform</div>
+            <p class="timeline-desc">Led architecture and delivery of scalable enterprise features within a multi-tenant recruitment marketing platform.</p>
+            <ul class="timeline-bullets">
+              <li>Architected real-time WebSocket chat infrastructure handling thousands of concurrent candidate interactions.</li>
+              <li>Engineered batch timeseries ETL pipelines and integrated LLM-powered candidate screening features.</li>
+              <li>Spearheaded Next.js frontend modernization, reducing bundle sizes by 38% and lowering LCP times.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <span class="timeline-company">MobileKraft</span>
+              <span class="timeline-period">Sep 2022 – Jul 2023</span>
+            </div>
+            <div class="timeline-role">Software Engineer · Mobile & Full-Stack</div>
+            <p class="timeline-desc">Designed and deployed bespoke full-stack web and Flutter mobile applications for client enterprises.</p>
+            <ul class="timeline-bullets">
+              <li>Engineered cross-platform mobile apps with offline SQLite state caches and sub-second push notifications.</li>
+              <li>Built a visual API query editor and implemented Redis caching layers for high-throughput endpoints.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <span class="timeline-company">Himalayan Techies</span>
+              <span class="timeline-period">Dec 2019 – Jul 2022</span>
+            </div>
+            <div class="timeline-role">Software Engineer · Public Sector & Systems</div>
+            <p class="timeline-desc">Delivered critical municipal and government enterprise platforms operating in low-connectivity environments.</p>
+            <ul class="timeline-bullets">
+              <li>Pioneered offline-first PWA architecture with client-side synchronization and conflict resolution.</li>
+              <li>Built auditing and transaction ledger systems managing community civic records.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04. Education -->
+      <section id="education">
+        <div class="section-header">
+          <span class="section-eyebrow">Academic Background</span>
+          <h2 class="section-h2">Education & Studies</h2>
+        </div>
+        <div class="studies-grid">
+          <div class="study-card">
+            <h3 class="study-inst">Kingston University | London</h3>
+            <div class="study-degree">MSc in Software Engineering with Management Studies</div>
+            <div class="study-time">Postgraduate Degree · UK</div>
+          </div>
+          <div class="study-card">
+            <h3 class="study-inst">Patan Campus | Tribhuvan University</h3>
+            <div class="study-degree">BSc in Computer Science and Information Technology</div>
+            <div class="study-time">Undergraduate Degree · Lalitpur, Nepal</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05. Research Agenda -->
+      <section id="research">
+        <div class="section-header">
+          <span class="section-eyebrow">Research & Inquiries</span>
+          <h2 class="section-h2">Doctoral & Research Agenda</h2>
+        </div>
+        <div class="research-highlight-box">
+          <h3 style="font-size: 18px; font-weight: 700;">Autonomy in the Clinic: The Research Frontier of Agentic AI</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+            Investigating deterministic verification gates, AST static analysis, and multi-turn feedback loops to bound autonomous agent reasoning in mission-critical environments.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="skill-pill">Deterministic Agent Gates</span>
+            <span class="skill-pill">AST Verification</span>
+            <span class="skill-pill">Offline State Machines</span>
+            <span class="skill-pill">Human-in-the-Loop</span>
+          </div>
+          <div style="border-top: 1px solid var(--card-border); padding-top: 10px; margin-top: 6px; font-family: var(--mono); font-size: 12px;">
+            <a href="/blog/autonomy-in-the-clinic-the-research-frontier-of-agentic-ai" style="color: #111; font-weight: 700; text-decoration: none;">Read Publication & Research Abstract →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function setActiveToc(el) {
+      document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
+</body>
+</html>
