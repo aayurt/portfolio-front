@@ -4,9 +4,9 @@ import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
-import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, work } from "@/resources";
 import { getImageUrl, getProjectBySlug, getProjects, getTenantBySlug } from "@/utils/payload";
+import Link from "next/link";
 import {
   Column,
   Grid,
@@ -78,6 +78,9 @@ export default async function Project({
   }
 
   const imageUrl = project.images?.[0] ? getImageUrl(project.images[0]) : null;
+  const relatedProjects = allProjects
+    .filter((p) => p.slug !== project.slug)
+    .slice(0, 2);
 
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
@@ -340,13 +343,77 @@ export default async function Project({
           </List>
         </Column>
       )}
-      <Column fillWidth gap="40" horizontal="center" marginTop="40">
-        <Line maxWidth="40" />
-        <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
-          Related projects
-        </Heading>
-        <Projects projects={allProjects} range={[2]} exclude={[project.slug || ""]} />
-      </Column>
+      {relatedProjects.length > 0 && (
+        <Column fillWidth gap="24" horizontal="center" marginTop="48">
+          <Line maxWidth="40" />
+          <Heading as="h2" id="related-projects" variant="heading-strong-xl" marginBottom="8">
+            Explore More Architecture
+          </Heading>
+          <Text variant="body-default-s" onBackground="neutral-weak" marginBottom="16" align="center">
+            Production systems across agentic workflows, fintech pipelines, and civic engines.
+          </Text>
+          <Grid columns="2" s={{ columns: 1 }} fillWidth gap="20">
+            {relatedProjects.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/work/${item.slug}`}
+                style={{ textDecoration: "none", color: "inherit", display: "flex", width: "100%" }}
+              >
+                <Column
+                  fillWidth
+                  padding="24"
+                  gap="16"
+                  style={{
+                    background: "var(--neutral-background-weak)",
+                    border: "1px solid var(--neutral-border-medium)",
+                    borderRadius: "var(--radius-xl)",
+                    boxShadow: "0 2px 12px rgba(0, 0, 0, 0.04)",
+                    transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
+                  }}
+                >
+                  <Row horizontal="between" vertical="center" fillWidth>
+                    <Tag variant="neutral" radius="full">
+                      <Text
+                        variant="label-default-xs"
+                        style={{ fontFamily: "var(--font-mono, monospace)" }}
+                      >
+                        SYSTEM ARCHITECTURE
+                      </Text>
+                    </Tag>
+                    {item.timeframe && (
+                      <Text variant="label-default-xs" onBackground="neutral-weak">
+                        {item.timeframe}
+                      </Text>
+                    )}
+                  </Row>
+                  <Heading as="h3" variant="heading-strong-m">
+                    {item.title}
+                  </Heading>
+                  {item.description && (
+                    <Text
+                      variant="body-default-s"
+                      onBackground="neutral-weak"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.description}
+                    </Text>
+                  )}
+                  <Row vertical="center" gap="8" style={{ marginTop: "auto", paddingTop: "12px" }}>
+                    <Text variant="label-strong-s" onBackground="neutral-strong">
+                      View Case Study →
+                    </Text>
+                  </Row>
+                </Column>
+              </Link>
+            ))}
+          </Grid>
+        </Column>
+      )}
       <ScrollToHash />
     </Column>
   );

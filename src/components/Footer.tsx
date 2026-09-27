@@ -1,9 +1,33 @@
 import { IconButton, Row, SmartLink, Text } from "@once-ui-system/core";
 import styles from "./Footer.module.scss";
 import { Tenant } from "../../payload-types";
+import { social } from "@/resources/content";
 
 export const Footer = async ({ tenant }: { tenant: Tenant | null }) => {
   const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    {
+      name: "GitHub",
+      icon: "github",
+      link: tenant?.socialMedia?.github || social.find((s) => s.name.toLowerCase() === "github")?.link,
+    },
+    {
+      name: "LinkedIn",
+      icon: "linkedin",
+      link: tenant?.socialMedia?.linkedin || social.find((s) => s.name.toLowerCase() === "linkedin")?.link,
+    },
+    {
+      name: "Instagram",
+      icon: "instagram",
+      link: tenant?.socialMedia?.instagram || social.find((s) => s.name.toLowerCase() === "instagram")?.link,
+    },
+    {
+      name: "Twitter / X",
+      icon: "twitter",
+      link: tenant?.socialMedia?.twitter || social.find((s) => s.name.toLowerCase() === "twitter" || s.name.toLowerCase() === "x")?.link,
+    },
+  ].filter((item): item is { name: string; icon: string; link: string } => Boolean(item.link));
 
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
@@ -31,74 +55,18 @@ export const Footer = async ({ tenant }: { tenant: Tenant | null }) => {
           </Text>
         </Text>
         <Row gap="16">
-          {
-            tenant?.socialMedia?.facebook && (
-              <IconButton
-                href={tenant.socialMedia.facebook}
-                icon="facebook"
-                tooltip="Facebook"
-                size="s"
-                variant="ghost"
-              />
-            )
-          }
-          {
-            tenant?.socialMedia?.instagram && (
-              <IconButton
-                href={tenant.socialMedia.instagram}
-                icon="instagram"
-                tooltip="Instagram"
-                size="s"
-                variant="ghost"
-              />
-            )
-          }
-          {
-            tenant?.socialMedia?.twitter && (
-              <IconButton
-                href={tenant.socialMedia.twitter}
-                icon="twitter"
-                tooltip="Twitter"
-                size="s"
-                variant="ghost"
-              />
-            )
-          }
-          {
-            tenant?.socialMedia?.linkedin && (
-              <IconButton
-                href={tenant.socialMedia.linkedin}
-                icon="linkedin"
-                tooltip="LinkedIn"
-                size="s"
-                variant="ghost"
-              />
-            )
-          }
-          {
-            tenant?.socialMedia?.github && (
-              <IconButton
-                href={tenant.socialMedia.github}
-                icon="github"
-                tooltip="GitHub"
-                size="s"
-                variant="ghost"
-              />
-            )
-          }
-          {/* {social.map(
-            (item) =>
-              item.link && (
-                <IconButton
-                  key={item.name}
-                  href={item.link}
-                  icon={item.icon}
-                  tooltip={item.name}
-                  size="s"
-                  variant="ghost"
-                />
-              ),
-          )} */}
+          {socialLinks.map((item) => (
+            <IconButton
+              key={item.name}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              icon={item.icon}
+              tooltip={item.name}
+              size="s"
+              variant="ghost"
+            />
+          ))}
         </Row>
       </Row>
       <Row height="80" hide s={{ hide: false }} />

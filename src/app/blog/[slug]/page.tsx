@@ -1,13 +1,14 @@
 import { RichText, ScrollToHash } from "@/components";
-import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getImageUrl, getPostBySlug, getPosts, getTenantBySlug } from "@/utils/payload";
+import Link from "next/link";
 import {
   Avatar,
   Column,
   Flex,
+  Grid,
   Heading,
   HeadingNav,
   Line,
@@ -69,6 +70,9 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
   }
 
   const imageUrl = post.heroImage ? getImageUrl(post.heroImage) : null;
+  const otherPosts = recentPosts
+    .filter((p) => p.slug !== post.slug && p.slug !== "plesk-on-vps-setup")
+    .slice(0, 2);
 
   return (
     <Row fillWidth>
@@ -132,13 +136,77 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             url={`${baseURL}${blog.path}/${post.slug}`}
           />
 
-          <Column fillWidth gap="40" horizontal="center" marginTop="40">
-            <Line maxWidth="40" />
-            <Text as="h2" id="recent-posts" variant="heading-strong-xl" marginBottom="24">
-              Recent posts
-            </Text>
-            <Posts posts={recentPosts} tenant={tenant} range={[1, 2]} columns="2" thumbnail direction="column" />
-          </Column>
+          {otherPosts.length > 0 && (
+            <Column fillWidth gap="24" horizontal="center" marginTop="48">
+              <Line maxWidth="40" />
+              <Heading as="h2" id="recent-posts" variant="heading-strong-xl" marginBottom="8">
+                Recent Dispatches
+              </Heading>
+              <Text variant="body-default-s" onBackground="neutral-weak" marginBottom="16" align="center">
+                Continued inquiry in distributed systems, offline architecture, and agentic AI.
+              </Text>
+              <Grid columns="2" s={{ columns: 1 }} fillWidth gap="16">
+                {otherPosts.map((relatedPost) => (
+                  <Link
+                    key={relatedPost.slug}
+                    href={`/blog/${relatedPost.slug}`}
+                    style={{ textDecoration: "none", color: "inherit", display: "flex", width: "100%" }}
+                  >
+                    <Column
+                      fillWidth
+                      padding="24"
+                      gap="12"
+                      style={{
+                        background: "var(--neutral-background-weak)",
+                        border: "1px solid var(--neutral-border-weak)",
+                        borderRadius: "var(--radius-l)",
+                        transition: "transform 0.2s ease, border-color 0.2s ease",
+                      }}
+                    >
+                      <Row horizontal="between" vertical="center" fillWidth>
+                        <Text
+                          variant="label-default-xs"
+                          onBackground="brand-strong"
+                          style={{ fontFamily: "var(--font-mono, monospace)", textTransform: "uppercase" }}
+                        >
+                          {relatedPost.slug?.includes("clinic") || relatedPost.slug?.includes("nepse")
+                            ? "Doctoral AI & FinTech"
+                            : relatedPost.slug?.includes("language") || relatedPost.slug?.includes("capacitor")
+                            ? "Systems Architecture"
+                            : "Infrastructure"}
+                        </Text>
+                        <Text variant="label-default-xs" onBackground="neutral-weak">
+                          {relatedPost.publishedAt ? formatDate(relatedPost.publishedAt) : ""}
+                        </Text>
+                      </Row>
+                      <Heading as="h3" variant="heading-strong-m">
+                        {relatedPost.title}
+                      </Heading>
+                      {relatedPost.meta?.description && (
+                        <Text
+                          variant="body-default-s"
+                          onBackground="neutral-weak"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {relatedPost.meta.description}
+                        </Text>
+                      )}
+                      <Row vertical="center" gap="8" style={{ marginTop: "auto", paddingTop: "12px" }}>
+                        <Text variant="label-strong-s" onBackground="neutral-strong">
+                          Read Dispatch →
+                        </Text>
+                      </Row>
+                    </Column>
+                  </Link>
+                ))}
+              </Grid>
+            </Column>
+          )}
           <ScrollToHash />
         </Column>
         <Column
