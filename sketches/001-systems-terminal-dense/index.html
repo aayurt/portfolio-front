@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 01: Systems Terminal & Dense DAG</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, monospace;
+      color: #111;
+      background: #fafafa;
+      line-height: 1.4;
+      font-size: 13px;
+      padding: 24px;
+    }
+    .container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 2px solid #111; padding-bottom: 12px;
+    }
+    .badge { border: 1px solid #111; padding: 2px 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .hero-split {
+      display: grid; grid-template-columns: 360px 1fr; gap: 20px;
+    }
+    .panel {
+      border: 1px solid #222; background: #fff; border-radius: 4px; display: flex; flex-direction: column;
+    }
+    .panel-header {
+      background: #eee; border-bottom: 1px solid #222; padding: 8px 12px; font-weight: 700; font-size: 11px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .panel-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .matrix-row {
+      display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border: 1px solid #ddd;
+      border-radius: 3px; cursor: pointer; background: #fff;
+    }
+    .matrix-row:hover, .matrix-row.active {
+      border-color: #111; background: #f0f0f0;
+    }
+    .matrix-row.active { font-weight: 700; border-width: 2px; }
+    .dag-canvas {
+      width: 100%; border: 1px dashed #444; background: #fdfdfd; padding: 14px; border-radius: 4px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .dag-node {
+      border: 1px solid #333; background: #fff; padding: 6px 10px; border-radius: 4px; font-size: 11px; display: inline-block;
+    }
+    .dag-node.active { border: 2px solid #111; background: #e5e5e5; font-weight: 700; }
+    .stage-specs {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid #ddd; padding-top: 8px; font-size: 10px;
+    }
+    .stage-specs div { border: 1px solid #eee; padding: 6px; border-radius: 3px; background: #fafafa; }
+    .stage-specs span { display: block; font-weight: 700; color: #111; font-size: 11px; }
+    .telemetry-feed {
+      background: #111; color: #eee; font-family: monospace; font-size: 11px; padding: 12px; border-radius: 4px; height: 110px; overflow-y: auto;
+    }
+    .metrics-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .metric-card {
+      border: 1px solid #ccc; background: #fff; padding: 12px; border-radius: 4px;
+    }
+    .metric-card .val { font-size: 20px; font-weight: 800; }
+    .metric-card .lbl { font-size: 10px; color: #555; text-transform: uppercase; }
+    .btn {
+      padding: 6px 12px; font-size: 11px; font-weight: 700; border: 1px solid #111; background: #111; color: #fff; cursor: pointer; border-radius: 3px;
+    }
+    .btn-outline { background: #fff; color: #111; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1 style="font-size: 18px; font-weight: 800; letter-spacing: -0.02em;">AAYURT SHRESTHA // SYSTEMS & AGENTIC INFRASTRUCTURE</h1>
+        <p style="color: #555; font-size: 11px;">Full-Stack Engineer & AI Systems Builder · Kathmandu (UTC+5:45) · Open to PhD & Staff Roles</p>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span class="badge">SYS: ONLINE</span>
+        <span class="badge">LATENCY: 42ms</span>
+        <button class="btn btn-outline" onclick="alert('Viewing CV')">Resume.pdf</button>
+      </div>
+    </header>
+
+    <div class="metrics-bar">
+      <div class="metric-card"><div class="val">5</div><div class="lbl">Production Systems</div></div>
+      <div class="metric-card"><div class="val">100%</div><div class="lbl">Offline Sync Tolerance</div></div>
+      <div class="metric-card"><div class="val">&lt; 50ms</div><div class="lbl">Agent Dispatch Gate</div></div>
+      <div class="metric-card"><div class="val">3.4K+</div><div class="lbl">Community Users</div></div>
+    </div>
+
+    <div class="hero-split">
+      <!-- Left Rail: Project Switchboard -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>ACTIVE PROJECTS SWITCHBOARD</span>
+          <span>[SELECT TO INSPECT]</span>
+        </div>
+        <div class="panel-body">
+          <div class="matrix-row active" onclick="switchProject('hermes', this)">
+            <div>
+              <div style="font-size: 12px; font-weight: 700;">Hermes Agent CLI</div>
+              <div style="font-size: 10px; color: #666;">Multi-agent DAG Planner & Sandbox</div>
+            </div>
+            <span class="badge">AI/ML</span>
+          </div>
+
+          <div class="matrix-row" onclick="switchProject('afno', this)">
+            <div>
+              <div style="font-size: 12px; font-weight: 700;">Afno Events Ecosystem</div>
+              <div style="font-size: 10px; color: #666;">Web, Flutter App & Door Scanner</div>
+            </div>
+            <span class="badge">TICKETING</span>
+          </div>
+
+          <div class="matrix-row" onclick="switchProject('syasyah', this)">
+            <div>
+              <div style="font-size: 12px; font-weight: 700;">Syasyah Samaj</div>
+              <div style="font-size: 10px; color: #666;">10 Ilakas & Offline IndexedDB SPA</div>
+            </div>
+            <span class="badge">CIVIC</span>
+          </div>
+
+          <div class="matrix-row" onclick="switchProject('nepse', this)">
+            <div>
+              <div style="font-size: 12px; font-weight: 700;">Nepse Pro Quant</div>
+              <div style="font-size: 10px; color: #666;">n8n Scraper & Gemini AI Signals</div>
+            </div>
+            <span class="badge">FINTECH</span>
+          </div>
+
+          <div class="matrix-row" onclick="switchProject('astro', this)">
+            <div>
+              <div style="font-size: 12px; font-weight: 700;">Astro Guru</div>
+              <div style="font-size: 10px; color: #666;">Vedic Ephemeris & LLM Reasoning</div>
+            </div>
+            <span class="badge">ASTRONOMY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Rail: Live Architecture DAG & Telemetry -->
+      <div class="panel">
+        <div class="panel-header">
+          <span id="pipeline-title">HERMES AGENT // INTERACTIVE ARCHITECTURE DAG</span>
+          <button class="btn" style="padding: 2px 8px; font-size: 10px;" onclick="runStep()">▶ STEP EXECUTION</button>
+        </div>
+        <div class="panel-body">
+          <div class="dag-canvas" id="dag-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+              <div class="dag-node active" id="node-0">1. Intake & Prompt</div>
+              <span style="font-size: 14px;">➔</span>
+              <div class="dag-node" id="node-1">2. DAG Planner</div>
+              <span style="font-size: 14px;">➔</span>
+              <div class="dag-node" id="node-2">3. Isolated Workers</div>
+              <span style="font-size: 14px;">➔</span>
+              <div class="dag-node" id="node-3">4. Docker + MCP Sandbox</div>
+              <span style="font-size: 14px;">➔</span>
+              <div class="dag-node" id="node-4">5. Verifier Gate</div>
+            </div>
+            <p id="dag-desc" style="font-size: 11px; color: #333; line-height: 1.5; border-top: 1px solid #ddd; padding-top: 10px;">
+              <strong>Active Stage: Intake & Prompt.</strong> Normalizes unstructured user tasks, resolves workspace context, and determines subagent fanout budget.
+            </p>
+            <div class="stage-specs">
+              <div><span>&lt; 50ms</span>Latency Budget</div>
+              <div><span>Docker + MCP</span>Sandbox Isolation</div>
+              <div><span>AST Verification</span>Evaluation Gate</div>
+            </div>
+          </div>
+
+          <div class="telemetry-feed" id="telemetry">
+            [SYS_INIT] Hermes session initialized (Profile: mind-slayer)<br/>
+            [SYS_ROUTER] Model provider: 9router · Local runner: Darwin ARM64<br/>
+            [READY] Ready for multi-agent DAG task decomposition...
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 11px; color: #666;">Architecture Stance: Utilitarian Dense · Systems-First</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-outline" onclick="alert('Jump to full case study')">Inspect Deep Architecture →</button>
+              <button class="btn" onclick="alert('Launch live preview')">Launch Production Service ↗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = {
+      hermes: {
+        title: "HERMES AGENT // INTERACTIVE ARCHITECTURE DAG",
+        nodes: ["1. Intake & Prompt", "2. DAG Planner", "3. Isolated Workers", "4. Docker + MCP Sandbox", "5. Verifier Gate"],
+        desc: "Normalizes unstructured tasks, resolves context, and verifies code with zero-human intervention.",
+        log: "[HERMES] Dispatching parallel subagents... [Workers: 01, 02, 03 active]"
+      },
+      afno: {
+        title: "AFNO EVENTS // REAL-TIME TICKETING DAG",
+        nodes: ["1. Web & Flutter App", "2. Stripe Multi-Tier", "3. HMAC QR Voucher", "4. Resend & PDF", "5. Door Scanner API"],
+        desc: "High-throughput ticketing engine handling multi-tier tickets, dynamic HMAC QR issuance, and sub-second gate validation.",
+        log: "[AFNO] Stripe webhook verified. Issued HMAC ticket #UK-28491. Door scan latency: 380ms."
+      },
+      syasyah: {
+        title: "SYASYAH SAMAJ // OFFLINE-FIRST RECONCILIATION DAG",
+        nodes: ["1. Volunteer PWA", "2. IndexedDB Local", "3. Optimistic Sync", "4. Payload CMS 3", "5. PostgreSQL Ledger"],
+        desc: "Zero-network dependency field collections across 10 Ilakas in Patan with automatic background ledger reconciliation.",
+        log: "[SYASYAH] Cache hit: 3,420 members stored in IndexedDB. Queued offline receipt #YL-0914."
+      },
+      nepse: {
+        title: "NEPSE PRO // QUANTITATIVE MARKET INGESTION DAG",
+        nodes: ["1. n8n Scraper", "2. Floor-Sheet Timeseries", "3. EMA / MACD ETL", "4. Gemini + Ollama AI", "5. Web Terminal"],
+        desc: "Autonomous scraping of 250+ equities, technical momentum calculation, and AI quantitative conviction scoring.",
+        log: "[NEPSE] Scraped daily turnover Rs. 3.82 Arba. Computed MACD bullish crossover for SHPC."
+      },
+      astro: {
+        title: "ASTRO GURU // VEDIC EPHEMERIS & REASONING DAG",
+        nodes: ["1. Birth Coordinates", "2. Swiss Ephemeris", "3. 12 House Charts", "4. Aspect Calculator", "5. LLM Astrologer"],
+        desc: "Mathematical planetary position calculations mapped into sidereal Vedic houses and contextual prompt reasoning.",
+        log: "[ASTRO] Solved planetary degrees: Ascendant in Scorpio 14°28'. Synthesized 7th house partner analysis."
+      }
+    };
+
+    let currentProject = 'hermes';
+    let stepIdx = 0;
+
+    function switchProject(key, el) {
+      document.querySelectorAll('.matrix-row').forEach(r => r.classList.remove('active'));
+      el.classList.add('active');
+      currentProject = key;
+      stepIdx = 0;
+      const p = projects[key];
+      document.getElementById('pipeline-title').innerText = p.title;
+      p.nodes.forEach((n, idx) => {
+        const elNode = document.getElementById(`node-${idx}`);
+        if (elNode) {
+          elNode.innerText = n;
+          elNode.className = idx === 0 ? 'dag-node active' : 'dag-node';
+        }
+      });
+      document.getElementById('dag-desc').innerHTML = `<strong>Active Stage: ${p.nodes[0]}.</strong> ${p.desc}`;
+      const logBox = document.getElementById('telemetry');
+      logBox.innerHTML += `<br/>[SWITCH] Switched context to ${key.toUpperCase()}<br/>${p.log}`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function runStep() {
+      stepIdx = (stepIdx + 1) % 5;
+      const p = projects[currentProject];
+      p.nodes.forEach((_, idx) => {
+        const elNode = document.getElementById(`node-${idx}`);
+        if (elNode) elNode.className = idx === stepIdx ? 'dag-node active' : 'dag-node';
+      });
+      document.getElementById('dag-desc').innerHTML = `<strong>Active Stage: ${p.nodes[stepIdx]}.</strong> Stage verified with exit code 0. Processing next hop.`;
+      const logBox = document.getElementById('telemetry');
+      logBox.innerHTML += `<br/>[EXEC] Advanced to stage [${p.nodes[stepIdx]}] - OK`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 02: Editorial Case-Study & Research</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Charter", "Georgia", serif;
+      color: #1a1a1a;
+      background: #fbfbfb;
+      line-height: 1.65;
+      font-size: 15px;
+      padding: 40px 24px;
+    }
+    .container { max-width: 840px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    header {
+      border-bottom: 1px solid #ddd; padding-bottom: 28px;
+    }
+    .meta-line {
+      font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 32px; font-weight: 700; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.01em; color: #000;
+    }
+    .abstract {
+      font-size: 16px; color: #444; border-left: 3px solid #111; padding-left: 18px; margin: 16px 0;
+    }
+    .chapter {
+      border: 1px solid #e0e0e0; background: #fff; padding: 28px; border-radius: 6px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .chapter-tag {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #555;
+    }
+    .chapter-title {
+      font-size: 22px; font-weight: 700; color: #111; font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .spec-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 12px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 0;
+    }
+    .spec-item .num { font-size: 18px; font-weight: 700; font-family: sans-serif; }
+    .spec-item .label { font-size: 11px; color: #666; font-family: sans-serif; }
+    .drawer {
+      background: #f7f7f7; border: 1px solid #e2e2e2; border-radius: 4px; padding: 14px; font-family: sans-serif; font-size: 12px; display: none;
+    }
+    .drawer.open { display: block; }
+    .toggle-btn {
+      align-self: flex-start; background: #fff; border: 1px solid #111; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 3px;
+    }
+    .toggle-btn:hover { background: #111; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="meta-line sans">Aayurt Shrestha · Kathmandu, Nepal · Full-Stack & Systems Research</div>
+      <h1>Building Autonomous Multi-Agent Infrastructure & Resilient Systems.</h1>
+      <p class="abstract">
+        "I build software systems that operate under strict environmental constraints: multi-agent autonomous engineering pipelines, offline-first civic financial ledgers, and distributed real-time transactional platforms."
+      </p>
+      <div class="sans" style="display: flex; gap: 12px; margin-top: 20px;">
+        <span style="font-size: 12px; font-weight: 600; background: #eee; padding: 4px 10px; border-radius: 4px;">Primary Focus: Agent Coordination</span>
+        <span style="font-size: 12px; font-weight: 600; background: #eee; padding: 4px 10px; border-radius: 4px;">Offline-First Distributed SPAs</span>
+        <span style="font-size: 12px; font-weight: 600; background: #eee; padding: 4px 10px; border-radius: 4px;">Quantitative Ingestion Pipelines</span>
+      </div>
+    </header>
+
+    <!-- Case Study 01: Hermes -->
+    <div class="chapter">
+      <div class="chapter-tag sans">Chapter 01 // Autonomous Multi-Agent Systems</div>
+      <div class="chapter-title">Hermes Agent: Multi-Agent Parallel Task Execution</div>
+      <p>
+        Traditional LLM agents suffer from single-threaded context bloat when navigating complex codebases. Hermes introduces isolated subagent processes orchestrated via a topological DAG planner with strict Docker sandboxing and automated evaluation gates.
+      </p>
+      <div class="spec-grid sans">
+        <div class="spec-item"><div class="num">&lt; 50ms</div><div class="label">Subagent Dispatch Latency</div></div>
+        <div class="spec-item"><div class="num">10K+</div><div class="label">Executed Autonomous Tasks</div></div>
+        <div class="spec-item"><div class="num">99.9%</div><div class="label">Deterministic Gate Pass</div></div>
+      </div>
+      <button class="toggle-btn sans" onclick="toggleDrawer('drawer-hermes', this)">Examine Formal Verification Architecture ↓</button>
+      <div class="drawer" id="drawer-hermes">
+        <strong>Formal Verification Flow:</strong>
+        <p style="margin: 6px 0;">User Request ➔ Context Sanitizer ➔ Dependency Graph ➔ Parallel Worker 01..03 (Darwin/Linux) ➔ Sandbox Execution (Docker + MCP) ➔ Self-Correction Gate.</p>
+        <p style="color: #666;">Evaluation: Eliminates hallucinations by verifying AST diffs before parent context re-entry.</p>
+      </div>
+    </div>
+
+    <!-- Case Study 02: Syasyah Samaj -->
+    <div class="chapter">
+      <div class="chapter-tag sans">Chapter 02 // Civic Governance & Decentralized Systems</div>
+      <div class="chapter-title">Syasyah Samaj: Offline-First Accounting Across 10 Ilakas</div>
+      <p>
+        In Patan's historical courtyards, volunteers collecting community dues face frequent network blackouts. We designed a dual-write architecture leveraging client IndexedDB optimistic mutations, serial voucher reservation, and background reconciliation.
+      </p>
+      <div class="spec-grid sans">
+        <div class="spec-item"><div class="num">10 Ilakas</div><div class="label">Civic Governance Wards</div></div>
+        <div class="spec-item"><div class="num">100%</div><div class="label">Zero-Network Resilience</div></div>
+        <div class="spec-item"><div class="num">3 Languages</div><div class="label">EN · Nepali · Nepal Bhasa</div></div>
+      </div>
+      <button class="toggle-btn sans" onclick="toggleDrawer('drawer-syasyah', this)">Examine Distributed Sync Protocol ↓</button>
+      <div class="drawer" id="drawer-syasyah">
+        <strong>Sync Protocol:</strong>
+        <p style="margin: 6px 0;">Local IndexedDB Cache ➔ Optimistic Ledger Balance ➔ Online State Detection ➔ Payload CMS 3 Hook ➔ PostgreSQL Double-Entry Reconciliation.</p>
+      </div>
+    </div>
+
+    <!-- Case Study 03: Afno Events -->
+    <div class="chapter">
+      <div class="chapter-tag sans">Chapter 03 // Real-Time Event Architecture</div>
+      <div class="chapter-title">Afno Events: Cross-Platform Ticketing & Sub-Second Gate Control</div>
+      <p>
+        Connecting the UK diaspora with high-throughput ticket sales. Implements Next.js 15 SSR discovery, Flutter mobile companion, Stripe multi-tier checkout, and cryptographic HMAC-signed QR passes verified at door gates in under 800ms.
+      </p>
+      <div class="spec-grid sans">
+        <div class="spec-item"><div class="num">8+ Cities</div><div class="label">UK Diaspora Reach</div></div>
+        <div class="spec-item"><div class="num">&lt; 0.8s</div><div class="label">Gate QR Scan Latency</div></div>
+        <div class="spec-item"><div class="num">0% Fee</div><div class="label">Community Organizer Tier</div></div>
+      </div>
+      <button class="toggle-btn sans" onclick="toggleDrawer('drawer-afno', this)">Examine Ticketing Pipeline Proof ↓</button>
+      <div class="drawer" id="drawer-afno">
+        <strong>Security & Validation:</strong>
+        <p style="margin: 6px 0;">Stripe Webhook ➔ Dynamic HMAC Generation ➔ Offline PWA Door Scanner ➔ Atomic Ledger Deduplication.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDrawer(id, btn) {
+      const d = document.getElementById(id);
+      if (d.classList.contains('open')) {
+        d.classList.remove('open');
+        btn.innerText = btn.innerText.replace('↑', '↓');
+      } else {
+        d.classList.add('open');
+        btn.innerText = btn.innerText.replace('↓', '↑');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { Mailchimp } from "@/components";
+import { Mailchimp, ProductBento } from "@/components";
 import { PostCarousel } from "@/components/blog/PostCarousel";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
@@ -106,7 +106,7 @@ export default async function Home() {
   }));
 
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
+    <Column maxWidth="l" gap="xl" paddingY="12" horizontal="center">
       <Schema
         as="webPage"
         baseURL={baseURL}
@@ -201,11 +201,11 @@ export default async function Home() {
         </Column>
       </Column>
 
-      {/* Products Section with Interactive Visual Pipelines */}
-      <Column fillWidth gap="xl">
+      {/* Products Section with Interactive Bento Grid */}
+      <Column fillWidth gap="l">
         <Column fillWidth gap="s">
           <Heading variant="heading-strong-xl" align="center">
-            Products
+            Featured Systems & Products
           </Heading>
           <Text
             variant="body-default-m"
@@ -213,22 +213,10 @@ export default async function Home() {
             align="center"
             wrap="balance"
           >
-            Systems I have designed, built, and shipped — featuring interactive
-            architecture pipelines, offline-first platforms, and multi-agent
-            loops.
+            Autonomous multi-agent execution engines, offline-first civic systems, and high-throughput platforms.
           </Text>
         </Column>
-        {projectCards.length > 0 ? (
-          <ProductCarousel items={projectCards} ariaLabel="Products carousel" />
-        ) : (
-          <Text
-            variant="body-default-m"
-            onBackground="neutral-weak"
-            align="center"
-          >
-            No products yet.
-          </Text>
-        )}
+        <ProductBento />
       </Column>
 
       {/* Solutions Section */}

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout 03: Interactive Product Bento</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #111;
+      background: #f5f5f5;
+      line-height: 1.45;
+      font-size: 13px;
+      padding: 32px 24px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    header {
+      display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #ddd; padding-bottom: 16px;
+    }
+    .filters {
+      display: flex; gap: 6px;
+    }
+    .filter-btn {
+      padding: 5px 12px; font-size: 11px; font-weight: 600; border-radius: 20px; border: 1px solid #ccc; background: #fff; cursor: pointer;
+    }
+    .filter-btn.active {
+      background: #111; color: #fff; border-color: #111;
+    }
+    .bento-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .card {
+      border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
+    }
+    .card.span-2 { grid-column: span 2; }
+    .card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .card-title { font-size: 16px; font-weight: 700; color: #000; }
+    .card-badge { font-size: 10px; font-weight: 700; padding: 2px 6px; border: 1px solid #ddd; border-radius: 4px; text-transform: uppercase; }
+    .card-preview {
+      border: 1px solid #eee; background: #fafafa; border-radius: 6px; padding: 12px; min-height: 110px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .mini-node-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 4px;
+    }
+    .mini-node {
+      border: 1px solid #bbb; background: #fff; padding: 4px 6px; border-radius: 3px; font-size: 10px; text-align: center; flex: 1;
+    }
+    .mini-node.active { border: 1.5px solid #111; font-weight: 700; background: #e5e5e5; }
+    .card-footer {
+      display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f0f0f0; padding-top: 10px;
+    }
+    .link-text { font-size: 11px; font-weight: 600; color: #111; text-decoration: none; cursor: pointer; }
+    .link-text:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1 style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Aayurt Shrestha · Systems & Products</h1>
+        <p style="font-size: 12px; color: #666;">Autonomous AI infrastructure, offline-first civic systems & high-throughput platforms.</p>
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterCards('all', this)">All (5)</button>
+        <button class="filter-btn" onclick="filterCards('agents', this)">Agents & AI</button>
+        <button class="filter-btn" onclick="filterCards('systems', this)">Offline & Systems</button>
+        <button class="filter-btn" onclick="filterCards('web', this)">Web & Mobile</button>
+      </div>
+    </header>
+
+    <div class="bento-grid">
+      <!-- 1. Hermes (Span 2) -->
+      <div class="card span-2" data-category="agents">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Hermes Agent CLI & Execution Engine</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">Autonomous multi-agent DAG runner with isolated subagent trees</div>
+            </div>
+            <span class="card-badge">AI / Infrastructure</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px;">
+            <div class="mini-node-row">
+              <div class="mini-node active">Intake</div>
+              <span>➔</span>
+              <div class="mini-node">DAG Planner</div>
+              <span>➔</span>
+              <div class="mini-node">Parallel Workers</div>
+              <span>➔</span>
+              <div class="mini-node">Docker MCP</div>
+              <span>➔</span>
+              <div class="mini-node">Eval Gate</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #555; margin-top: 10px;">
+              <span>Metrics: &lt; 50ms Dispatch · 99.9% Gate Pass</span>
+              <span>Stack: Python · Docker · MCP · Asyncio</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">Orchestrating concurrent coding agents autonomously.</span>
+          <span class="link-text">Explore Hermes DAG →</span>
+        </div>
+      </div>
+
+      <!-- 2. Afno Events -->
+      <div class="card" data-category="web">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Afno Events</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">UK Diaspora Ticketing & Mobile App</div>
+            </div>
+            <span class="card-badge">Ticketing</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px;">
+            <div style="font-size: 11px; font-weight: 600;">⚡ Real-time Gate Scanner</div>
+            <div style="font-size: 10px; color: #555; margin-top: 4px;">Sub-second HMAC QR validation + Stripe Connect multi-tier booking.</div>
+            <div style="margin-top: 8px; font-size: 10px; border: 1px solid #ccc; padding: 4px; border-radius: 3px; text-align: center;">
+              Status: 8+ UK Cities · &lt; 0.8s Scan Latency
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">Next.js 15 · Flutter</span>
+          <span class="link-text">afnoevents.co.uk ↗</span>
+        </div>
+      </div>
+
+      <!-- 3. Syasyah Samaj -->
+      <div class="card" data-category="systems">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Syasyah Samaj</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">Civic Governance & 10 Ilakas Accounting</div>
+            </div>
+            <span class="card-badge">Civic / PWA</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px;">
+            <div style="display: flex; gap: 4px; margin-bottom: 6px;">
+              <span style="font-size: 9px; padding: 2px 4px; border: 1px solid #111; font-weight: 700;">EN</span>
+              <span style="font-size: 9px; padding: 2px 4px; border: 1px solid #ccc;">नेपाली</span>
+              <span style="font-size: 9px; padding: 2px 4px; border: 1px solid #ccc;">नेवाः</span>
+            </div>
+            <div style="font-size: 10px; color: #555;">IndexedDB cache-first collection engine with offline optimistic vouchers for Patan courtyards.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">100% Offline Resilience</span>
+          <span class="link-text">syasyahsamaj.com ↗</span>
+        </div>
+      </div>
+
+      <!-- 4. Nepse Pro (Span 2) -->
+      <div class="card span-2" data-category="agents">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Nepse Pro — Market Scraper, Quantitative ETL & AI Signals</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">Automated n8n floor-sheet pipeline with Gemini + Ollama signal synthesis</div>
+            </div>
+            <span class="card-badge">Fintech / AI</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-size: 11px; font-weight: 700;">Daily Ingestion Pipeline</div>
+                <div style="font-size: 10px; color: #666;">250+ Equities · Floor-Sheet Transactions · MACD/RSI Indicators</div>
+              </div>
+              <div style="border: 1px solid #111; padding: 4px 8px; font-size: 10px; font-weight: 700; border-radius: 4px;">
+                Signal: BUY · HOLD · SELL
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">Live at nepse.ratosuryaonline.com</span>
+          <span class="link-text">Inspect Quant Pipeline →</span>
+        </div>
+      </div>
+
+      <!-- 5. Astro Guru -->
+      <div class="card" data-category="agents">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Astro Guru</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">Vedic Ephemeris & AI Chart Reasoning</div>
+            </div>
+            <span class="card-badge">Vedic Astrolabe</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px;">
+            <div style="font-size: 10px; color: #555;">Mathematical celestial coordinates computed via Swiss Ephemeris and explained via conversational LLMs.</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">astro.ratosuryaonline.com</span>
+          <span class="link-text">Launch App ↗</span>
+        </div>
+      </div>
+
+      <!-- 6. Research & Foundations (Span 2) -->
+      <div class="card span-2" data-category="systems">
+        <div>
+          <div class="card-header">
+            <div>
+              <div class="card-title">Research & Systems Foundations</div>
+              <div style="font-size: 11px; color: #666; margin-top: 2px;">Core areas of technical inquiry & engineering philosophy</div>
+            </div>
+            <span class="card-badge">Systems & PhD Track</span>
+          </div>
+          <div class="card-preview" style="margin-top: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <div style="border: 1px solid #ddd; padding: 8px; border-radius: 4px; background: #fff;">
+              <div style="font-weight: 700; font-size: 11px;">Deterministic Evaluation</div>
+              <div style="font-size: 10px; color: #666; margin-top: 2px;">Evaluating LLM code diffs via AST gates and isolated Docker runtimes.</div>
+            </div>
+            <div style="border: 1px solid #ddd; padding: 8px; border-radius: 4px; background: #fff;">
+              <div style="font-weight: 700; font-size: 11px;">Offline State Machines</div>
+              <div style="font-size: 10px; color: #666; margin-top: 2px;">IndexedDB cache reconciliation with zero network availability.</div>
+            </div>
+            <div style="border: 1px solid #ddd; padding: 8px; border-radius: 4px; background: #fff;">
+              <div style="font-weight: 700; font-size: 11px;">High-Throughput Web</div>
+              <div style="font-size: 10px; color: #666; margin-top: 2px;">Next.js 15 standalone deployments, edge proxies, and sub-second validation.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 11px; color: #666;">Kathmandu (UTC+5:45) · Open to PhD & Staff Engineering Roles</span>
+          <span class="link-text">View Resume.pdf ↗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterCards(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -12,3 +12,4 @@ export { RichText } from "@/components/RichText";
 export { default as VisitTracker } from "@/components/VisitTracker";
 export { default as SearchDialog } from "@/components/SearchDialog";
 export { FeaturedShowcase } from "@/components/pipeline/FeaturedShowcase";
+export { ProductBento } from "@/components/work/ProductBento";
