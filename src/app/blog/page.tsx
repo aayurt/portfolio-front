@@ -1,5 +1,4 @@
 import React from "react";
-import { Mailchimp } from "@/components";
 import { JournalDispatches } from "@/components/blog/JournalDispatches";
 import { baseURL, person } from "@/resources";
 import { getImageUrl, getPosts, getTenantBySlug } from "@/utils/payload";
@@ -75,11 +74,6 @@ export default async function Blog() {
 
       {/* HIGH-FIDELITY JOURNAL DISPATCHES (VARIANT 13) */}
       <JournalDispatches posts={posts} tenant={tenant} />
-
-      {/* NEWSLETTER SUBSCRIPTION */}
-      <Column fillWidth maxWidth="s" marginTop="24">
-        <Mailchimp marginBottom="l" />
-      </Column>
     </Column>
   );
 }

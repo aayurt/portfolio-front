@@ -29,10 +29,10 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
   };
 
   const categories = [
-    { id: "all", label: "All Writings (6)" },
+    { id: "all", label: "All Writings (5)" },
     { id: "ai", label: "Doctoral Research & AI (2)" },
     { id: "systems", label: "Systems Architecture (2)" },
-    { id: "devops", label: "Infrastructure & Cloud (2)" },
+    { id: "devops", label: "Infrastructure & Security (1)" },
   ];
 
   return (
@@ -678,101 +678,6 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                 href="/blog/server-deployment--nginx--vps"
                 className={styles.readLink}
               >
-                Read Dispatch →
-              </Link>
-            </div>
-          </article>
-        )}
-
-        {/* CARD 5: PLESK MULTI-TENANCY HOSTING (CLOUD HOST CONTROLLER) */}
-        {(activeCategory === "all" || activeCategory === "devops") && (
-          <article className={styles.postCard}>
-            <div className={styles.postVisual}>
-              {/* Window Header */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
-                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
-                    plesk-obsidian // multi-tenant-controller
-                  </span>
-                </div>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#38bdf8" }}>
-                  ISOLATED VHOSTS
-                </span>
-              </div>
-
-              {/* Multi-Tenant Provisioning Topology */}
-              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
-                {/* Ingress Router */}
-                <g transform="translate(10, 20)">
-                  <rect width="85" height="70" rx="6" fill="#161b22" stroke="#38bdf8" strokeWidth="1.2" />
-                  <text x="42" y="24" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
-                    Host Controller
-                  </text>
-                  <text x="42" y="38" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
-                    Plesk Obsidian
-                  </text>
-                  
-                  <rect x="8" y="46" width="69" height="15" rx="3" fill="#0d1117" />
-                  <text x="42" y="57" fill="#f59e0b" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
-                    DNS REST Sync
-                  </text>
-                </g>
-
-                {/* Fan-out arrows */}
-                <path d="M100 45 L130 30" stroke="#38bdf8" strokeWidth="1.2" />
-                <path d="M100 55 L130 55" stroke="#38bdf8" strokeWidth="1.2" />
-                <path d="M100 65 L130 80" stroke="#38bdf8" strokeWidth="1.2" />
-
-                {/* 3 Isolated Tenant Containers */}
-                <g transform="translate(135, 12)">
-                  {/* Tenant 1 */}
-                  <rect x="0" y="0" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
-                  <circle cx="12" cy="12" r="3.5" fill="#3fb950" />
-                  <text x="22" y="15" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">app1.tenant.com</text>
-                  <text x="160" y="15" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">Node 22 · SSL</text>
-
-                  {/* Tenant 2 */}
-                  <rect x="0" y="32" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
-                  <circle cx="12" cy="44" r="3.5" fill="#3fb950" />
-                  <text x="22" y="47" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">app2.tenant.co.uk</text>
-                  <text x="160" y="47" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">FastCGI Cache</text>
-
-                  {/* Tenant 3 */}
-                  <rect x="0" y="64" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
-                  <circle cx="12" cy="76" r="3.5" fill="#3fb950" />
-                  <text x="22" y="79" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">api.internal.org</text>
-                  <text x="160" y="79" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">Cgroup 512MB</text>
-                </g>
-              </svg>
-
-              {/* Status bar */}
-              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
-                <span>Subdomain Automated Ingress</span>
-                <span style={{ color: "#3fb950" }}>Zero Downtime Provisioning</span>
-              </div>
-            </div>
-
-            <div className={styles.postBody}>
-              <div className={styles.metaInfo}>March 24, 2026 · 5 min read</div>
-              <h3 className={styles.postTitle}>
-                Automating Multi-Tenant VPS Provisioning with Plesk Obsidian & Node Runtimes
-              </h3>
-              <p className={styles.postExcerpt}>
-                Configuring isolated multi-tenant application boundaries on dedicated cloud VPS. DNS zone
-                delegation, Node.js process managers, and zero-downtime deployment pipelines.
-              </p>
-              <div className={styles.tagCluster}>
-                <span className={styles.tag}>Hosting</span>
-                <span className={styles.tag}>Multi-Tenant</span>
-                <span className={styles.tag}>Plesk</span>
-              </div>
-            </div>
-            <div className={styles.postFooter}>
-              <span>Cloud & Hosting</span>
-              <Link href="/blog/plesk-on-vps-setup" className={styles.readLink}>
                 Read Dispatch →
               </Link>
             </div>
