@@ -199,7 +199,7 @@ export default async function Home() {
           </RevealFx>
         </Column>
 
-        <RevealFx delay={0.5} fillWidth horizontal="center">
+        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <RecruiterDossier
             email={data?.contactInfo?.email || data?.email || person.email}
             githubUrl={
@@ -211,7 +211,7 @@ export default async function Home() {
               "https://www.linkedin.com/in/aayurt-shrestha/"
             }
           />
-        </RevealFx>
+        </div>
       </Column>
 
       {/* Products Section with Interactive Bento Grid */}
