@@ -126,7 +126,7 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                 <text x="85" y="24" fill="#38bdf8" fontSize="11" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
                   Agentic Reasoning Core
                 </text>
-                <text x="85" y="40" fill="#8b949e" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                <text x="85" y="40" fill="#c9d1d9" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
                   Chain-of-Thought · Tree-of-Thoughts
                 </text>
 
@@ -510,32 +510,32 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                 <path d="M90 55 L115 55" stroke="#a855f7" strokeWidth="1.8" strokeDasharray="3 3" />
 
                 {/* 3-Tier Bridge Architecture Stack */}
-                <g transform="translate(125, 12)">
+                <g transform="translate(120, 10)">
                   {/* Web Layer */}
-                  <rect x="0" y="0" width="180" height="24" rx="4" fill="#161b22" stroke="#38bdf8" />
-                  <text x="10" y="15" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                  <rect x="0" y="0" width="186" height="24" rx="4" fill="#161b22" stroke="#38bdf8" />
+                  <text x="10" y="16" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
                     ⚡ Vite + React 19 SPA
                   </text>
-                  <text x="170" y="15" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                  <text x="176" y="16" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
                     Web Layer
                   </text>
 
                   {/* Bridge Core */}
-                  <rect x="0" y="32" width="180" height="24" rx="4" fill="#161b22" stroke="#a855f7" />
+                  <rect x="0" y="31" width="186" height="24" rx="4" fill="#161b22" stroke="#a855f7" />
                   <text x="10" y="47" fill="#c084fc" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
-                    ⇄ Capacitor Hardware Bridge
+                    ⇄ Capacitor Bridge (JSI)
                   </text>
-                  <text x="170" y="47" fill="#a855f7" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
-                    JSI Proxy
+                  <text x="176" y="47" fill="#a855f7" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                    Proxy Core
                   </text>
 
                   {/* Native Layer */}
-                  <rect x="0" y="64" width="180" height="24" rx="4" fill="#161b22" stroke="#3fb950" />
-                  <text x="10" y="79" fill="#3fb950" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
-                    📱 iOS Core / Android NDK
+                  <rect x="0" y="62" width="186" height="24" rx="4" fill="#161b22" stroke="#3fb950" />
+                  <text x="10" y="78" fill="#3fb950" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                    📱 iOS / Android Runtime
                   </text>
-                  <text x="170" y="79" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
-                    Biometrics · SQLite
+                  <text x="176" y="78" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                    SQLite · Push
                   </text>
                 </g>
               </svg>
