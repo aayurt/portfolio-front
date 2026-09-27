@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Layout 15: Interactive Systems Reader</title>
+  <style>
+    :root {
+      --bg: #0c0e12;
+      --card-bg: #14171f;
+      --card-inner: #090a0d;
+      --border-weak: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.16);
+      --text: #f0f2f5;
+      --text-muted: #8b949e;
+      --text-dim: #606873;
+      --accent: #58a6ff;
+      --radius-l: 14px;
+      --radius-xl: 20px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      padding: 48px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .wrapper {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+    /* SPLIT STAGE */
+    .splitStage {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+      align-items: start;
+    }
+    /* LEFT LIST */
+    .articlesList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .articleItem {
+      background: var(--card-bg);
+      border: 1px solid var(--border-weak);
+      border-radius: var(--radius-l);
+      padding: 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .articleItem:hover {
+      border-color: var(--border-medium);
+      transform: translateX(2px);
+    }
+    .articleItem.active {
+      border-color: var(--accent);
+      background: rgba(88, 166, 255, 0.05);
+    }
+    .itemMeta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+    .itemTitle {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    /* RIGHT STICKY READER */
+    .readerStage {
+      position: sticky;
+      top: 32px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+    .readerBadge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent);
+      width: fit-content;
+    }
+    .readerTitle {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .readerAbstract {
+      background: var(--card-inner);
+      border: 1px solid var(--border-weak);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .readerToc {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .tocItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+    }
+    .btnRead {
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="eyebrow">SCHOLARLY INQUIRY & ARCHITECTURAL LOGS</div>
+      <h1 class="title">Engineering Journal & Publications</h1>
+      <p class="subtitle">Select an inquiry or dispatch to inspect the formal abstract, methodology, and architectural findings.</p>
+    </header>
+
+    <div class="splitStage">
+      <!-- LEFT LIST -->
+      <div class="articlesList">
+        <div class="articleItem active" onclick="selectPost('ai', this)">
+          <div class="itemMeta">
+            <span>March 25, 2026</span>
+            <span style="color: var(--accent);">DOCTORAL INQUIRY</span>
+          </div>
+          <div class="itemTitle">Autonomy in the Clinic: The Research Frontier of Agentic AI</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">12 min read · Formal Methods · MAS</div>
+        </div>
+
+        <div class="articleItem" onclick="selectPost('mobile', this)">
+          <div class="itemMeta">
+            <span>March 24, 2026</span>
+            <span>MOBILE ARCHITECTURE</span>
+          </div>
+          <div class="itemTitle">Cross-Platform Mobile Architecture with Capacitor, Vite, and Tailwind CSS</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">7 min read · Single Codebase · SQLite</div>
+        </div>
+
+        <div class="articleItem" onclick="selectPost('hosting', this)">
+          <div class="itemMeta">
+            <span>March 24, 2026</span>
+            <span>CLOUD HOSTING</span>
+          </div>
+          <div class="itemTitle">Automating Multi-Tenant VPS Provisioning with Plesk Obsidian & Node Runtimes</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">5 min read · Vhost Isolation · DNS</div>
+        </div>
+
+        <div class="articleItem" onclick="selectPost('quant', this)">
+          <div class="itemMeta">
+            <span>March 23, 2026</span>
+            <span>FINANCIAL PIPELINE</span>
+          </div>
+          <div class="itemTitle">Building a NEPSE Quantitative Market Analyzer with n8n & Automated Pipelines</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">6 min read · TimescaleDB · Webhooks</div>
+        </div>
+
+        <div class="articleItem" onclick="selectPost('i18n', this)">
+          <div class="itemMeta">
+            <span>March 23, 2026</span>
+            <span>FRONTEND ARCHITECTURE</span>
+          </div>
+          <div class="itemTitle">Automated Trilingual Localization (i18n) Pipelines for Next.js & React SPAs</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">5 min read · AST Diffing · JSON Prettier</div>
+        </div>
+
+        <div class="articleItem" onclick="selectPost('nginx', this)">
+          <div class="itemMeta">
+            <span>February 16, 2026</span>
+            <span>SECURITY & DEVOPS</span>
+          </div>
+          <div class="itemTitle">Production Linux VPS Hardening, Nginx Reverse Proxy, and TLS Termination</div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">6 min read · UFW · Let's Encrypt · PM2</div>
+        </div>
+      </div>
+
+      <!-- RIGHT STICKY READER -->
+      <aside class="readerStage" id="reader">
+        <span class="readerBadge" id="badge">Doctoral Research · Preprint 2026</span>
+        <h2 class="readerTitle" id="title">Autonomy in the Clinic: The Research Frontier of Agentic AI</h2>
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);" id="meta">Aayurt Shrestha · March 25, 2026 · 12 min read</div>
+        
+        <div class="readerAbstract" id="abstract">
+          <strong>Abstract:</strong> Unlike reactive inference models that map inputs to static text, clinical agentic AI systems exhibit goal orientation, dynamic planning, and tool use. This paper surveys three critical frontiers for doctoral inquiry: long-horizon planning in stochastic care, mathematical bounding to prevent hallucinated actions, and multi-agent clinical consensus negotiation.
+        </div>
+
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;">Key Research Sections</div>
+          <div class="readerToc" id="toc">
+            <div class="tocItem">§ 1. The Anatomy of a Clinical Agent (Reasoning, Memory, Tools)</div>
+            <div class="tocItem">§ 2. Long-Horizon Planning with Bounded Reward Functions</div>
+            <div class="tocItem">§ 3. Formal Verification of Agentic Action Spaces</div>
+            <div class="tocItem">§ 4. Multi-Agent Systems (MAS) Clinical Consensus</div>
+            <div class="tocItem">§ 5. Ethical Governance & Cognitive Automation Bias</div>
+          </div>
+        </div>
+
+        <a href="#" class="btnRead" id="link">Read Full Publication & Analysis →</a>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      ai: {
+        badge: "Doctoral Research · Preprint 2026",
+        title: "Autonomy in the Clinic: The Research Frontier of Agentic AI",
+        meta: "Aayurt Shrestha · March 25, 2026 · 12 min read",
+        abstract: "<strong>Abstract:</strong> Unlike reactive inference models that map inputs to static text, clinical agentic AI systems exhibit goal orientation, dynamic planning, and tool use. This paper surveys three critical frontiers for doctoral inquiry: long-horizon planning in stochastic care, mathematical bounding to prevent hallucinated actions, and multi-agent clinical consensus negotiation.",
+        toc: [
+          "§ 1. The Anatomy of a Clinical Agent (Reasoning, Memory, Tools)",
+          "§ 2. Long-Horizon Planning with Bounded Reward Functions",
+          "§ 3. Formal Verification of Agentic Action Spaces",
+          "§ 4. Multi-Agent Systems (MAS) Clinical Consensus",
+          "§ 5. Ethical Governance & Cognitive Automation Bias"
+        ]
+      },
+      mobile: {
+        badge: "Mobile Systems Architecture",
+        title: "Cross-Platform Mobile Architecture with Capacitor, Vite, and Tailwind CSS",
+        meta: "Aayurt Shrestha · March 24, 2026 · 7 min read",
+        abstract: "<strong>Summary:</strong> Engineering single-codebase web applications that compile into production iOS and Android binaries. Evaluates Capacitor hardware bridge performance, SQLite local caching strategies, and zero-overhead native plugins.",
+        toc: [
+          "§ 1. Architecture of Modern Hybrid Web Bridges",
+          "§ 2. Setting Up Vite & React 19 Build Pipelines",
+          "§ 3. Native Biometrics & SQLite Storage Integration",
+          "§ 4. CI/CD Workflows for App Store & Play Store"
+        ]
+      },
+      hosting: {
+        badge: "Cloud Infrastructure & Hosting",
+        title: "Automating Multi-Tenant VPS Provisioning with Plesk Obsidian & Node Runtimes",
+        meta: "Aayurt Shrestha · March 24, 2026 · 5 min read",
+        abstract: "<strong>Summary:</strong> Provisioning and isolating multi-tenant application domains on dedicated cloud infrastructure using Plesk Obsidian. Automated DNS management, vhost configuration, and Node process supervisors.",
+        toc: [
+          "§ 1. Multi-Tenant Infrastructure Boundaries",
+          "§ 2. Plesk CLI Automation & Vhost Directives",
+          "§ 3. Automated Let's Encrypt Wildcard Certificates",
+          "§ 4. Resource Allocation & Process Monitoring"
+        ]
+      },
+      quant: {
+        badge: "Financial Data Engineering",
+        title: "Building a NEPSE Quantitative Market Analyzer with n8n & Automated Pipelines",
+        meta: "Aayurt Shrestha · March 23, 2026 · 6 min read",
+        abstract: "<strong>Summary:</strong> End-to-end timeseries pipeline for the Nepal Stock Exchange. Scraping high-frequency trading data, running automated technical indicator algorithms, and routing alerts via webhooks.",
+        toc: [
+          "§ 1. Timeseries Data Scraper Architecture",
+          "§ 2. n8n Automation Engine & Webhook Triggers",
+          "§ 3. Technical Indicator Computation (RSI, MACD, Bollinger)",
+          "§ 4. TimescaleDB Partitioning & Retention Policies"
+        ]
+      },
+      i18n: {
+        badge: "Frontend Systems Engineering",
+        title: "Automated Trilingual Localization (i18n) Pipelines for Next.js & React SPAs",
+        meta: "Aayurt Shrestha · March 23, 2026 · 5 min read",
+        abstract: "<strong>Summary:</strong> Zero-drift localization workflow for community applications across English, Nepali, and Nepal Bhasa. Automated sorted JSON diffs, AST synchronization, and typed localization hooks.",
+        toc: [
+          "§ 1. Challenges of Multi-Script Translation Drift",
+          "§ 2. AST Sorting & JSON Key Normalization",
+          "§ 3. CLI Translation Scripts with Google API Fallbacks",
+          "§ 4. Runtime Memory Benchmarks of useT() Hooks"
+        ]
+      },
+      nginx: {
+        badge: "Production Systems Hardening",
+        title: "Production Linux VPS Hardening, Nginx Reverse Proxy, and TLS Termination",
+        meta: "Aayurt Shrestha · February 16, 2026 · 6 min read",
+        abstract: "<strong>Summary:</strong> Production hardening guide for self-hosted cloud instances. Restricting attack surfaces with UFW, configuring high-throughput Nginx reverse proxies with TLS 1.3 termination, and systemd process supervision.",
+        toc: [
+          "§ 1. Bare-Metal Cloud Server Initialization",
+          "§ 2. UFW Firewall Rules & SSH Hardening",
+          "§ 3. Nginx Reverse Proxy & HTTP/2 Configuration",
+          "§ 4. PM2 Process Clustering & Zero-Downtime Reloads"
+        ]
+      }
+    };
+
+    function selectPost(key, elem) {
+      document.querySelectorAll('.articleItem').forEach(el => el.classList.remove('active'));
+      elem.classList.add('active');
+      const item = data[key];
+      document.getElementById('badge').innerText = item.badge;
+      document.getElementById('title').innerText = item.title;
+      document.getElementById('meta').innerText = item.meta;
+      document.getElementById('abstract').innerHTML = item.abstract;
+      const tocHtml = item.toc.map(t => `<div class="tocItem">${t}</div>`).join('');
+      document.getElementById('toc').innerHTML = tocHtml;
+    }
+  </script>
+</body>
+</html>

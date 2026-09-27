@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Layout 13: Scholarly Research Monograph & Systems Dispatch</title>
+  <style>
+    :root {
+      --bg: #0c0e12;
+      --card-bg: #14171f;
+      --card-inner: #090a0d;
+      --border-weak: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.16);
+      --border-strong: rgba(255, 255, 255, 0.28);
+      --text: #f0f2f5;
+      --text-muted: #8b949e;
+      --text-dim: #606873;
+      --accent: #58a6ff;
+      --accent-dim: rgba(88, 166, 255, 0.15);
+      --radius-l: 14px;
+      --radius-xl: 20px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      padding: 48px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .wrapper {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    /* HEADER */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 620px;
+      line-height: 1.5;
+    }
+    /* FILTER BAR */
+    .filterBar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      background: transparent;
+      border: 1px solid var(--border-weak);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pill:hover {
+      border-color: var(--border-medium);
+      color: var(--text);
+    }
+    .pill.active {
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 600;
+      border-color: var(--text);
+    }
+    /* FEATURED SPOTLIGHT CARD */
+    .spotlightCard {
+      background: var(--card-bg);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .spotlightCard:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .spotlightVisual {
+      background: var(--card-inner);
+      border: 1px solid var(--border-weak);
+      border-radius: var(--radius-l);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+    .spotlightMeta {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .badgeRow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+    }
+    .metaInfo {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .spotlightTitle {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+    .spotlightExcerpt {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .abstractBox {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 2px solid var(--accent);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      border-radius: 0 6px 6px 0;
+    }
+    .tagCluster {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-weak);
+      color: var(--text-muted);
+    }
+    .actionRow {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .btnPrimary {
+      background: var(--text);
+      color: var(--bg);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btnSecondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-weak);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    /* POSTS GRID */
+    .postsGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+    .postCard {
+      background: var(--card-bg);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .postCard:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .postVisual {
+      height: 140px;
+      background: var(--card-inner);
+      border: 1px solid var(--border-weak);
+      border-radius: var(--radius-l);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+    .postBody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .postTitle {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+    .postExcerpt {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .postFooter {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-weak);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .readLink {
+      color: var(--text);
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .readLink:hover {
+      color: var(--accent);
+    }
+    @media (max-width: 900px) {
+      .spotlightCard { grid-template-columns: 1fr; }
+      .postsGrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="eyebrow">RESEARCH DISPATCHES & SYSTEMS INQUIRY</div>
+      <h1 class="title">Engineering Journal & Publications</h1>
+      <p class="subtitle">
+        Doctoral inquiry into agentic clinical autonomy, formal verification, distributed consensus architectures, and quantitative timeseries pipelines.
+      </p>
+      <!-- FILTER TABS -->
+      <nav class="filterBar">
+        <button class="pill active" onclick="filterPosts('all', this)">All Writings (6)</button>
+        <button class="pill" onclick="filterPosts('ai', this)">Doctoral Research & AI (2)</button>
+        <button class="pill" onclick="filterPosts('systems', this)">Systems Architecture (2)</button>
+        <button class="pill" onclick="filterPosts('devops', this)">Infrastructure & Cloud (2)</button>
+      </nav>
+    </header>
+
+    <!-- FEATURED SPOTLIGHT: CLINICAL AGENTIC AI -->
+    <article class="spotlightCard" data-cat="ai">
+      <div class="spotlightVisual">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;">AST Formal Gate · Stochastic Care</span>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dim);">ARXIV PREPRINT</span>
+        </div>
+        <!-- SCHEMATIC SVG -->
+        <svg viewBox="0 0 460 160" width="100%" height="150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="100" height="50" rx="6" fill="#14171f" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="60" y="42" fill="#f0f2f5" font-size="10" font-family="monospace" text-anchor="middle" font-weight="600">Patient Trajectory</text>
+          <text x="60" y="56" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">EHR · 48h Stream</text>
+
+          <path d="M110 45 L150 45" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <polygon points="152,45 146,42 146,48" fill="#58a6ff"/>
+
+          <rect x="155" y="15" width="140" height="60" rx="8" fill="#181c26" stroke="#8b949e" stroke-width="1"/>
+          <text x="225" y="36" fill="#58a6ff" font-size="11" font-family="monospace" text-anchor="middle" font-weight="700">Agentic Reasoning</text>
+          <text x="225" y="52" fill="#8b949e" font-size="8.5" font-family="monospace" text-anchor="middle">Chain-of-Thought · ToT</text>
+          <text x="225" y="64" fill="#606873" font-size="7.5" font-family="monospace" text-anchor="middle">Clinical Protocol Alignment</text>
+
+          <path d="M295 45 L335 45" stroke="#58a6ff" stroke-width="1.5"/>
+          <polygon points="337,45 331,42 331,48" fill="#58a6ff"/>
+
+          <rect x="340" y="20" width="110" height="50" rx="6" fill="#14171f" stroke="#3fb950" stroke-width="1.5"/>
+          <text x="395" y="42" fill="#3fb950" font-size="10" font-family="monospace" text-anchor="middle" font-weight="600">Formal Verification</text>
+          <text x="395" y="56" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">Zero Hallucinated Tools</text>
+
+          <!-- MULTI-AGENT BOTTOM ROW -->
+          <path d="M225 75 L225 105" stroke="#8b949e" stroke-width="1" stroke-dasharray="2 2"/>
+          <rect x="120" y="105" width="210" height="38" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+          <text x="225" y="122" fill="#c9d1d9" font-size="9" font-family="monospace" text-anchor="middle" font-weight="600">Multi-Agent Clinical Consensus (MAS)</text>
+          <text x="225" y="134" fill="#8b949e" font-size="7.5" font-family="monospace" text-anchor="middle">Cardiology · Nephrology · Tumor Board</text>
+        </svg>
+        <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); text-align: center;">Figure 1: Stochastic Clinical Execution with Guardrail Bounding</div>
+      </div>
+
+      <div class="spotlightMeta">
+        <div class="badgeRow">
+          <span class="badge">Doctoral Research · AI Ethics</span>
+          <span class="metaInfo">March 25, 2026 · 12 min read</span>
+        </div>
+        <h2 class="spotlightTitle">Autonomy in the Clinic: The Research Frontier of Agentic AI</h2>
+        <p class="spotlightExcerpt">
+          A fundamental rethinking of autonomous intelligence at the bedside. Explores the transition from reactive inference models to goal-oriented clinical agents capable of long-horizon care planning.
+        </p>
+        <div class="abstractBox">
+          <strong>Key Research Inquiries:</strong> Bounding hallucinated actions with mathematical verification, resolving multi-agent clinical consensus conflicts, and engineering RLHF reward functions for long-term health stabilization.
+        </div>
+        <div class="tagCluster">
+          <span class="tag">Agentic AI</span>
+          <span class="tag">Formal Methods</span>
+          <span class="tag">Clinical MAS</span>
+          <span class="tag">RLHF</span>
+          <span class="tag">Healthcare AI</span>
+        </div>
+        <div class="actionRow">
+          <a href="#" class="btnPrimary">Read Paper & Analysis →</a>
+          <a href="#" class="btnSecondary">Export BibTeX ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POSTS GRID (5 ARTICLES) -->
+    <div class="postsGrid">
+      <!-- CARD 1: NEPSE QUANT -->
+      <article class="postCard" data-cat="ai">
+        <div class="postVisual">
+          <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
+            <polyline points="20,80 60,65 100,75 140,40 180,50 220,25 260,35" stroke="#58a6ff" stroke-width="2"/>
+            <circle cx="220" cy="25" r="4" fill="#58a6ff"/>
+            <text x="220" y="18" fill="#58a6ff" font-size="9" font-family="monospace">Buy Signal</text>
+            <line x1="20" y1="95" x2="280" y2="95" stroke="#30363d" stroke-width="1"/>
+            <text x="20" y="105" fill="#606873" font-size="8" font-family="monospace">Timeseries ETL · 250+ Equities · n8n Automation</text>
+          </svg>
+        </div>
+        <div class="postBody">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">March 23, 2026 · 6 min read</div>
+          <h3 class="postTitle">Building a NEPSE Quantitative Market Analyzer with n8n & Automated Pipelines</h3>
+          <p class="postExcerpt">
+            Architecting an end-to-end financial data scraper and technical indicator engine for the Nepal Stock Exchange using automated webhook ETLs and predictive signals.
+          </p>
+          <div class="tagCluster">
+            <span class="tag">Quant Finance</span>
+            <span class="tag">n8n</span>
+            <span class="tag">TimescaleDB</span>
+          </div>
+        </div>
+        <div class="postFooter">
+          <span>AI & Systems</span>
+          <a href="#" class="readLink">Read Dispatch →</a>
+        </div>
+      </article>
+
+      <!-- CARD 2: MULTI-LANGUAGE I18N -->
+      <article class="postCard" data-cat="systems">
+        <div class="postVisual">
+          <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
+            <rect x="20" y="25" width="70" height="45" rx="6" fill="#14171f" stroke="#30363d"/>
+            <text x="55" y="52" fill="#f0f2f5" font-size="10" font-family="monospace" text-anchor="middle">EN</text>
+            <path d="M90 47 L120 47" stroke="#58a6ff" stroke-width="1.5"/>
+            <rect x="120" y="25" width="70" height="45" rx="6" fill="#14171f" stroke="#58a6ff"/>
+            <text x="155" y="52" fill="#58a6ff" font-size="10" font-family="sans-serif" text-anchor="middle">नेपाली</text>
+            <path d="M190 47 L220 47" stroke="#58a6ff" stroke-width="1.5"/>
+            <rect x="220" y="25" width="70" height="45" rx="6" fill="#14171f" stroke="#30363d"/>
+            <text x="255" y="52" fill="#f0f2f5" font-size="9" font-family="sans-serif" text-anchor="middle">नेवाः भाय्</text>
+            <text x="150" y="95" fill="#606873" font-size="8" font-family="monospace" text-anchor="middle">Automated CLI Translation · Deterministic AST Diffing</text>
+          </svg>
+        </div>
+        <div class="postBody">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">March 23, 2026 · 5 min read</div>
+          <h3 class="postTitle">Automated Trilingual Localization (i18n) Pipelines for Next.js & React SPAs</h3>
+          <p class="postExcerpt">
+            Eliminating manual dictionary drift with sorted JSON AST verification, CI translation scripts, and zero-runtime-overhead hooks across English, Nepali, and Nepal Bhasa.
+          </p>
+          <div class="tagCluster">
+            <span class="tag">i18n</span>
+            <span class="tag">React 19</span>
+            <span class="tag">Automation</span>
+          </div>
+        </div>
+        <div class="postFooter">
+          <span>Frontend Architecture</span>
+          <a href="#" class="readLink">Read Dispatch →</a>
+        </div>
+      </article>
+
+      <!-- CARD 3: MOBILE CAPACITOR RUNTIME -->
+      <article class="postCard" data-cat="systems">
+        <div class="postVisual">
+          <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
+            <rect x="40" y="15" width="90" height="65" rx="6" fill="#14171f" stroke="#30363d"/>
+            <text x="85" y="45" fill="#f0f2f5" font-size="10" font-family="monospace" text-anchor="middle">Vite + React</text>
+            <text x="85" y="60" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">Tailwind Web</text>
+            <path d="M130 48 L170 48" stroke="#3fb950" stroke-width="1.5"/>
+            <rect x="170" y="15" width="90" height="65" rx="6" fill="#14171f" stroke="#3fb950"/>
+            <text x="215" y="45" fill="#3fb950" font-size="10" font-family="monospace" text-anchor="middle">Capacitor Bridge</text>
+            <text x="215" y="60" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">iOS & Android</text>
+            <text x="150" y="98" fill="#606873" font-size="8" font-family="monospace" text-anchor="middle">Single Codebase · Native Biometrics · Offline Cache</text>
+          </svg>
+        </div>
+        <div class="postBody">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">March 24, 2026 · 7 min read</div>
+          <h3 class="postTitle">Cross-Platform Mobile Architecture with Capacitor, Vite, and Tailwind CSS</h3>
+          <p class="postExcerpt">
+            Bridging high-performance modern web SPAs into native mobile runtimes. Hardware bridge integration, SQLite storage persistence, and native push notification delivery.
+          </p>
+          <div class="tagCluster">
+            <span class="tag">Mobile</span>
+            <span class="tag">Capacitor</span>
+            <span class="tag">React</span>
+          </div>
+        </div>
+        <div class="postFooter">
+          <span>Mobile Systems</span>
+          <a href="#" class="readLink">Read Dispatch →</a>
+        </div>
+      </article>
+
+      <!-- CARD 4: PRODUCTION LINUX NGINX DEPLOYMENT -->
+      <article class="postCard" data-cat="devops">
+        <div class="postVisual">
+          <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
+            <rect x="25" y="20" width="75" height="50" rx="6" fill="#14171f" stroke="#30363d"/>
+            <text x="62" y="42" fill="#8b949e" font-size="9" font-family="monospace" text-anchor="middle">Client TLS</text>
+            <text x="62" y="56" fill="#f0f2f5" font-size="8" font-family="monospace" text-anchor="middle">:443 HTTPS</text>
+            <path d="M100 45 L130 45" stroke="#58a6ff" stroke-width="1.5"/>
+            <rect x="130" y="20" width="80" height="50" rx="6" fill="#181c26" stroke="#58a6ff"/>
+            <text x="170" y="42" fill="#58a6ff" font-size="9" font-family="monospace" text-anchor="middle">Nginx Gateway</text>
+            <text x="170" y="56" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">Reverse Proxy</text>
+            <path d="M210 45 L240 45" stroke="#58a6ff" stroke-width="1.5"/>
+            <rect x="240" y="20" width="55" height="50" rx="6" fill="#14171f" stroke="#3fb950"/>
+            <text x="267" y="42" fill="#3fb950" font-size="9" font-family="monospace" text-anchor="middle">Node</text>
+            <text x="267" y="56" fill="#8b949e" font-size="8" font-family="monospace" text-anchor="middle">:3000</text>
+            <text x="150" y="95" fill="#606873" font-size="8" font-family="monospace" text-anchor="middle">Automated Let's Encrypt · PM2 Cluster · UFW Hardening</text>
+          </svg>
+        </div>
+        <div class="postBody">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">February 16, 2026 · 6 min read</div>
+          <h3 class="postTitle">Production Linux VPS Hardening, Nginx Reverse Proxy, and TLS Termination</h3>
+          <p class="postExcerpt">
+            Production deployment playbook for Node.js microservices on bare Ubuntu VPS. UFW firewall rules, automated Let's Encrypt certificate renewal, and PM2 process supervision.
+          </p>
+          <div class="tagCluster">
+            <span class="tag">DevOps</span>
+            <span class="tag">Nginx</span>
+            <span class="tag">Security</span>
+          </div>
+        </div>
+        <div class="postFooter">
+          <span>Infrastructure</span>
+          <a href="#" class="readLink">Read Dispatch →</a>
+        </div>
+      </article>
+
+      <!-- CARD 5: PLESK MULTI-TENANCY HOSTING -->
+      <article class="postCard" data-cat="devops">
+        <div class="postVisual">
+          <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
+            <rect x="30" y="20" width="240" height="55" rx="6" fill="#14171f" stroke="#30363d"/>
+            <text x="45" y="40" fill="#58a6ff" font-size="9" font-family="monospace">Plesk Obsidian Host Controller</text>
+            <text x="45" y="55" fill="#8b949e" font-size="8" font-family="monospace">Vhost Isolation · Node.js Selector · DNS Sync</text>
+            <text x="150" y="95" fill="#606873" font-size="8" font-family="monospace" text-anchor="middle">Multi-Tenant Subdomains · FastCGI Cache · Resource Limits</text>
+          </svg>
+        </div>
+        <div class="postBody">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">March 24, 2026 · 5 min read</div>
+          <h3 class="postTitle">Automating Multi-Tenant VPS Provisioning with Plesk Obsidian & Node Runtimes</h3>
+          <p class="postExcerpt">
+            Configuring isolated multi-tenant application boundaries on dedicated cloud VPS. DNS zone delegation, Node.js process managers, and zero-downtime deployment pipelines.
+          </p>
+          <div class="tagCluster">
+            <span class="tag">Hosting</span>
+            <span class="tag">Multi-Tenant</span>
+            <span class="tag">Plesk</span>
+          </div>
+        </div>
+        <div class="postFooter">
+          <span>Cloud & Hosting</span>
+          <a href="#" class="readLink">Read Dispatch →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    function filterPosts(cat, btn) {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const spotlight = document.querySelector('.spotlightCard');
+      const cards = document.querySelectorAll('.postCard');
+
+      if (cat === 'all') {
+        spotlight.style.display = 'grid';
+        cards.forEach(c => c.style.display = 'flex');
+      } else {
+        if (spotlight.getAttribute('data-cat') === cat) {
+          spotlight.style.display = 'grid';
+        } else {
+          spotlight.style.display = 'none';
+        }
+        cards.forEach(c => {
+          if (c.getAttribute('data-cat') === cat) {
+            c.style.display = 'flex';
+          } else {
+            c.style.display = 'none';
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

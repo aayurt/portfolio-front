@@ -1,75 +1,85 @@
+import React from "react";
 import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
-import PatienceImage from "@/components/patienceImage";
+import { JournalDispatches } from "@/components/blog/JournalDispatches";
 import { baseURL, person } from "@/resources";
-import { getImageUrl, getPosts, getTenantBySlug, resolveMediaIds, API } from "@/utils/payload";
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { getImageUrl, getPosts, getTenantBySlug } from "@/utils/payload";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  const tenant = await getTenantBySlug()
+  const tenant = await getTenantBySlug();
+  const name = tenant?.name || person.name;
   return Meta.generate({
-    title: `${tenant?.name}'s Blog` || "Blog",
-    description: `Read what ${tenant?.name} has been up to recently` || "Blog description",
-    baseURL: "https://aayurtshrestha.com",
-    image: `/api/og/generate?title=${encodeURIComponent("Writing about design and tech...")}`,
+    title: `${name} | Engineering Journal & Publications`,
+    description:
+      "Doctoral research inquiries into agentic clinical autonomy, formal verification, distributed consensus architectures, and quantitative timeseries pipelines.",
+    baseURL: "https://aayurtshrestha.com.np",
+    image: `/api/og/generate?title=${encodeURIComponent("Engineering Journal & Publications")}`,
     path: "/blog",
   });
 }
 
 export default async function Blog() {
-  const tenant = await getTenantBySlug()
+  const tenant = await getTenantBySlug();
   const posts = await getPosts();
 
-  // Resolve hero image IDs to URLs
-  const heroImageIds = [...new Set(
-    posts.map(p => p.heroImage).filter((id): id is number => typeof id === 'number'),
-  )];
-  const mediaMap = await resolveMediaIds(heroImageIds);
-  const heroImageUrls = new Map<number, string>();
-  for (const [id, filename] of mediaMap) {
-    heroImageUrls.set(id, (API + "/admin/api/media/file/" + encodeURIComponent(filename)).replace(/([^:]\/)\/+/g, "$1"));
-  }
-  if (posts.length === 0) {
-    return <Column fillWidth flex={1} gap="40">
-
-      <PatienceImage width="12rem" height="12rem" />
-      <Heading style={{
-        display: "flex",
-        justifyContent: "center"
-      }}>
-        No Posts Yet!
-      </Heading>
-    </Column>
-  }
   return (
-    <Column maxWidth="m" paddingTop="24">
+    <Column
+      fillWidth
+      maxWidth="l"
+      paddingY="24"
+      paddingX="16"
+      horizontal="center"
+      gap="32"
+    >
       <Schema
         as="blogPosting"
         baseURL={baseURL}
-        title={`${tenant?.name}'s Blog` || "Blog"}
-        description={`Read what ${tenant?.name} has been up to recently` || "Blog description"}
+        title={`${tenant?.name || person.name}'s Engineering Journal`}
+        description="Doctoral research inquiries into agentic clinical autonomy, formal verification, and distributed systems."
         path={"/blog"}
-        image={`/api/og/generate?title=${encodeURIComponent("Writing about design and tech...")}`}
+        image={`/api/og/generate?title=${encodeURIComponent("Engineering Journal & Publications")}`}
         author={{
           name: tenant?.name || person.name,
           url: `${baseURL}/blog`,
           image: getImageUrl(tenant?.avatar) || `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
-        {`${tenant?.name}'s Blog`}
-      </Heading>
 
-      <Column fillWidth flex={1} gap="40">
-        <Posts posts={posts} tenant={tenant} range={[1, 1]} thumbnail heroImageUrls={heroImageUrls} />
-        <Posts posts={posts} tenant={tenant} range={[2, 3]} columns="2" thumbnail direction="column" heroImageUrls={heroImageUrls} />
-        <Mailchimp marginBottom="l" />
-        {posts.length > 3 && <><Heading as="h2" variant="heading-strong-xl" marginLeft="l">
-          Earlier posts
+      {/* HEADER SECTION */}
+      <Column fillWidth gap="8" horizontal="center" style={{ textAlign: "center" }}>
+        <Text
+          variant="code-default-s"
+          onBackground="neutral-weak"
+          style={{
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            fontFamily: "var(--font-mono, monospace)",
+          }}
+        >
+          RESEARCH DISPATCHES & SYSTEMS INQUIRY
+        </Text>
+        <Heading variant="display-strong-s" align="center">
+          Engineering Journal & Publications
         </Heading>
-          <Posts posts={posts} tenant={tenant} range={[4]} columns="2" heroImageUrls={heroImageUrls} /></>}
+        <Text
+          variant="body-default-m"
+          onBackground="neutral-weak"
+          align="center"
+          wrap="balance"
+          style={{ maxWidth: "660px" }}
+        >
+          Doctoral inquiry into agentic clinical autonomy, formal verification, distributed
+          consensus architectures, and quantitative timeseries pipelines.
+        </Text>
       </Column>
 
+      {/* HIGH-FIDELITY JOURNAL DISPATCHES (VARIANT 13) */}
+      <JournalDispatches posts={posts} tenant={tenant} />
+
+      {/* NEWSLETTER SUBSCRIPTION */}
+      <Column fillWidth maxWidth="s" marginTop="24">
+        <Mailchimp marginBottom="l" />
+      </Column>
     </Column>
   );
 }

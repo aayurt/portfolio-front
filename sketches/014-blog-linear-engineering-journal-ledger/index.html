@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Layout 14: Chronological Engineering Journal</title>
+  <style>
+    :root {
+      --bg: #0c0e12;
+      --card-bg: #14171f;
+      --border-weak: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.16);
+      --text: #f0f2f5;
+      --text-muted: #8b949e;
+      --text-dim: #606873;
+      --accent: #58a6ff;
+      --radius-l: 14px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      padding: 48px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .wrapper {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    /* TIMELINE LEDGER */
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding-left: 32px;
+      border-left: 1px solid var(--border-medium);
+    }
+    .entry {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-weak);
+      border-radius: var(--radius-l);
+      padding: 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .entry:hover {
+      border-color: var(--border-medium);
+      transform: translateX(4px);
+    }
+    .nodeMarker {
+      position: absolute;
+      left: -39px;
+      top: 26px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+    }
+    .entryMeta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .entryTitle {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+    .entryExcerpt {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .tagRow {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-weak);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="eyebrow">CHRONOLOGICAL DISPATCHES</div>
+      <h1 class="title">Engineering Journal & Publications</h1>
+      <p class="subtitle">A linear architectural record of production dispatches, doctoral research inquiries, and systems case studies.</p>
+    </header>
+
+    <div class="timeline">
+      <!-- ENTRY 1 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>March 25, 2026 · 12 min read</span>
+          <span style="color: var(--accent);">DOCTORAL INQUIRY</span>
+        </div>
+        <h2 class="entryTitle">Autonomy in the Clinic: The Research Frontier of Agentic AI</h2>
+        <p class="entryExcerpt">
+          Exploring the transition from reactive inference models to goal-oriented clinical resident agents. Addresses long-horizon planning, formal verification to eliminate hallucinated tool calls, and multi-agent hospital consensus protocols.
+        </p>
+        <div class="tagRow">
+          <span class="tag">Agentic AI</span>
+          <span class="tag">Healthcare AI</span>
+          <span class="tag">Formal Methods</span>
+          <span class="tag">RLHF</span>
+        </div>
+      </article>
+
+      <!-- ENTRY 2 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>March 24, 2026 · 7 min read</span>
+          <span>MOBILE RUNTIME</span>
+        </div>
+        <h2 class="entryTitle">Cross-Platform Mobile Architecture with Capacitor, Vite, and Tailwind CSS</h2>
+        <p class="entryExcerpt">
+          Bridging modern web SPAs into native iOS and Android packages without maintaining duplicate application codebases. Hardware bridges, SQLite offline persistence, and native push notification delivery.
+        </p>
+        <div class="tagRow">
+          <span class="tag">Mobile</span>
+          <span class="tag">Capacitor</span>
+          <span class="tag">React 19</span>
+          <span class="tag">Tailwind</span>
+        </div>
+      </article>
+
+      <!-- ENTRY 3 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>March 24, 2026 · 5 min read</span>
+          <span>CLOUD HOSTING</span>
+        </div>
+        <h2 class="entryTitle">Automating Multi-Tenant VPS Provisioning with Plesk Obsidian & Node Runtimes</h2>
+        <p class="entryExcerpt">
+          Automated multi-tenant web application hosting on dedicated cloud VPS. Vhost configuration, Node.js process manager integration, and automated SSL certificate lifecycles.
+        </p>
+        <div class="tagRow">
+          <span class="tag">Plesk</span>
+          <span class="tag">VPS</span>
+          <span class="tag">Multi-Tenant</span>
+        </div>
+      </article>
+
+      <!-- ENTRY 4 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>March 23, 2026 · 6 min read</span>
+          <span>QUANT FINANCE</span>
+        </div>
+        <h2 class="entryTitle">Building a NEPSE Quantitative Market Analyzer with n8n & Automated Pipelines</h2>
+        <p class="entryExcerpt">
+          Automated financial ingestion ETL for the Nepal Stock Exchange. Scraping live trading books, computing technical indicators, and triggering webhook push alerts.
+        </p>
+        <div class="tagRow">
+          <span class="tag">Quant</span>
+          <span class="tag">n8n</span>
+          <span class="tag">TimescaleDB</span>
+        </div>
+      </article>
+
+      <!-- ENTRY 5 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>March 23, 2026 · 5 min read</span>
+          <span>FRONTEND ARCHITECTURE</span>
+        </div>
+        <h2 class="entryTitle">Automated Trilingual Localization (i18n) Pipelines for Next.js & React SPAs</h2>
+        <p class="entryExcerpt">
+          Eliminating translation dictionary drift with automated sorted JSON AST diffing, CLI scripts, and zero-runtime overhead hooks across English, Nepali, and Nepal Bhasa.
+        </p>
+        <div class="tagRow">
+          <span class="tag">i18n</span>
+          <span class="tag">React</span>
+          <span class="tag">Automation</span>
+        </div>
+      </article>
+
+      <!-- ENTRY 6 -->
+      <article class="entry">
+        <div class="nodeMarker"></div>
+        <div class="entryMeta">
+          <span>February 16, 2026 · 6 min read</span>
+          <span>DEVOPS & SECURITY</span>
+        </div>
+        <h2 class="entryTitle">Production Linux VPS Hardening, Nginx Reverse Proxy, and TLS Termination</h2>
+        <p class="entryExcerpt">
+          Bare-metal Ubuntu cloud server provisioning playbook. Configuring UFW firewall rules, setting up Nginx reverse proxy routing, and establishing PM2 process supervision.
+        </p>
+        <div class="tagRow">
+          <span class="tag">DevOps</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Linux</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</body>
+</html>
