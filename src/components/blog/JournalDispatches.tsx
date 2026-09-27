@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Button, Column, Heading, Row, Text } from "@once-ui-system/core";
+import { Button } from "@once-ui-system/core";
 import styles from "./JournalDispatches.module.scss";
 import type { Post } from "../../../payload-types";
 
@@ -56,219 +56,157 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
       {(activeCategory === "all" || activeCategory === "ai") && (
         <article className={styles.spotlightCard}>
           <div className={styles.spotlightVisual}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span
-                style={{
-                  fontFamily: "var(--font-mono, monospace)",
-                  fontSize: "10px",
-                  color: "var(--brand-on-background-strong, #58a6ff)",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                }}
-              >
-                AST Formal Gate · Stochastic Care
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-mono, monospace)",
-                  fontSize: "10px",
-                  color: "var(--neutral-on-background-weak)",
-                }}
-              >
-                ARXIV PREPRINT
+            {/* TERMINAL HEADER */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", color: "var(--neutral-on-background-weak)", marginLeft: "8px" }}>
+                  clinical-agent-v1.4 // formal-verification-engine
+                </span>
+              </div>
+              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "#3fb950", background: "rgba(63, 185, 80, 0.15)", padding: "2px 8px", borderRadius: "10px", border: "1px solid rgba(63, 185, 80, 0.3)" }}>
+                ● 100% GUARDRAIL BOUNDED
               </span>
             </div>
 
-            {/* FORMAL VERIFICATION & CLINICAL AGENT SCHEMATIC */}
+            {/* EXPANDED RICH CLINICAL REASONING STAGE */}
             <svg
-              viewBox="0 0 460 160"
+              viewBox="0 0 540 220"
               width="100%"
-              height="150"
+              height="200"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               style={{ overflow: "visible" }}
             >
-              {/* Input trajectory */}
-              <rect
-                x="10"
-                y="20"
-                width="100"
-                height="50"
-                rx="8"
-                fill="var(--neutral-background-weak, #14171f)"
-                stroke="var(--brand-on-background-strong, #58a6ff)"
-                strokeWidth="1.5"
-              />
-              <text
-                x="60"
-                y="42"
-                fill="var(--neutral-on-background-strong, #f0f2f5)"
-                fontSize="10"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-                fontWeight="600"
-              >
-                Patient Trajectory
-              </text>
-              <text
-                x="60"
-                y="56"
-                fill="var(--neutral-on-background-weak, #8b949e)"
-                fontSize="8"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-              >
-                EHR · 48h Stream
-              </text>
+              <defs>
+                <linearGradient id="aiGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#818cf8" stopOpacity="0.05" />
+                </linearGradient>
+                <linearGradient id="verifyGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3fb950" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#2ea043" stopOpacity="0.05" />
+                </linearGradient>
+                <pattern id="cardGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="0.8" />
+                </pattern>
+              </defs>
 
-              {/* Dotted pipeline to brain */}
-              <path
-                d="M110 45 L150 45"
-                stroke="var(--brand-on-background-strong, #58a6ff)"
-                strokeWidth="1.5"
-                strokeDasharray="3 3"
-              />
-              <polygon
-                points="152,45 146,42 146,48"
-                fill="var(--brand-on-background-strong, #58a6ff)"
-              />
+              {/* Background Grid */}
+              <rect width="540" height="220" fill="url(#cardGrid)" />
 
-              {/* Reasoning Engine */}
-              <rect
-                x="155"
-                y="15"
-                width="140"
-                height="60"
-                rx="8"
-                fill="var(--neutral-alpha-weak, #181c26)"
-                stroke="var(--neutral-border-medium, #8b949e)"
-                strokeWidth="1"
-              />
-              <text
-                x="225"
-                y="36"
-                fill="var(--brand-on-background-strong, #58a6ff)"
-                fontSize="11"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-                fontWeight="700"
-              >
-                Agentic Reasoning
-              </text>
-              <text
-                x="225"
-                y="52"
-                fill="var(--neutral-on-background-weak, #8b949e)"
-                fontSize="8.5"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-              >
-                Chain-of-Thought · ToT
-              </text>
-              <text
-                x="225"
-                y="64"
-                fill="var(--neutral-on-background-weak, #606873)"
-                fontSize="7.5"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-              >
-                Clinical Protocol Alignment
-              </text>
+              {/* 1. EHR STREAM & VITALS WAVEFORM */}
+              <g transform="translate(10, 20)">
+                <rect width="140" height="85" rx="8" fill="#0d1117" stroke="#30363d" strokeWidth="1" />
+                <rect x="0" y="0" width="140" height="22" rx="8" fill="#161b22" />
+                <text x="10" y="15" fill="#8b949e" fontSize="9" fontFamily="var(--font-mono, monospace)">EHR STREAM (48h)</text>
+                
+                {/* Sinus Rhythm Pulse Wave */}
+                <path
+                  d="M10 55 L35 55 L42 40 L48 70 L54 30 L60 62 L66 55 L90 55 L96 42 L102 68 L108 55 L130 55"
+                  stroke="#38bdf8"
+                  strokeWidth="1.8"
+                  fill="none"
+                />
+                <circle cx="54" cy="30" r="3" fill="#38bdf8" />
+                <text x="10" y="78" fill="#58a6ff" fontSize="8" fontFamily="var(--font-mono, monospace)">BPM: 74 · SpO2: 98%</text>
+                <text x="130" y="78" fill="#3fb950" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="end">Normal</text>
+              </g>
 
-              {/* Arrow to verification gate */}
-              <path
-                d="M295 45 L335 45"
-                stroke="var(--brand-on-background-strong, #58a6ff)"
-                strokeWidth="1.5"
-              />
-              <polygon
-                points="337,45 331,42 331,48"
-                fill="var(--brand-on-background-strong, #58a6ff)"
-              />
+              {/* Connection: EHR to Agent Brain */}
+              <path d="M150 62 L185 62" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3 3" />
+              <polygon points="188,62 181,58 181,66" fill="#38bdf8" />
 
-              {/* Formal Gate */}
-              <rect
-                x="340"
-                y="20"
-                width="110"
-                height="50"
-                rx="8"
-                fill="var(--neutral-background-weak, #14171f)"
-                stroke="#3fb950"
-                strokeWidth="1.5"
-              />
-              <text
-                x="395"
-                y="42"
-                fill="#3fb950"
-                fontSize="10"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-                fontWeight="600"
-              >
-                Formal Verification
-              </text>
-              <text
-                x="395"
-                y="56"
-                fill="var(--neutral-on-background-weak, #8b949e)"
-                fontSize="8"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-              >
-                Zero Hallucinated Tools
-              </text>
+              {/* 2. AGENTIC REASONING CORE */}
+              <g transform="translate(190, 15)">
+                <rect width="170" height="100" rx="10" fill="url(#aiGlow)" stroke="#38bdf8" strokeWidth="1.5" />
+                <rect width="170" height="100" rx="10" fill="#0d1117" fillOpacity="0.8" />
+                <text x="85" y="24" fill="#38bdf8" fontSize="11" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
+                  Agentic Reasoning Core
+                </text>
+                <text x="85" y="40" fill="#8b949e" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                  Chain-of-Thought · Tree-of-Thoughts
+                </text>
 
-              {/* Multi-Agent Hospital Consensus */}
-              <path
-                d="M225 75 L225 105"
-                stroke="var(--neutral-border-weak, #30363d)"
-                strokeWidth="1"
-                strokeDasharray="2 2"
-              />
-              <rect
-                x="120"
-                y="105"
-                width="210"
-                height="38"
-                rx="6"
-                fill="var(--neutral-background-weak, #0d1117)"
-                stroke="var(--neutral-border-weak, #30363d)"
-                strokeWidth="1"
-              />
-              <text
-                x="225"
-                y="122"
-                fill="var(--neutral-on-background-strong, #c9d1d9)"
-                fontSize="9"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-                fontWeight="600"
-              >
-                Multi-Agent Clinical Consensus (MAS)
-              </text>
-              <text
-                x="225"
-                y="134"
-                fill="var(--neutral-on-background-weak, #8b949e)"
-                fontSize="7.5"
-                fontFamily="var(--font-mono, monospace)"
-                textAnchor="middle"
-              >
-                Cardiology · Nephrology · Tumor Board
-              </text>
+                {/* Internal Protocol Alignment Nodes */}
+                <rect x="15" y="52" width="65" height="20" rx="4" fill="#161b22" stroke="#30363d" />
+                <text x="47" y="65" fill="#c9d1d9" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">AHA Guideline</text>
+                
+                <rect x="90" y="52" width="65" height="20" rx="4" fill="#161b22" stroke="#30363d" />
+                <text x="122" y="65" fill="#c9d1d9" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">GOLD Protocol</text>
+
+                <text x="85" y="90" fill="#f59e0b" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                  Stochastic Care Deliberation
+                </text>
+              </g>
+
+              {/* Connection: Brain to Formal Verification Gate */}
+              <path d="M360 65 L395 65" stroke="#3fb950" strokeWidth="1.8" />
+              <polygon points="398,65 391,61 391,69" fill="#3fb950" />
+
+              {/* 3. FORMAL VERIFICATION & COMPILER AST GATE */}
+              <g transform="translate(400, 18)">
+                <rect width="130" height="92" rx="10" fill="url(#verifyGlow)" stroke="#3fb950" strokeWidth="1.8" />
+                <rect width="130" height="92" rx="10" fill="#0d1117" fillOpacity="0.8" />
+                
+                {/* Shield Icon Accent */}
+                <circle cx="65" cy="24" r="10" fill="rgba(63, 185, 80, 0.2)" stroke="#3fb950" strokeWidth="1" />
+                <path d="M65 18 L69 20 L69 24 C69 27 65 29 65 29 C65 29 61 27 61 24 L61 20 Z" fill="#3fb950" />
+
+                <text x="65" y="48" fill="#3fb950" fontSize="10" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
+                  Formal Gate (AST)
+                </text>
+                <text x="65" y="62" fill="#8b949e" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                  Zero Hallucinations
+                </text>
+                
+                <rect x="15" y="70" width="100" height="15" rx="3" fill="#238636" />
+                <text x="65" y="81" fill="#ffffff" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="600">
+                  ACTION VERIFIED ✓
+                </text>
+              </g>
+
+              {/* 4. MULTI-AGENT CLINICAL CONSENSUS (MAS) PROTOCOL */}
+              <g transform="translate(80, 140)">
+                <rect width="380" height="60" rx="8" fill="#0d1117" stroke="#30363d" strokeWidth="1" />
+                <text x="15" y="22" fill="#8b949e" fontSize="9" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                  MULTI-AGENT CLINICAL CONSENSUS (MAS)
+                </text>
+                
+                {/* Three Specialized Agents */}
+                <rect x="15" y="30" width="105" height="22" rx="4" fill="#161b22" stroke="#38bdf8" />
+                <text x="67" y="44" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">Cardiology Agent</text>
+
+                <text x="130" y="44" fill="#8b949e" fontSize="10" fontFamily="var(--font-mono, monospace)">⇄</text>
+
+                <rect x="145" y="30" width="105" height="22" rx="4" fill="#161b22" stroke="#a855f7" />
+                <text x="197" y="44" fill="#a855f7" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">Nephrology Agent</text>
+
+                <text x="260" y="44" fill="#8b949e" fontSize="10" fontFamily="var(--font-mono, monospace)">⇄</text>
+
+                <rect x="275" y="30" width="90" height="22" rx="4" fill="#161b22" stroke="#3fb950" />
+                <text x="320" y="44" fill="#3fb950" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">Grand Rounds</text>
+              </g>
+
+              {/* Connecting dashed trace from Brain down to MAS */}
+              <path d="M275 115 L275 140" stroke="#8b949e" strokeWidth="1" strokeDasharray="2 2" />
             </svg>
 
             <div
               style={{
                 fontFamily: "var(--font-mono, monospace)",
-                fontSize: "10px",
+                fontSize: "10.5px",
                 color: "var(--neutral-on-background-weak)",
-                textAlign: "center",
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "6px",
+                borderTop: "1px solid rgba(255,255,255,0.06)",
               }}
             >
-              Figure 1: Stochastic Clinical Execution with Guardrail Bounding
+              <span>Figure 1: Stochastic Clinical Execution with Guardrail Bounding</span>
+              <span style={{ color: "var(--brand-on-background-strong, #58a6ff)" }}>RLHF · AST Proof · MAS</span>
             </div>
           </div>
 
@@ -324,52 +262,97 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
         </article>
       )}
 
-      {/* 2-COLUMN DISPATCHES GRID */}
+      {/* 2-COLUMN DISPATCHES GRID WITH HIGH-CRAFT TERMINAL & SYSTEM ARTWORK */}
       <div className={styles.dispatchesGrid}>
-        {/* CARD 1: NEPSE QUANT ANALYZER */}
+        {/* CARD 1: NEPSE QUANT ANALYZER (FINANCIAL TERMINAL) */}
         {(activeCategory === "all" || activeCategory === "ai") && (
           <article className={styles.postCard}>
             <div className={styles.postVisual}>
-              <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
-                <polyline
-                  points="20,80 60,65 100,75 140,40 180,50 220,25 260,35"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                  strokeWidth="2"
+              {/* Window Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
+                    nepse.terminal // timescaledb-feed
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#3fb950" }}>
+                  ● LIVE FEED
+                </span>
+              </div>
+
+              {/* Rich Financial Timeseries Visual */}
+              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
+                <defs>
+                  <linearGradient id="chartArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.35" />
+                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Grid lines */}
+                <line x1="10" y1="25" x2="310" y2="25" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+                <line x1="10" y1="55" x2="310" y2="55" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+                <line x1="10" y1="85" x2="310" y2="85" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+
+                {/* Candlestick bars */}
+                <rect x="25" y="55" width="4" height="20" fill="#f87171" rx="1" />
+                <line x1="27" y1="45" x2="27" y2="80" stroke="#f87171" strokeWidth="1" />
+
+                <rect x="55" y="48" width="4" height="15" fill="#3fb950" rx="1" />
+                <line x1="57" y1="40" x2="57" y2="70" stroke="#3fb950" strokeWidth="1" />
+
+                <rect x="85" y="60" width="4" height="22" fill="#f87171" rx="1" />
+                <line x1="87" y1="50" x2="87" y2="88" stroke="#f87171" strokeWidth="1" />
+
+                <rect x="115" y="42" width="4" height="28" fill="#3fb950" rx="1" />
+                <line x1="117" y1="35" x2="117" y2="75" stroke="#3fb950" strokeWidth="1" />
+
+                <rect x="145" y="35" width="4" height="25" fill="#3fb950" rx="1" />
+                <line x1="147" y1="28" x2="147" y2="65" stroke="#3fb950" strokeWidth="1" />
+
+                <rect x="175" y="45" width="4" height="15" fill="#f87171" rx="1" />
+                <line x1="177" y1="38" x2="177" y2="65" stroke="#f87171" strokeWidth="1" />
+
+                <rect x="205" y="28" width="4" height="30" fill="#3fb950" rx="1" />
+                <line x1="207" y1="20" x2="207" y2="62" stroke="#3fb950" strokeWidth="1" />
+
+                {/* Exponential Momentum Trend Curve with Area Fill */}
+                <path
+                  d="M10 75 Q 40 70, 70 78 T 130 50 T 190 42 T 250 25 T 310 18 L 310 95 L 10 95 Z"
+                  fill="url(#chartArea)"
                 />
-                <circle
-                  cx="220"
-                  cy="25"
-                  r="4"
-                  fill="var(--brand-on-background-strong, #58a6ff)"
+                <path
+                  d="M10 75 Q 40 70, 70 78 T 130 50 T 190 42 T 250 25 T 310 18"
+                  stroke="#38bdf8"
+                  strokeWidth="2.2"
+                  fill="none"
                 />
-                <text
-                  x="220"
-                  y="18"
-                  fill="var(--brand-on-background-strong, #58a6ff)"
-                  fontSize="9"
-                  fontFamily="var(--font-mono, monospace)"
-                >
-                  Buy Signal
-                </text>
-                <line
-                  x1="20"
-                  y1="95"
-                  x2="280"
-                  y2="95"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                  strokeWidth="1"
-                />
-                <text
-                  x="20"
-                  y="105"
-                  fill="var(--neutral-on-background-weak, #606873)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                >
-                  Timeseries ETL · 250+ Equities · n8n Automation
-                </text>
+
+                {/* Active Indicator Cross Node */}
+                <circle cx="250" cy="25" r="4.5" fill="#38bdf8" stroke="#ffffff" strokeWidth="1.5" />
+                
+                {/* HUD Telemetry Overlay */}
+                <g transform="translate(160, 55)">
+                  <rect width="145" height="38" rx="5" fill="#0d1117" stroke="#38bdf8" strokeWidth="1" fillOpacity="0.9" />
+                  <text x="8" y="15" fill="#f0f2f5" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                    NEPSE 2,748.20 ▲ +1.42%
+                  </text>
+                  <text x="8" y="28" fill="#3fb950" fontSize="8" fontFamily="var(--font-mono, monospace)">
+                    RSI(14): 62.8 · BUY SIGNAL
+                  </text>
+                </g>
               </svg>
+
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
+                <span>n8n Webhook Ingestion</span>
+                <span style={{ color: "#38bdf8" }}>TimescaleDB Write: 12ms</span>
+              </div>
             </div>
+
             <div className={styles.postBody}>
               <div className={styles.metaInfo}>March 23, 2026 · 6 min read</div>
               <h3 className={styles.postTitle}>
@@ -397,90 +380,73 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
           </article>
         )}
 
-        {/* CARD 2: TRILINGUAL LOCALIZATION (i18n) */}
+        {/* CARD 2: TRILINGUAL LOCALIZATION (i18n AST CODE CONSOLE) */}
         {(activeCategory === "all" || activeCategory === "systems") && (
           <article className={styles.postCard}>
             <div className={styles.postVisual}>
-              <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
-                <rect
-                  x="20"
-                  y="25"
-                  width="70"
-                  height="45"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                />
-                <text
-                  x="55"
-                  y="52"
-                  fill="var(--neutral-on-background-strong, #f0f2f5)"
-                  fontSize="10"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  EN
-                </text>
-                <path
-                  d="M90 47 L120 47"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="120"
-                  y="25"
-                  width="70"
-                  height="45"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                />
-                <text
-                  x="155"
-                  y="52"
-                  fill="var(--brand-on-background-strong, #58a6ff)"
-                  fontSize="10"
-                  fontFamily="sans-serif"
-                  textAnchor="middle"
-                >
-                  नेपाली
-                </text>
-                <path
-                  d="M190 47 L220 47"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="220"
-                  y="25"
-                  width="70"
-                  height="45"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                />
-                <text
-                  x="255"
-                  y="52"
-                  fill="var(--neutral-on-background-strong, #f0f2f5)"
-                  fontSize="9"
-                  fontFamily="sans-serif"
-                  textAnchor="middle"
-                >
-                  नेवाः भाय्
-                </text>
-                <text
-                  x="150"
-                  y="95"
-                  fill="var(--neutral-on-background-weak, #606873)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Automated CLI Translation · Deterministic AST Diffing
-                </text>
+              {/* Window Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
+                    locales/gen/ast-pipeline.ts
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#38bdf8" }}>
+                  0ms DRIFT
+                </span>
+              </div>
+
+              {/* Rich Multi-Script AST Compilation Diagram */}
+              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
+                {/* Left: Source Key Box */}
+                <g transform="translate(10, 18)">
+                  <rect width="90" height="70" rx="6" fill="#0d1117" stroke="#30363d" strokeWidth="1" />
+                  <rect width="90" height="18" rx="6" fill="#161b22" />
+                  <text x="8" y="13" fill="#8b949e" fontSize="8" fontFamily="var(--font-mono, monospace)">SOURCE AST</text>
+                  <text x="8" y="35" fill="#f59e0b" fontSize="8" fontFamily="var(--font-mono, monospace)">"welcome":</text>
+                  <text x="8" y="48" fill="#38bdf8" fontSize="8" fontFamily="var(--font-mono, monospace)">"Welcome"</text>
+                  <text x="8" y="62" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)">JSON Sorted</text>
+                </g>
+
+                {/* Transformer Core */}
+                <g transform="translate(115, 32)">
+                  <circle cx="20" cy="20" r="16" fill="rgba(88, 166, 255, 0.15)" stroke="#58a6ff" strokeWidth="1.2" />
+                  <text x="20" y="23" fill="#58a6ff" fontSize="12" fontFamily="var(--font-mono, monospace)" textAnchor="middle">⇄</text>
+                  <text x="20" y="48" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">AST Parser</text>
+                </g>
+
+                {/* Right: 3 Localized Target Outputs */}
+                <g transform="translate(170, 10)">
+                  {/* EN */}
+                  <rect x="0" y="0" width="140" height="24" rx="4" fill="#161b22" stroke="#30363d" />
+                  <rect x="4" y="4" width="22" height="16" rx="2" fill="#30363d" />
+                  <text x="15" y="15" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">EN</text>
+                  <text x="32" y="15" fill="#c9d1d9" fontSize="8.5" fontFamily="var(--font-mono, monospace)">"Welcome back"</text>
+
+                  {/* Nepali */}
+                  <rect x="0" y="30" width="140" height="24" rx="4" fill="#161b22" stroke="#38bdf8" />
+                  <rect x="4" y="34" width="22" height="16" rx="2" fill="rgba(56, 189, 248, 0.2)" />
+                  <text x="15" y="45" fill="#38bdf8" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">NE</text>
+                  <text x="32" y="46" fill="#38bdf8" fontSize="9" fontFamily="sans-serif">"फेरि स्वागत छ"</text>
+
+                  {/* Nepal Bhasa */}
+                  <rect x="0" y="60" width="140" height="24" rx="4" fill="#161b22" stroke="#a855f7" />
+                  <rect x="4" y="64" width="26" height="16" rx="2" fill="rgba(168, 85, 247, 0.2)" />
+                  <text x="17" y="75" fill="#a855f7" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">NEW</text>
+                  <text x="35" y="76" fill="#e9d5ff" fontSize="9" fontFamily="sans-serif">"हानं लसकुस"</text>
+                </g>
               </svg>
+
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
+                <span>Prettier AST Sort Verified</span>
+                <span style={{ color: "#3fb950" }}>3/3 Languages In Parity</span>
+              </div>
             </div>
+
             <div className={styles.postBody}>
               <div className={styles.metaInfo}>March 23, 2026 · 5 min read</div>
               <h3 className={styles.postTitle}>
@@ -508,86 +474,79 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
           </article>
         )}
 
-        {/* CARD 3: MOBILE CAPACITOR RUNTIME */}
+        {/* CARD 3: MOBILE CAPACITOR RUNTIME (DEVICE BRIDGE) */}
         {(activeCategory === "all" || activeCategory === "systems") && (
           <article className={styles.postCard}>
             <div className={styles.postVisual}>
-              <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
-                <rect
-                  x="40"
-                  y="15"
-                  width="90"
-                  height="65"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                />
-                <text
-                  x="85"
-                  y="45"
-                  fill="var(--neutral-on-background-strong, #f0f2f5)"
-                  fontSize="10"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Vite + React
-                </text>
-                <text
-                  x="85"
-                  y="60"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Tailwind Web
-                </text>
-                <path
-                  d="M130 48 L170 48"
-                  stroke="#3fb950"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="170"
-                  y="15"
-                  width="90"
-                  height="65"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="#3fb950"
-                />
-                <text
-                  x="215"
-                  y="45"
-                  fill="#3fb950"
-                  fontSize="10"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Capacitor Bridge
-                </text>
-                <text
-                  x="215"
-                  y="60"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  iOS & Android
-                </text>
-                <text
-                  x="150"
-                  y="98"
-                  fill="var(--neutral-on-background-weak, #606873)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Single Codebase · Native Biometrics · Offline Cache
-                </text>
+              {/* Window Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
+                    capacitor.config.ts // bridge-runtime
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#a855f7" }}>
+                  60 FPS JSI
+                </span>
+              </div>
+
+              {/* Mobile Device & Native Bridge Architecture */}
+              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
+                {/* Phone Frame silhouette */}
+                <g transform="translate(15, 12)">
+                  <rect width="65" height="90" rx="10" fill="#0d1117" stroke="#30363d" strokeWidth="1.5" />
+                  <rect x="20" y="4" width="25" height="3" rx="1.5" fill="#30363d" />
+                  {/* Mock UI */}
+                  <rect x="8" y="14" width="49" height="12" rx="2" fill="#161b22" />
+                  <rect x="8" y="30" width="49" height="35" rx="3" fill="#1f2937" stroke="#38bdf8" strokeWidth="0.8" />
+                  <circle cx="32" cy="45" r="7" fill="#38bdf8" fillOpacity="0.4" />
+                  <rect x="8" y="70" width="49" height="10" rx="2" fill="#161b22" />
+                </g>
+
+                {/* Connecting arrow */}
+                <path d="M90 55 L115 55" stroke="#a855f7" strokeWidth="1.8" strokeDasharray="3 3" />
+
+                {/* 3-Tier Bridge Architecture Stack */}
+                <g transform="translate(125, 12)">
+                  {/* Web Layer */}
+                  <rect x="0" y="0" width="180" height="24" rx="4" fill="#161b22" stroke="#38bdf8" />
+                  <text x="10" y="15" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                    ⚡ Vite + React 19 SPA
+                  </text>
+                  <text x="170" y="15" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                    Web Layer
+                  </text>
+
+                  {/* Bridge Core */}
+                  <rect x="0" y="32" width="180" height="24" rx="4" fill="#161b22" stroke="#a855f7" />
+                  <text x="10" y="47" fill="#c084fc" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                    ⇄ Capacitor Hardware Bridge
+                  </text>
+                  <text x="170" y="47" fill="#a855f7" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                    JSI Proxy
+                  </text>
+
+                  {/* Native Layer */}
+                  <rect x="0" y="64" width="180" height="24" rx="4" fill="#161b22" stroke="#3fb950" />
+                  <text x="10" y="79" fill="#3fb950" fontSize="8.5" fontFamily="var(--font-mono, monospace)" fontWeight="600">
+                    📱 iOS Core / Android NDK
+                  </text>
+                  <text x="170" y="79" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="end">
+                    Biometrics · SQLite
+                  </text>
+                </g>
               </svg>
+
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
+                <span>Single TypeScript Source</span>
+                <span style={{ color: "#3fb950" }}>Native Hardware APIs</span>
+              </div>
             </div>
+
             <div className={styles.postBody}>
               <div className={styles.metaInfo}>March 24, 2026 · 7 min read</div>
               <h3 className={styles.postTitle}>
@@ -615,120 +574,89 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
           </article>
         )}
 
-        {/* CARD 4: PRODUCTION LINUX NGINX DEPLOYMENT */}
+        {/* CARD 4: PRODUCTION LINUX NGINX DEPLOYMENT (HARDENED GATEWAY) */}
         {(activeCategory === "all" || activeCategory === "devops") && (
           <article className={styles.postCard}>
             <div className={styles.postVisual}>
-              <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
-                <rect
-                  x="25"
-                  y="20"
-                  width="75"
-                  height="50"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                />
-                <text
-                  x="62"
-                  y="42"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="9"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Client TLS
-                </text>
-                <text
-                  x="62"
-                  y="56"
-                  fill="var(--neutral-on-background-strong, #f0f2f5)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  :443 HTTPS
-                </text>
-                <path
-                  d="M100 45 L130 45"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="130"
-                  y="20"
-                  width="80"
-                  height="50"
-                  rx="6"
-                  fill="var(--neutral-alpha-weak, #181c26)"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                />
-                <text
-                  x="170"
-                  y="42"
-                  fill="var(--brand-on-background-strong, #58a6ff)"
-                  fontSize="9"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Nginx Gateway
-                </text>
-                <text
-                  x="170"
-                  y="56"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Reverse Proxy
-                </text>
-                <path
-                  d="M210 45 L240 45"
-                  stroke="var(--brand-on-background-strong, #58a6ff)"
-                  strokeWidth="1.5"
-                />
-                <rect
-                  x="240"
-                  y="20"
-                  width="55"
-                  height="50"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="#3fb950"
-                />
-                <text
-                  x="267"
-                  y="42"
-                  fill="#3fb950"
-                  fontSize="9"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Node
-                </text>
-                <text
-                  x="267"
-                  y="56"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  :3000
-                </text>
-                <text
-                  x="150"
-                  y="95"
-                  fill="var(--neutral-on-background-weak, #606873)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Automated Let's Encrypt · PM2 Cluster · UFW Hardening
-                </text>
+              {/* Window Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
+                    root@aayurt-vps: ~ (Ubuntu 22.04)
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#3fb950" }}>
+                  SSL GRADE: A+
+                </span>
+              </div>
+
+              {/* Nginx & Cloud Security Architecture */}
+              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
+                {/* 1. Ingress TLS Client */}
+                <g transform="translate(10, 20)">
+                  <rect width="80" height="65" rx="6" fill="#0d1117" stroke="#30363d" strokeWidth="1" />
+                  <text x="40" y="24" fill="#8b949e" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">CLIENT INGRESS</text>
+                  
+                  {/* Lock icon */}
+                  <circle cx="40" cy="42" r="8" fill="rgba(63, 185, 80, 0.2)" stroke="#3fb950" strokeWidth="1" />
+                  <path d="M37 42 L40 45 L44 39" stroke="#3fb950" strokeWidth="1.2" fill="none" />
+                  
+                  <text x="40" y="60" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">TLS 1.3 :443</text>
+                  <text x="40" y="74" fill="#3fb950" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">HTTP/2 Fast</text>
+                </g>
+
+                {/* Arrow */}
+                <path d="M95 52 L118 52" stroke="#38bdf8" strokeWidth="1.5" />
+                <polygon points="120,52 114,48 114,56" fill="#38bdf8" />
+
+                {/* 2. Nginx Reverse Proxy Engine */}
+                <g transform="translate(122, 12)">
+                  <rect width="95" height="80" rx="8" fill="#161b22" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="47" y="20" fill="#38bdf8" fontSize="9" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
+                    Nginx Gateway
+                  </text>
+                  <text x="47" y="34" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                    Reverse Proxy
+                  </text>
+
+                  <rect x="8" y="44" width="79" height="15" rx="3" fill="#0d1117" stroke="#30363d" />
+                  <text x="47" y="55" fill="#f59e0b" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                    UFW: 22, 80, 443
+                  </text>
+                  
+                  <text x="47" y="74" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                    Let's Encrypt Auto
+                  </text>
+                </g>
+
+                {/* Arrow */}
+                <path d="M222 52 L245 52" stroke="#3fb950" strokeWidth="1.5" />
+                <polygon points="247,52 241,48 241,56" fill="#3fb950" />
+
+                {/* 3. Node.js PM2 Cluster */}
+                <g transform="translate(248, 18)">
+                  <rect width="65" height="68" rx="6" fill="#0d1117" stroke="#3fb950" strokeWidth="1" />
+                  <text x="32" y="18" fill="#3fb950" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">Node :3000</text>
+                  <text x="32" y="32" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">PM2 Cluster</text>
+                  
+                  <circle cx="20" cy="48" r="4" fill="#3fb950" />
+                  <circle cx="32" cy="48" r="4" fill="#3fb950" />
+                  <circle cx="44" cy="48" r="4" fill="#3fb950" />
+                  
+                  <text x="32" y="60" fill="#c9d1d9" fontSize="6.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">4 Workers</text>
+                </g>
               </svg>
+
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
+                <span>Nginx Reverse Proxy</span>
+                <span style={{ color: "#38bdf8" }}>Proxy Overhead &lt; 1.2ms</span>
+              </div>
             </div>
+
             <div className={styles.postBody}>
               <div className={styles.metaInfo}>February 16, 2026 · 6 min read</div>
               <h3 className={styles.postTitle}>
@@ -756,50 +684,77 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
           </article>
         )}
 
-        {/* CARD 5: PLESK MULTI-TENANCY HOSTING */}
+        {/* CARD 5: PLESK MULTI-TENANCY HOSTING (CLOUD HOST CONTROLLER) */}
         {(activeCategory === "all" || activeCategory === "devops") && (
           <article className={styles.postCard}>
             <div className={styles.postVisual}>
-              <svg viewBox="0 0 300 110" width="100%" height="100" fill="none">
-                <rect
-                  x="30"
-                  y="20"
-                  width="240"
-                  height="55"
-                  rx="6"
-                  fill="var(--neutral-background-weak, #14171f)"
-                  stroke="var(--neutral-border-weak, #30363d)"
-                />
-                <text
-                  x="45"
-                  y="40"
-                  fill="var(--brand-on-background-strong, #58a6ff)"
-                  fontSize="9"
-                  fontFamily="var(--font-mono, monospace)"
-                >
-                  Plesk Obsidian Host Controller
-                </text>
-                <text
-                  x="45"
-                  y="55"
-                  fill="var(--neutral-on-background-weak, #8b949e)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                >
-                  Vhost Isolation · Node.js Selector · DNS Sync
-                </text>
-                <text
-                  x="150"
-                  y="95"
-                  fill="var(--neutral-on-background-weak, #606873)"
-                  fontSize="8"
-                  fontFamily="var(--font-mono, monospace)"
-                  textAnchor="middle"
-                >
-                  Multi-Tenant Subdomains · FastCGI Cache · Resource Limits
-                </text>
+              {/* Window Header */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }}></span>
+                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f", display: "inline-block" }}></span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", marginLeft: "6px" }}>
+                    plesk-obsidian // multi-tenant-controller
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#38bdf8" }}>
+                  ISOLATED VHOSTS
+                </span>
+              </div>
+
+              {/* Multi-Tenant Provisioning Topology */}
+              <svg viewBox="0 0 320 120" width="100%" height="110" fill="none">
+                {/* Ingress Router */}
+                <g transform="translate(10, 20)">
+                  <rect width="85" height="70" rx="6" fill="#161b22" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="42" y="24" fill="#38bdf8" fontSize="8.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle" fontWeight="700">
+                    Host Controller
+                  </text>
+                  <text x="42" y="38" fill="#8b949e" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                    Plesk Obsidian
+                  </text>
+                  
+                  <rect x="8" y="46" width="69" height="15" rx="3" fill="#0d1117" />
+                  <text x="42" y="57" fill="#f59e0b" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
+                    DNS REST Sync
+                  </text>
+                </g>
+
+                {/* Fan-out arrows */}
+                <path d="M100 45 L130 30" stroke="#38bdf8" strokeWidth="1.2" />
+                <path d="M100 55 L130 55" stroke="#38bdf8" strokeWidth="1.2" />
+                <path d="M100 65 L130 80" stroke="#38bdf8" strokeWidth="1.2" />
+
+                {/* 3 Isolated Tenant Containers */}
+                <g transform="translate(135, 12)">
+                  {/* Tenant 1 */}
+                  <rect x="0" y="0" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
+                  <circle cx="12" cy="12" r="3.5" fill="#3fb950" />
+                  <text x="22" y="15" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">app1.tenant.com</text>
+                  <text x="160" y="15" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">Node 22 · SSL</text>
+
+                  {/* Tenant 2 */}
+                  <rect x="0" y="32" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
+                  <circle cx="12" cy="44" r="3.5" fill="#3fb950" />
+                  <text x="22" y="47" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">app2.tenant.co.uk</text>
+                  <text x="160" y="47" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">FastCGI Cache</text>
+
+                  {/* Tenant 3 */}
+                  <rect x="0" y="64" width="170" height="24" rx="4" fill="#0d1117" stroke="#30363d" />
+                  <circle cx="12" cy="76" r="3.5" fill="#3fb950" />
+                  <text x="22" y="79" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)">api.internal.org</text>
+                  <text x="160" y="79" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="end">Cgroup 512MB</text>
+                </g>
               </svg>
+
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--font-mono, monospace)", fontSize: "9.5px", color: "var(--neutral-on-background-weak)", borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "4px" }}>
+                <span>Subdomain Automated Ingress</span>
+                <span style={{ color: "#3fb950" }}>Zero Downtime Provisioning</span>
+              </div>
             </div>
+
             <div className={styles.postBody}>
               <div className={styles.metaInfo}>March 24, 2026 · 5 min read</div>
               <h3 className={styles.postTitle}>
