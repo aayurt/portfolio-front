@@ -69,7 +69,8 @@ const BENTO_ITEMS: BentoItem[] = [
     caseStudyHref: "/work/8848-ui",
     liveUrl: "https://8848.aayurtshrestha.com.np",
   },
-  id: "syasyah",
+  {
+    id: "syasyah",
     category: ["all", "systems", "web"],
     spanDesktop: "span1",
     title: "Syasyah Samaj",
@@ -81,8 +82,7 @@ const BENTO_ITEMS: BentoItem[] = [
     footerTagline: "Zero-network street collection & cultural calendar.",
     caseStudyHref: "/work/syasyah-samaj",
     liveUrl: "https://syasyahsamaj.com",
-  },{
-    
+  },
   {
     id: "nepse",
     category: ["all", "agents", "web"],
