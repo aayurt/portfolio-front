@@ -3,6 +3,7 @@ import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
+import { EightEightFortyEightPipeline } from "@/components/pipeline/EightEightFortyEightPipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import PatienceImage from "@/components/patienceImage";
 import { ProductCarousel } from "@/components/work/ProductCarousel";
@@ -71,6 +72,8 @@ export default async function Home() {
       pipeline = <SyasyahPipeline />;
     } else if (project.slug === "astro-guru") {
       pipeline = <AstroPipeline />;
+    } else if (project.slug === "8848-ui") {
+      pipeline = <EightEightFortyEightPipeline />;
     } else if (project.slug === "nepse-analyser") {
       pipeline = <NepsePipeline />;
     }

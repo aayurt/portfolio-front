@@ -1,6 +1,7 @@
 import { RichText, ScrollToHash } from "@/components";
 import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
+import { EightEightFortyEightPipeline } from "@/components/pipeline/EightEightFortyEightPipeline";
 import { HermesPipeline } from "@/components/pipeline/HermesPipeline";
 import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
@@ -262,6 +263,25 @@ export default async function Project({
           </Text>
           <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
             <NepsePipeline />
+          </div>
+        </Column>
+      )}
+
+      {project.slug === "8848-ui" && (
+        <Column fillWidth gap="12" marginY="16">
+          <Row horizontal="between" vertical="center" fillWidth wrap gap="8">
+            <Heading as="h2" variant="heading-strong-l">
+              8848 UI — Mountain-Inspired Design System
+            </Heading>
+            <Tag variant="brand" radius="m">
+              <Text variant="label-strong-s">Open Source / React 19</Text>
+            </Tag>
+          </Row>
+          <Text variant="body-default-m" onBackground="neutral-weak">
+            Inspect the design system pipeline: OKLCH token groups (Color / Elevation / Type / Radii), package selector (react/core/mcp), component specs, and the live npm registry. Source: <a href="https://github.com/aayurt/8848-ui" target="_blank" rel="noopener noreferrer" style={{ color: "#3b82f6", textDecoration: "underline" }}>github.com/aayurt/8848-ui</a>
+          </Text>
+          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--neutral-border-weak, rgba(128,128,128,0.2))" }}>
+            <EightEightFortyEightPipeline />
           </div>
         </Column>
       )}

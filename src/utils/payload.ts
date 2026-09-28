@@ -35,6 +35,71 @@ export async function getAbout(): Promise<About | null> {
 
 const EXCLUDED_PROJECT_SLUGS = ["macImpetusNutri", "banking-app"];
 
+const EIGHT_EIGHT_FORTY_EIGHT_PROJECT: Project = {
+    id: 9998,
+    title: "8848 UI — Mountain-Inspired Design System",
+    slug: "8848-ui",
+    description: "Open-source React 19 design system built on Accessible Radix primitives, Tailwind CSS v4 OKLCH tokens, and expedition-grade engineering. 40+ components including agentic patterns (ExecutionCard, ToolCallInspector, MountainContour) with a live shadcn-compatible registry and an MCP server for AI assistants. Published to npm.",
+    client: "Open Source / Developer Tooling",
+    role: "Author & Lead Systems Engineer",
+    timeframe: "2026 – Present",
+    createdAt: "2026-09-27T00:00:00.000Z",
+    updatedAt: "2026-09-27T00:00:00.000Z",
+    metrics: [
+        { value: "40+", label: "React components", id: "8m1" },
+        { value: "5 pkgs", label: "Published to npm", id: "8m2" },
+        { value: "MCP", label: "AI assistant server", id: "8m3" },
+    ],
+    features: [
+        { title: "OKLCH Token System", description: "Alpine Blue + Sunrise Orange palette with perceptual slate scale and semantic light/dark tokens in Tailwind v4.", id: "8f1" },
+        { title: "Agentic Component Suite", description: "ExecutionCard, ToolCallInspector, ApprovalPrompt, ExecutorNode, TelemetryChip — purpose-built for autonomous AI interfaces.", id: "8f2" },
+        { title: "shadcn-Compatible Registry", description: "Live component registry at 8848.aayurtshrestha.com.np/r with copy-paste ownership and namespace install support.", id: "8f3" },
+        { title: "MCP Server for AI", description: "@aayurt/8848-ui-mcp exposes list/search/get_component tools so AI assistants can browse and use components autonomously.", id: "8f4" },
+    ],
+    benefits: [
+        { benefit: "Compact button spec (28–44px heights, 1px borders, hover lift) cuts visual weight while maintaining WCAG accessibility.", id: "8b1" },
+        { benefit: "AI-first agentic patterns give LLM-driven UIs first-class design language out of the box.", id: "8b2" },
+    ],
+    techStack: [
+        { tech: "React 19", id: "8t1" },
+        { tech: "Tailwind CSS v4", id: "8t2" },
+        { tech: "Radix UI", id: "8t3" },
+        { tech: "OKLCH / CSS Variables", id: "8t4" },
+        { tech: "MCP Protocol", id: "8t5" },
+        { tech: "TypeScript", id: "8t6" },
+    ],
+    links: {
+        liveUrl: "https://8848.aayurtshrestha.com.np",
+    } as Project["links"],
+    content: {
+        root: {
+            type: "root",
+            format: "",
+            indent: 0,
+            version: 1,
+            direction: "ltr",
+            children: [
+                {
+                    type: "heading", tag: "h2", format: "", indent: 0, version: 1,
+                    children: [{ type: "text", text: "Mountain-Inspired Design System for Modern React Interfaces", format: 1, version: 1, detail: 0, mode: "normal", style: "" }]
+                },
+                {
+                    type: "paragraph", format: "", indent: 0, version: 1,
+                    children: [{ type: "text", text: "8848 UI (named after Everest's 8,848 m summit) is a minimal, precise design system built on Accessible Radix primitives, Tailwind CSS v4 OKLCH tokens, and a live shadcn-compatible component registry. It ships dedicated agentic UI patterns — ExecutionCard, ToolCallInspector, ApprovalPrompt — making it the first open-source design system purpose-built for autonomous AI interfaces.", format: 0, version: 1, detail: 0, mode: "normal", style: "" }]
+                },
+                {
+                    type: "heading", tag: "h3", format: "", indent: 0, version: 1,
+                    children: [{ type: "text", text: "Architecture & Design Decisions", format: 1, version: 1, detail: 0, mode: "normal", style: "" }]
+                },
+                {
+                    type: "paragraph", format: "", indent: 0, version: 1,
+                    children: [{ type: "text", text: "1. OKLCH Color System: Perceptual color science ensures uniform brightness across the Alpine Blue → Sunrise Orange palette, eliminating dull grays common in HSL-based systems.\n2. Compact Button Spec: 28–44px heights, 6–9px radii, 1px borders, and translateY(-1px) hover lift mirror real expedition-grade tool ergonomics.\n3. MCP Server Integration: @aayurt/8848-ui-mcp is a full Model Context Protocol server that lets AI assistants browse the component registry, search components by keyword, and fetch full source — closing the loop between design system and autonomous development.\n4. Elevation Shadow System: Five named levels (basecamp → trail → ridge → summit → expedition) give depth hierarchy without heavy shadows.", format: 0, version: 1, detail: 0, mode: "normal", style: "" }]
+                }
+            ]
+        }
+    }
+};
+
 const HERMES_PROJECT: Project = {
     id: 9999,
     title: "Hermes — Multi-Agent Autonomous Engineering System",
@@ -400,7 +465,11 @@ export async function getProjects(): Promise<Project[]> {
 
         // Ensure Hermes is featured in projects list if not present in remote DB
         if (!filtered.some((p) => p.slug === "hermes")) {
-            return [HERMES_PROJECT, ...filtered];
+            return [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, ...filtered];
+        }
+        // Ensure 8848-ui is always included
+        if (!filtered.some((p) => p.slug === "8848-ui")) {
+            return [...filtered, EIGHT_EIGHT_FORTY_EIGHT_PROJECT];
         }
 
         return filtered;
@@ -416,6 +485,10 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
 
     if (slug === "hermes") {
         return HERMES_PROJECT;
+    }
+
+    if (slug === "8848-ui") {
+        return EIGHT_EIGHT_FORTY_EIGHT_PROJECT;
     }
 
     try {

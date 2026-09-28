@@ -109,6 +109,44 @@
   ],
   "projects": [
     {
+      "title": "8848 UI – Mountain-inspired Design System for React & Agentic Interfaces",
+      "slug": "8848-ui",
+      "description": "Open-source React design system with 40+ accessible components, OKLCH mountain tokens, a shadcn-compatible registry, and an MCP server for AI assistants.",
+      "content": {
+        "root": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "detail": 0,
+                  "format": 0,
+                  "mode": "normal",
+                  "style": "",
+                  "text": "8848 UI is an open-source, mountain-inspired design system for modern React/Next.js and agentic interfaces. It ships 40+ accessible Radix-based components, Tailwind CSS v4 OKLCH theme tokens, a shadcn-compatible registry with live previews, and an MCP server so AI assistants can discover and install components. Links: GitHub https://github.com/aayurt/8848-ui, live docs https://8848.aayurtshrestha.com.np, npm @aayurt/8848-ui-react."
+                }
+              ],
+              "direction": "ltr",
+              "format": "",
+              "indent": 0,
+              "textFormat": 0,
+              "version": 1
+            }
+          ],
+          "direction": "ltr",
+          "format": "",
+          "indent": 0,
+          "version": 1
+        }
+      },
+      "client": "Open Source",
+      "role": "Creator & Maintainer",
+      "timeframe": "2026-09-01",
+      "images": []
+    },
+    {
       "title": "Afno App Mobile – Restaurant Discovery App",
       "slug": "afno-app",
       "description": "A cross-platform mobile app that helps users discover Nepalese restaurants, browse menus, and explore local food with a fast, intuitive experience.",

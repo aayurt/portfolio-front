@@ -1,0 +1,48 @@
+---
+title: "8848 UI – Mountain-inspired Design System for React & Agentic Interfaces"
+publishedAt: "2026-09-01"
+summary: "Open-source React design system with 40+ accessible components, OKLCH mountain tokens, a shadcn-compatible registry, and an MCP server for AI assistants."
+images: []
+team:
+  - name: "Aayurt Shrestha"
+    role: "Creator & Maintainer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/aayurt-shrestha/"
+link: "https://github.com/aayurt/8848-ui"
+---
+
+## Overview
+
+8848 UI is my own open-source design system — minimal, precise, quiet, technical, Himalayan, elevated. Named after Mount Everest (8,848m), it provides mountain-inspired theme tokens and expedition-grade React components for modern Next.js apps and agentic interfaces.
+
+It ships as versioned npm packages, a copy-paste shadcn registry with live previews, and an MCP server so AI assistants can discover and install components directly.
+
+**Links:** [GitHub](https://github.com/aayurt/8848-ui) · [Live docs & registry](https://8848.aayurtshrestha.com.np) · [npm – @aayurt/8848-ui-react](https://www.npmjs.com/package/@aayurt/8848-ui-react)
+
+## Key Features
+
+- **40+ Components**: Primitives (Button, Card, Input, Badge, Avatar…), overlays (Dialog, Sheet, Popover, Command…), data display (sortable Table, Tabs, Progress), and agentic patterns (ExecutionCard, ToolCallInspector, ApprovalPrompt, ExecutorNode, TelemetryChip, MountainContour).
+- **Mountain Design Tokens**: Alpine Blue brand (`oklch(0.55 0.18 250)`), Sunrise Orange accent, perceptual slate neutrals, light + dark semantic colors, Inter + JetBrains Mono type, and `basecamp → expedition` elevation shadows.
+- **Two Consumption Modes**: Install as npm packages (`@aayurt/8848-ui-react`, `-core`, `-hooks`, `-utils`) with tree-shakeable subpaths, or copy-paste ownership via the shadcn registry (`pnpm dlx shadcn add @aayurt/button`).
+- **Form System**: React Hook Form + Zod controllers (`Form`, `FormField`, `FormItem`) out of the box.
+- **MCP Server for AI**: `@aayurt/8848-ui-mcp` exposes `list_components`, `search_components`, and `get_component` so coding agents scaffold UI consistently.
+- **Expedition Engineering**: Turborepo monorepo, changesets versioning, per-package typecheck/lint, and automated docs deploy.
+
+## Technologies Used
+
+- **React 19 + Next.js**: Component library and live docs playground  
+- **Radix Primitives**: Accessible behavior foundation  
+- **Tailwind CSS v4**: OKLCH theme tokens via `@theme` CSS  
+- **Turborepo + pnpm workspaces**: `packages/*` and `apps/docs` monorepo  
+- **Changesets**: Semantic versioning and npm publishing  
+- **Model Context Protocol (MCP)**: Registry-backed AI tool server  
+
+## Challenges and Learnings
+
+The biggest challenge was supporting two distribution models from one source — compiled npm packages and shadcn copy-paste files — without drift. A registry build script (`scripts/registry-build.mjs`) generates registry JSON from the same component source on every docs build, keeping both in sync.
+
+Designing in OKLCH instead of hex also forced a more perceptual approach to color: the full neutral scale and semantic light/dark pairs are derived rather than hand-picked, which keeps contrast consistent across themes.
+
+## Outcome
+
+8848 UI is published and installable today (`@aayurt/8848-ui-react@0.2.1` on npm), with a live shadcn registry and an MCP server for AI-assisted development. It now powers my own portfolio-adjacent experiments and serves as the reusable UI foundation for future products.

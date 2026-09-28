@@ -8,6 +8,7 @@ import { AfnoPipeline } from "../pipeline/AfnoPipeline";
 import { SyasyahPipeline } from "../pipeline/SyasyahPipeline";
 import { NepsePipeline } from "../pipeline/NepsePipeline";
 import { AstroPipeline } from "../pipeline/AstroPipeline";
+import { EightEightFortyEightPipeline } from "../pipeline/EightEightFortyEightPipeline";
 
 type Category = "all" | "agents" | "systems" | "web";
 
@@ -95,6 +96,20 @@ const BENTO_ITEMS: BentoItem[] = [
     footerTagline: "Mathematical celestial coordinates & cosmic guide.",
     caseStudyHref: "/work/astro-guru",
     liveUrl: "https://astro.ratosuryaonline.com",
+  },
+  {
+    id: "8848ui",
+    category: ["all", "systems", "web"],
+    spanDesktop: "span1",
+    title: "8848 UI — Mountain-Inspired Design System",
+    badge: "Open Source / Design System",
+    subtitle: "React 19 component library with OKLCH tokens, Radix primitives, agentic UI patterns, and an MCP server for AI assistants",
+    component: <EightEightFortyEightPipeline />,
+    specsLeft: "Pkgs: 5 on npm · 40+ Components · MCP Registry",
+    specsRight: "Stack: React 19 · Tailwind v4 · Radix UI · TypeScript",
+    footerTagline: "Mountain precision meets agentic interface engineering.",
+    caseStudyHref: "/work/8848-ui",
+    liveUrl: "https://8848.aayurtshrestha.com.np",
   },
   {
     id: "research",
