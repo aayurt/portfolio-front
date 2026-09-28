@@ -463,12 +463,14 @@ export async function getProjects(): Promise<Project[]> {
             .filter((p) => p.slug && !EXCLUDED_PROJECT_SLUGS.includes(p.slug))
             .map(enrichProject);
 
+        const slug = await getSlug();
+        const isAayurt = slug === "aayurtshrestha";
         // Ensure Hermes is featured in projects list if not present in remote DB
         if (!filtered.some((p) => p.slug === "hermes")) {
-            return [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, ...filtered];
+            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, ...filtered] : [HERMES_PROJECT, ...filtered];
         }
-        // Ensure 8848-ui is always included
-        if (!filtered.some((p) => p.slug === "8848-ui")) {
+        // Ensure 8848-ui only for aayurtshrestha tenant
+        if (isAayurt && !filtered.some((p) => p.slug === "8848-ui")) {
             return [...filtered, EIGHT_EIGHT_FORTY_EIGHT_PROJECT];
         }
 
@@ -488,7 +490,8 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
     }
 
     if (slug === "8848-ui") {
-        return EIGHT_EIGHT_FORTY_EIGHT_PROJECT;
+        const s = await getSlug().catch(() => "");
+        return s === "aayurtshrestha" ? EIGHT_EIGHT_FORTY_EIGHT_PROJECT : undefined;
     }
 
     try {
