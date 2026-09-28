@@ -151,22 +151,15 @@
 }
 
 .primaryBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: var(--radius-m, 8px);
-  background: var(--neutral-on-background-strong, #111);
-  color: var(--neutral-background-strong, #fff);
-  text-decoration: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-
-  &:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 8px 18px; border-radius: 9999px;
+  background: #0891b2; color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  box-shadow: 0 3px 10px rgba(8,145,178,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  text-decoration: none; transition: all 0.2s ease;
+  &:hover { background: #067a8f; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(8,145,178,0.45); }
+  &:active { transform: translateY(0); }
 }
 
 .secondaryBtn {
