@@ -56,7 +56,20 @@ const BENTO_ITEMS: BentoItem[] = [
     liveUrl: "https://afnoevents.co.uk",
   },
   {
-    id: "syasyah",
+    id: "8848ui",
+    category: ["all", "systems", "web"],
+    spanDesktop: "span1",
+    title: "8848 UI — Mountain-Inspired Design System",
+    badge: "Open Source / Design System",
+    subtitle: "React 19 component library with OKLCH tokens, Radix primitives, agentic UI patterns, and an MCP server for AI assistants",
+    component: <EightEightFortyEightPipeline />,
+    specsLeft: "Pkgs: 5 on npm · 40+ Components · MCP Registry",
+    specsRight: "Stack: React 19 · Tailwind v4 · Radix UI · TypeScript",
+    footerTagline: "Mountain precision meets agentic interface engineering.",
+    caseStudyHref: "/work/8848-ui",
+    liveUrl: "https://8848.aayurtshrestha.com.np",
+  },
+  id: "syasyah",
     category: ["all", "systems", "web"],
     spanDesktop: "span1",
     title: "Syasyah Samaj",
@@ -68,7 +81,8 @@ const BENTO_ITEMS: BentoItem[] = [
     footerTagline: "Zero-network street collection & cultural calendar.",
     caseStudyHref: "/work/syasyah-samaj",
     liveUrl: "https://syasyahsamaj.com",
-  },
+  },{
+    
   {
     id: "nepse",
     category: ["all", "agents", "web"],
@@ -97,20 +111,7 @@ const BENTO_ITEMS: BentoItem[] = [
     caseStudyHref: "/work/astro-guru",
     liveUrl: "https://astro.ratosuryaonline.com",
   },
-  {
-    id: "8848ui",
-    category: ["all", "systems", "web"],
-    spanDesktop: "span1",
-    title: "8848 UI — Mountain-Inspired Design System",
-    badge: "Open Source / Design System",
-    subtitle: "React 19 component library with OKLCH tokens, Radix primitives, agentic UI patterns, and an MCP server for AI assistants",
-    component: <EightEightFortyEightPipeline />,
-    specsLeft: "Pkgs: 5 on npm · 40+ Components · MCP Registry",
-    specsRight: "Stack: React 19 · Tailwind v4 · Radix UI · TypeScript",
-    footerTagline: "Mountain precision meets agentic interface engineering.",
-    caseStudyHref: "/work/8848-ui",
-    liveUrl: "https://8848.aayurtshrestha.com.np",
-  },
+  
   {
     id: "research",
     category: ["all", "systems"],

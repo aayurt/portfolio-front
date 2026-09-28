@@ -37,15 +37,9 @@
 
 .dossierBadge {
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--brand-on-background-strong, #00b4d8);
-  background: var(--brand-background-weak, rgba(0, 180, 216, 0.1));
-  padding: 4px 8px;
-  border-radius: var(--radius-s, 4px);
-  border: 1px solid var(--brand-border-weak, rgba(0, 180, 216, 0.25));
+  font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: #0891b2;
+  padding: 5px 10px; border-radius: 9999px; border: none; box-shadow: 0 2px 8px rgba(8,145,178,0.3);
 }
 
 .dossierTitle {
