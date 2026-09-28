@@ -176,21 +176,11 @@
 }
 
 .secondaryBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: var(--radius-m, 8px);
-  background: var(--neutral-background-medium, rgba(128, 128, 128, 0.08));
-  color: var(--neutral-on-background-strong, currentColor);
-  border: 1px solid var(--neutral-border-weak, rgba(128, 128, 128, 0.2));
-  text-decoration: none;
-  transition: background 0.15s ease, border-color 0.15s ease;
-
-  &:hover {
-    background: var(--neutral-background-strong, rgba(128, 128, 128, 0.15));
-    border-color: var(--neutral-border-medium, rgba(128, 128, 128, 0.35));
-  }
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.95); color: #0891b2;
+  border: 1.5px solid rgba(0,180,216,0.35);
+  text-decoration: none; transition: all 0.15s ease;
+  &:hover { background: #0891b2; color: #fff; border-color: #0891b2; transform: translateY(-1px); }
 }

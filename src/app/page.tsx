@@ -135,11 +135,18 @@ export default async function Home() {
             variant="neutral"
             size="m"
             style={{
+              display: "inline-block",
+              padding: "4px 12px",
+              borderRadius: 9999,
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontFamily: "var(--font-mono, monospace)",
+              background: "rgba(0,180,216,0.12)",
+              border: "1px solid rgba(0,180,216,0.3)",
+              color: "#0891b2",
               marginTop: "8px",
               marginBottom: "8px",
-              letterSpacing: "0.04em",
-              fontFamily: "var(--font-mono, monospace)",
-              fontWeight: 600,
             }}
           >
             Senior Systems & Full-Stack Engineer
