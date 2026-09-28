@@ -67,7 +67,8 @@ export function RecruiterDossier({
       {/* Quick Actions Row */}
       <div className={styles.actionsRow}>
         <div className={styles.specsNote}>
-          Kathmandu (UTC+5:45) · 4+ hrs US/UK/EU overlap · Remote / Relocation / Full-Time
+          Kathmandu (UTC+5:45) · 4+ hrs US/UK/EU overlap · Remote / Relocation / Full-Time{" "}
+          <span style={{color:"#0891b2", fontWeight:700}}>Impact: 5 npm packages (8848 UI) · 40+ components · &lt;50ms dispatch · 0 oversells</span>
         </div>
 
         <div className={styles.buttonGroup}>
