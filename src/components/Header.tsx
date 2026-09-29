@@ -169,6 +169,25 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                   </Row>
                 </>
               )}
+              {routes["/publications"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="document"
+                      href="/publications"
+                      label="Publications"
+                      selected={pathname.startsWith("/publications")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="document"
+                      href="/publications"
+                      selected={pathname.startsWith("/publications")}
+                    />
+                  </Row>
+                </>
+              )}
               {routes["/gallery"] && (
                 <>
                   <Row s={{ hide: true }}>

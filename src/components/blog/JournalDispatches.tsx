@@ -21,7 +21,7 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
   author={Shrestha, Aayurt},
   journal={arXiv preprint},
   year={2026},
-  url={https://aayurtshrestha.com.np/blog/autonomy-in-the-clinic-the-research-frontier-of-agentic-ai}
+  url={https://aayurtshrestha.com.np/research/autonomy-in-the-clinic}
 }`;
     navigator.clipboard.writeText(bibtex);
     setCopiedBibtex(true);
@@ -243,7 +243,7 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
 
             <div className={styles.actionRow}>
               <Link
-                href="/blog/autonomy-in-the-clinic-the-research-frontier-of-agentic-ai"
+                href="/research/autonomy-in-the-clinic"
                 style={{ textDecoration: "none" }}
               >
                 <Button variant="primary" size="m">

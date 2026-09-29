@@ -413,6 +413,13 @@ const blog: Blog = {
   // All posts will be listed on the /blog route
 };
 
+const publications: Publications = {
+  path: "/publications",
+  label: "Publications",
+  title: "Publications & Research Outputs",
+  description: `Formal papers, working papers, preprints, and engineering dispatches by ${person.name}`,
+};
+
 const work: Work = {
   path: "/work",
   label: "Work",
@@ -442,12 +449,12 @@ const research: Research = {
   writing: [
     {
       title: "Autonomy in the Clinic: The Research Frontier of Agentic AI",
-      link: "/blog/autonomy-in-the-clinic-the-research-frontier-of-agentic-ai",
+      link: "/research/autonomy-in-the-clinic",
     },
   ],
 };
 
 
 
-export { about, blog, home, newsletter, person, research, social, work };
+export { about, blog, home, newsletter, person, publications, research, social, work };
 

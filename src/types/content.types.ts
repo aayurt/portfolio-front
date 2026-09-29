@@ -274,6 +274,12 @@ export interface About extends BasePageConfig {
 export interface Blog extends BasePageConfig { }
 
 /**
+ * Publications page configuration.
+ * @description Configuration for the Publications page, including metadata and navigation label.
+ */
+export interface Publications extends BasePageConfig { }
+
+/**
  * Work/projects page configuration.
  * @description Configuration for the Work/Projects page, including metadata and navigation label.
  */
