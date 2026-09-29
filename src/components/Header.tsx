@@ -154,7 +154,7 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                 <>
                   <Row s={{ hide: true }}>
                     <ToggleButton
-                      prefixIcon="flask"
+                      prefixIcon="document"
                       href="/research"
                       label="Research"
                       selected={pathname.startsWith("/research")}
@@ -162,7 +162,7 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                   </Row>
                   <Row hide s={{ hide: false }}>
                     <ToggleButton
-                      prefixIcon="flask"
+                      prefixIcon="document"
                       href="/research"
                       selected={pathname.startsWith("/research")}
                     />
