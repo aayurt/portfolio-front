@@ -448,6 +448,44 @@ function enrichProject(p: Project): Project {
     return p;
 }
 
+const RESEARCH_AGENTIC_SE_PROJECT: Project = {
+    id: 9997,
+    title: "Reliable Agentic Software Engineering — Research Synthesis & PhD Roadmap",
+    slug: "research-reliable-agentic-se",
+    description: "Doctoral research monograph on trustworthy, verifiable, and autonomous AI-assisted software development. 12 methodological dimensions, 10 foundational benchmarks analyzed, cross-literature synthesis, taxonomy of agentic reliability, 10 PhD research questions (RQ1–RQ10), and three complete experimental designs (OverlayFS checkpointing, differential fuzzing verifiers, dynamic complexity routing).",
+    client: "Academic Research / Autonomous AI",
+    role: "Principal Investigator",
+    timeframe: "2026 – Present",
+    createdAt: "2026-09-29T00:00:00.000Z",
+    updatedAt: "2026-09-29T00:00:00.000Z",
+    metrics: [
+        { value: "12", label: "Methodological Dimensions", id: "r1" },
+        { value: "10", label: "PhD Research Questions", id: "r2" },
+        { value: "3", label: "Experimental Designs", id: "r3" },
+    ],
+    features: [
+        { title: "OverlayFS Checkpointing", description: "Containerized per-step state snapshots with sub-15ms latency for deterministic rollback.", id: "rf1" },
+        { title: "Differential Fuzzing Verifiers", description: "Objective neuro-symbolic verification replacing LLM reviewers; AFL++, Daikon, Hypothesis integration.", id: "rf2" },
+        { title: "Dynamic Complexity Routing", description: "Adaptive verification escalation: static analysis → bounded model checking → differential fuzzing.", id: "rf3" },
+        { title: "Anti-Sycophancy Taxonomy", description: "Execution-anchored review protocols eliminating epistemological sycophancy in multi-agent loops.", id: "rf4" },
+    ],
+    benefits: [
+        { benefit: "Provides formal foundation for reliable autonomous software engineering agents.", id: "rb1" },
+        { benefit: "Bridges formal methods (model checking, fuzzing) with LLM-based agentic architectures.", id: "rb2" },
+    ],
+    techStack: [
+        { tech: "Docker / OverlayFS", id: "rt1" },
+        { tech: "AFL++ / LibFuzzer", id: "rt2" },
+        { tech: "CBMC / Kani", id: "rt3" },
+        { tech: "TypeScript / Python", id: "rt4" },
+        { tech: "MCTS / RL", id: "rt5" },
+    ],
+    links: {
+        liveUrl: "https://aayurtshrestha.com.np/work/research-reliable-agentic-se",
+    } as Project["links"],
+    content: null,
+};
+
 export async function getProjects(): Promise<Project[]> {
     try {
         const res = await fetch(`${PAYLOAD_API_URL}/projects/by-slug/${await getSlug()}`, {
@@ -457,7 +495,7 @@ export async function getProjects(): Promise<Project[]> {
         if (!res.ok) {
             const slug = await getSlug();
             const isAayurt = slug === "aayurtshrestha";
-            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT] : [HERMES_PROJECT];
+            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, RESEARCH_AGENTIC_SE_PROJECT] : [HERMES_PROJECT];
         }
 
         const data: Project[] = await res.json();
@@ -469,18 +507,22 @@ export async function getProjects(): Promise<Project[]> {
         const isAayurt = slug === "aayurtshrestha";
         // Ensure Hermes is featured in projects list if not present in remote DB
         if (!filtered.some((p) => p.slug === "hermes")) {
-            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, ...filtered] : [HERMES_PROJECT, ...filtered];
+            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, RESEARCH_AGENTIC_SE_PROJECT, ...filtered] : [HERMES_PROJECT, ...filtered];
         }
         // Ensure 8848-ui only for aayurtshrestha tenant
         if (isAayurt && !filtered.some((p) => p.slug === "8848-ui")) {
             return [...filtered, EIGHT_EIGHT_FORTY_EIGHT_PROJECT];
+        }
+        // Ensure research project only for aayurtshrestha tenant
+        if (isAayurt && !filtered.some((p) => p.slug === "research-reliable-agentic-se")) {
+            return [...filtered, RESEARCH_AGENTIC_SE_PROJECT];
         }
 
         return filtered;
     } catch {
         const slug = await getSlug().catch(() => "");
         const isAayurt = slug === "aayurtshrestha";
-        return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT] : [HERMES_PROJECT];
+        return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT, RESEARCH_AGENTIC_SE_PROJECT] : [HERMES_PROJECT];
     }
 }
 
@@ -496,6 +538,11 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
     if (slug === "8848-ui") {
         const s = await getSlug().catch(() => "");
         return s === "aayurtshrestha" ? EIGHT_EIGHT_FORTY_EIGHT_PROJECT : undefined;
+    }
+
+    if (slug === "research-reliable-agentic-se") {
+        const s = await getSlug().catch(() => "");
+        return s === "aayurtshrestha" ? RESEARCH_AGENTIC_SE_PROJECT : undefined;
     }
 
     try {
