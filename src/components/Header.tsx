@@ -150,6 +150,25 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                   </Row>
                 </>
               )}
+              {routes["/research"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="flask-conical"
+                      href="/research"
+                      label="Research"
+                      selected={pathname.startsWith("/research")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="flask-conical"
+                      href="/research"
+                      selected={pathname.startsWith("/research")}
+                    />
+                  </Row>
+                </>
+              )}
               {routes["/gallery"] && (
                 <>
                   <Row s={{ hide: true }}>

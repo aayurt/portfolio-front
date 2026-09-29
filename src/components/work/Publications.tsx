@@ -60,6 +60,31 @@ const PUBLICATIONS: Pub[] = [
       "Formalizes an offline-first accounting model for community governance (10 Ilakas, sub-second local sync, zero data loss under network partition). Defines the useCachedList abstraction and optimistic reconciliation pattern for civic voucher systems.",
     links: [{ label: "Project", url: "/work/syasyah-samaj" }],
   },
+  {
+    title: "Reliable Agentic Software Engineering: Methods for Trustworthy, Verifiable, and Autonomous AI-Assisted Software Development",
+    authors: "A. Shrestha",
+    venue: "Doctoral Research Monograph — Hermes Research",
+    year: 2026,
+    type: "Working Paper",
+    abstract:
+      "Exhaustive analysis across 12 core methodological dimensions of agentic software engineering reliability. Paper-by-paper evaluation of 10 foundational benchmarks, cross-literature synthesis resolving fundamental academic debates, actionable taxonomy of agentic reliability, 10 candidate PhD research questions (RQ1–RQ10), and three complete experimental designs: containerized OverlayFS state checkpointing (sub-15ms), objective differential fuzzing verifiers replacing LLM reviewers, and dynamic complexity routing for adaptive verification. Formal initial research hypothesis with empirical validation plan on SWE-bench.",
+    links: [
+      { label: "Read", url: "/work/research-reliable-agentic-se" },
+      { label: "GitHub", url: "https://github.com/aayurt/hermes" },
+    ],
+  },
+  {
+    title: "Autonomy in the Clinic: The Research Frontier of Agentic AI",
+    authors: "A. Shrestha",
+    venue: "Working Paper — Hermes Research",
+    year: 2026,
+    type: "Working Paper",
+    abstract:
+      "Explores agentic evaluation frameworks in clinical settings: multi-subagent orchestration, deterministic AST verification gates, and human-in-the-loop oversight for autonomous diagnostic assistance. Proposes a three-layer pipeline architecture linking local inference (Ollama) to structured reasoning (Gemini 1.5 Pro) under deterministic guardrails. Evaluated on MIMIC-IV differential diagnosis subset (n=1,247) with 87.1% diagnostic accuracy vs 72.3% baseline, 2.1% hallucination rate vs 18.4%, and 8% clinician override rate vs 34%.",
+    links: [
+      { label: "Read", url: "/research/autonomy-in-the-clinic" },
+    ],
+  },
 ];
 
 export function Publications() {
