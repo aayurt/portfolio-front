@@ -28,6 +28,9 @@ pnpm run build
 
 # 3. Prepare standalone bundle
 echo "📦 Assembling standalone bundle..."
+# Clean previous standalone
+rm -rf .next/standalone
+pnpm run build
 if [ -d "public" ]; then
     cp -r public .next/standalone/
 fi
@@ -35,14 +38,14 @@ if [ -d ".next/static" ]; then
     cp -r .next/static .next/standalone/.next/
 fi
 
-# 4. Create deploy package
+# 4. Create deploy package (only standalone)
 echo "📦 Creating deploy package..."
 DEPLOY_PACKAGE="/tmp/portfolio-deploy-$(date +%s).tar.gz"
 tar -czf "$DEPLOY_PACKAGE" -C .next/standalone .
 
 # 5. Deploy to server
 echo "🚀 Deploying to $SERVER..."
-ssh "$USER@$SERVER" "mkdir -p $DEPLOY_DIR"
+ssh "$USER@$SERVER" "rm -rf $DEPLOY_DIR && mkdir -p $DEPLOY_DIR"
 scp "$DEPLOY_PACKAGE" "$USER@$SERVER:$DEPLOY_DIR/app.tar.gz"
 ssh "$USER@$SERVER" "cd $DEPLOY_DIR && tar -xzf app.tar.gz && rm app.tar.gz"
 
