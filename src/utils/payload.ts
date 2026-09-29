@@ -455,7 +455,9 @@ export async function getProjects(): Promise<Project[]> {
         });
 
         if (!res.ok) {
-            return [HERMES_PROJECT];
+            const slug = await getSlug();
+            const isAayurt = slug === "aayurtshrestha";
+            return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT] : [HERMES_PROJECT];
         }
 
         const data: Project[] = await res.json();
@@ -476,7 +478,9 @@ export async function getProjects(): Promise<Project[]> {
 
         return filtered;
     } catch {
-        return [HERMES_PROJECT];
+        const slug = await getSlug().catch(() => "");
+        const isAayurt = slug === "aayurtshrestha";
+        return isAayurt ? [HERMES_PROJECT, EIGHT_EIGHT_FORTY_EIGHT_PROJECT] : [HERMES_PROJECT];
     }
 }
 

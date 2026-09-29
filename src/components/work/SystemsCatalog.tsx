@@ -10,6 +10,7 @@ import { AfnoPipeline } from "@/components/pipeline/AfnoPipeline";
 import { SyasyahPipeline } from "@/components/pipeline/SyasyahPipeline";
 import { NepsePipeline } from "@/components/pipeline/NepsePipeline";
 import { AstroPipeline } from "@/components/pipeline/AstroPipeline";
+import { EightEightFortyEightPipeline } from "@/components/pipeline/EightEightFortyEightPipeline";
 import type { Project } from "../../../payload-types";
 
 interface SystemsCatalogProps {
@@ -19,7 +20,7 @@ interface SystemsCatalogProps {
 interface SystemItem {
   id: string;
   slug: string;
-  category: "ai" | "saas" | "fintech" | "astronomy";
+  category: "ai" | "saas" | "fintech" | "astronomy" | "developer-tooling";
   badge: string;
   title: string;
   role: string;
@@ -112,6 +113,25 @@ export function SystemsCatalog({ projects }: SystemsCatalogProps) {
       visual: <NepsePipeline />,
     },
     {
+      id: "8848-ui",
+      slug: "8848-ui",
+      category: "developer-tooling",
+      badge: "DESIGN SYSTEM",
+      title: "8848 UI",
+      role: "Creator & Maintainer",
+      description:
+        "Open-source React 19 design system with 40+ accessible components, OKLCH mountain tokens, shadcn-compatible registry, and MCP server for AI assistants.",
+      metrics: [
+        { value: "40+", label: "Components" },
+        { value: "5 pkgs", label: "npm Packages" },
+        { value: "MCP", label: "AI Server" },
+      ],
+      stack: ["React 19", "Tailwind CSS v4", "Radix UI", "OKLCH", "MCP"],
+      liveUrl: "https://8848.aayurtshrestha.com.np",
+      caseStudyUrl: "/work/8848-ui",
+      visual: <EightEightFortyEightPipeline />,
+    },
+    {
       id: "astro-guru",
       slug: "astro-guru",
       category: "astronomy",
@@ -177,11 +197,12 @@ export function SystemsCatalog({ projects }: SystemsCatalogProps) {
   ];
 
   const categories = [
-    { key: "all", label: "All Platforms", count: 6 },
+    { key: "all", label: "All Platforms", count: 7 },
     { key: "ai", label: "Autonomous AI", count: 2 },
     { key: "saas", label: "Multi-Tenant SaaS", count: 2 },
     { key: "fintech", label: "Fintech & Quant", count: 1 },
     { key: "astronomy", label: "Vedic Astrometry", count: 1 },
+    { key: "developer-tooling", label: "Developer Tools", count: 1 },
   ];
 
   const filteredSystems = activeCategory === "all"
