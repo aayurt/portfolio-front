@@ -8,7 +8,7 @@ set -e
 ENVIRONMENT="${1:-production}"
 PROJECT_DIR="/Users/aayurtshrestha/Projects/self/porfolio/portfolio-front"
 DEPLOY_DIR="/var/www/portfolio"
-SERVER="aayurtshrestha.com.np"
+SERVER="82.165.181.153"
 USER="root"
 
 echo "🚀 Starting local deployment for $ENVIRONMENT..."
