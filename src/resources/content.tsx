@@ -413,13 +413,6 @@ const blog: Blog = {
   // All posts will be listed on the /blog route
 };
 
-const publications: Publications = {
-  path: "/publications",
-  label: "Publications",
-  title: "Publications & Research Outputs",
-  description: `Formal papers, working papers, preprints, and engineering dispatches by ${person.name}`,
-};
-
 const work: Work = {
   path: "/work",
   label: "Work",
