@@ -154,7 +154,7 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                 <>
                   <Row s={{ hide: true }}>
                     <ToggleButton
-                      prefixIcon="flask-conical"
+                      prefixIcon="flask"
                       href="/research"
                       label="Research"
                       selected={pathname.startsWith("/research")}
@@ -162,28 +162,9 @@ export const Header = ({ tenant }: { tenant: Tenant | null }) => {
                   </Row>
                   <Row hide s={{ hide: false }}>
                     <ToggleButton
-                      prefixIcon="flask-conical"
+                      prefixIcon="flask"
                       href="/research"
                       selected={pathname.startsWith("/research")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/publications"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="document"
-                      href="/publications"
-                      label="Publications"
-                      selected={pathname.startsWith("/publications")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="document"
-                      href="/publications"
-                      selected={pathname.startsWith("/publications")}
                     />
                   </Row>
                 </>
