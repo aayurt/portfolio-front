@@ -449,5 +449,5 @@ const research: Research = {
 
 
 
-export { about, blog, home, newsletter, person, publications, research, social, work };
+export { about, blog, home, newsletter, person, research, social, work };
 
