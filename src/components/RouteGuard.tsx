@@ -93,7 +93,12 @@ function AuthGate({
       setAuthenticated(true);
       setError(undefined);
     } else {
-      setError("Incorrect password");
+      try {
+        const data = await res.json();
+        setError(data.error || "Incorrect password");
+      } catch {
+        setError("Incorrect password");
+      }
     }
   };
 
