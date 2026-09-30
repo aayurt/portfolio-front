@@ -25,14 +25,26 @@ export async function GET() {
             : publishedAt && !isNaN(publishedAt.getTime())
               ? publishedAt.getFullYear()
               : new Date().getFullYear();
+        const abstract = (raw.abstract as string) || p.meta?.description || "";
+        const tags = Array.isArray(p.tags)
+          ? p.tags
+              .map((t) =>
+                t && typeof t === "object" ? (t as { tag?: string | null }).tag : null
+              )
+              .filter((t): t is string => !!t)
+          : [];
         return {
           title: p.title,
           authors,
           venue: (raw.venue as string) || "",
           year,
           type: (raw.type as string) || "Working Paper",
-          abstract: (raw.abstract as string) || p.meta?.description || "",
+          abstract,
+          excerpt: abstract,
           slug: p.slug || "",
+          tags,
+          publishedAt: p.publishedAt || null,
+          readTime: "8 min read",
         };
       });
     return NextResponse.json({ docs: pubs });
