@@ -35,7 +35,7 @@ export async function getPublications() {
   }));
 }
 
-export default function Publications() {
+export function Publications() {
   const [publications, setPublications] = useState<Pub[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -259,3 +259,4 @@ export default function Publications() {
     </div>
   );
 }
+export default Publications;
