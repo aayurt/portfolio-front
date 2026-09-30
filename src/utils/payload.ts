@@ -18,14 +18,18 @@ type CollectionResponse<T> = {
 };
 
 export async function getAbouts(): Promise<About[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/abouts/by-slug/${await getSlug()}`, {
-        next: { revalidate: 60 },
-    });
+    try {
+        const res = await fetch(`${PAYLOAD_API_URL}/abouts/by-slug/${await getSlug()}`, {
+            next: { revalidate: 60 },
+        });
 
-    if (!res.ok) {
-        throw new Error(`Failed to fetch about data: ${res.statusText}`);
+        if (!res.ok) {
+            return [];
+        }
+        return res.json();
+    } catch {
+        return [];
     }
-    return res.json();
 }
 
 export async function getAbout(): Promise<About | null> {
@@ -678,12 +682,16 @@ export async function getSolutions(): Promise<Solution[]> {
 }
 
 export async function getGallery(): Promise<Gallery[]> {
-    const res = await fetch(`${PAYLOAD_API_URL}/galleries/by-slug/${await getSlug()}`, {
-        next: { revalidate: 60 },
-    });
+    try {
+        const res = await fetch(`${PAYLOAD_API_URL}/galleries/by-slug/${await getSlug()}`, {
+            next: { revalidate: 60 },
+        });
 
-    if (!res.ok) {
-        throw new Error(`Failed to fetch galleries: ${res.statusText}`);
+        if (!res.ok) {
+            return [];
+        }
+        return res.json();
+    } catch {
+        return [];
     }
-    return res.json();
 }
