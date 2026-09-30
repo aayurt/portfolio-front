@@ -72,6 +72,30 @@ const filterOptions = [
   { id: "Preprint", label: "Preprints" },
 ];
 
+// Per-publication featured-card dressing. Anything not listed here falls back
+// to the generic type/venue kicker, the excerpt, and the verification schematic.
+const FEATURED_DETAILS: Record<
+  string,
+  { kicker: string; inquiriesTitle: string; inquiries: string; figureCaption: string; schematic: "clinical" | "verification" }
+> = {
+  "autonomy-in-the-clinic-the-research-frontier-of-agentic-ai": {
+    kicker: "Doctoral Research · AI Ethics",
+    inquiriesTitle: "Key Research Inquiries:",
+    inquiries:
+      "Bounding hallucinated actions with mathematical verification, resolving multi-agent clinical consensus conflicts, and engineering RLHF reward functions for long-term health stabilization.",
+    figureCaption: "Figure 1: Stochastic Clinical Execution with Guardrail Bounding",
+    schematic: "clinical",
+  },
+  "reliable-agentic-software-engineering": {
+    kicker: "Doctoral Research · Agentic Systems Engineering",
+    inquiriesTitle: "Key Research Inquiries:",
+    inquiries:
+      "Replacing LLM reviewers with differential fuzzing verifiers, checkpointing agent state in sub-15ms with OverlayFS, and routing verification effort by code complexity.",
+    figureCaption: "Figure 1: Objective Verification Pipeline for Agentic Code",
+    schematic: "verification",
+  },
+};
+
 export function Publications() {
   const [publications, setPublications] = useState<Pub[]>([]);
   const [loading, setLoading] = useState(true);
@@ -105,6 +129,8 @@ export function Publications() {
     if (!featured) return filteredPublications;
     return filteredPublications.filter((p) => p !== featured);
   }, [filteredPublications, featured]);
+
+  const featuredDetails = (featured && FEATURED_DETAILS[featured.slug]) || null;
 
   if (loading) return <p style={{ color: "var(--neutral-on-background-weak)", textAlign: "center", padding: "40px" }}>Loading publications…</p>;
   if (error) return <p style={{ color: "red", textAlign: "center", padding: "40px" }}>Error: {error}</p>;
@@ -152,7 +178,7 @@ export function Publications() {
         <article
           style={{
             background: "var(--neutral-background-weak)",
-            border: "1px solid var(--border-medium, rgba(255,255,255,0.16))",
+            border: "1px solid var(--neutral-border-medium)",
             borderRadius: "20px",
             padding: "28px",
             display: "grid",
@@ -167,7 +193,7 @@ export function Publications() {
           <div
             style={{
               background: "var(--neutral-alpha-weak, rgba(128,128,128,0.06))",
-              border: "1px solid var(--border-weak, rgba(255,255,255,0.08))",
+              border: "1px solid var(--neutral-border-weak)",
               borderRadius: "14px",
               padding: "20px",
               display: "flex",
@@ -185,7 +211,8 @@ export function Publications() {
               </span>
             </div>
 
-            {/* Schematic SVG - Clinical Agentic Pipeline */}
+            {/* Schematic SVG - per-publication pipeline */}
+            {(featuredDetails?.schematic ?? "verification") === "clinical" ? (
             <svg viewBox="0 0 460 160" width="100%" height="150" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flex: 1 }}>
               {/* Patient Trajectory */}
               <rect x="10" y="20" width="100" height="50" rx="6" fill="rgba(128,128,128,0.10)" stroke="#00b4d8" strokeWidth="1.5"/>
@@ -212,12 +239,43 @@ export function Publications() {
               {/* Multi-Agent Bottom Row */}
               <path d="M225 75 L225 105" stroke="var(--neutral-border-medium)" strokeWidth="1" strokeDasharray="2 2"/>
               <rect x="120" y="105" width="210" height="38" rx="6" fill="rgba(128,128,128,0.06)" stroke="var(--neutral-border-weak)" strokeWidth="1"/>
-              <text x="225" y="122" fill="#c9d1d9" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="600">Multi-Agent Clinical Consensus (MAS)</text>
+              <text x="225" y="122" fill="var(--neutral-on-background-strong)" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="600">Multi-Agent Clinical Consensus (MAS)</text>
               <text x="225" y="134" fill="var(--neutral-on-background-weak)" fontSize="7.5" fontFamily="monospace" textAnchor="middle">Cardiology · Nephrology · Tumor Board</text>
             </svg>
+            ) : (
+            <svg viewBox="0 0 460 160" width="100%" height="150" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flex: 1 }}>
+              {/* Agent Workspace */}
+              <rect x="10" y="20" width="110" height="52" rx="6" fill="rgba(128,128,128,0.10)" stroke="#00b4d8" strokeWidth="1.5"/>
+              <text x="65" y="42" fill="var(--neutral-on-background-strong)" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="600">Agent Workspace</text>
+              <text x="65" y="56" fill="var(--neutral-on-background-weak)" fontSize="8" fontFamily="monospace" textAnchor="middle">OverlayFS Snapshot</text>
+
+              <path d="M120 46 L152 46" stroke="#00b4d8" strokeWidth="1.5" strokeDasharray="3 3"/>
+              <polygon points="154,46 148,43 148,49" fill="#00b4d8"/>
+
+              {/* Objective Verifiers */}
+              <rect x="157" y="14" width="146" height="64" rx="8" fill="rgba(128,128,128,0.16)" stroke="var(--neutral-border-medium)" strokeWidth="1"/>
+              <text x="230" y="36" fill="#00b4d8" fontSize="11" fontFamily="monospace" textAnchor="middle" fontWeight="700">Objective Verifiers</text>
+              <text x="230" y="52" fill="var(--neutral-on-background-weak)" fontSize="8.5" fontFamily="monospace" textAnchor="middle">AFL++ Fuzz · Daikon</text>
+              <text x="230" y="64" fill="var(--neutral-on-background-weak)" fontSize="7.5" fontFamily="monospace" textAnchor="middle">No LLM Reviewers</text>
+
+              <path d="M303 46 L335 46" stroke="#00b4d8" strokeWidth="1.5"/>
+              <polygon points="337,46 331,43 331,49" fill="#00b4d8"/>
+
+              {/* Complexity Router */}
+              <rect x="340" y="20" width="110" height="52" rx="6" fill="rgba(128,128,128,0.10)" stroke="#3fb950" strokeWidth="1.5"/>
+              <text x="395" y="42" fill="#3fb950" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="600">Complexity Router</text>
+              <text x="395" y="56" fill="var(--neutral-on-background-weak)" fontSize="8" fontFamily="monospace" textAnchor="middle">Static → Fuzz Escalation</text>
+
+              {/* Reliability Ledger */}
+              <path d="M230 78 L230 106" stroke="var(--neutral-border-medium)" strokeWidth="1" strokeDasharray="2 2"/>
+              <rect x="120" y="106" width="220" height="38" rx="6" fill="rgba(128,128,128,0.06)" stroke="var(--neutral-border-weak)" strokeWidth="1"/>
+              <text x="230" y="123" fill="var(--neutral-on-background-strong)" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="600">Agentic Reliability Taxonomy</text>
+              <text x="230" y="135" fill="var(--neutral-on-background-weak)" fontSize="7.5" fontFamily="monospace" textAnchor="middle">12 Dimensions · 10 Benchmarks · RQ1–RQ10</text>
+            </svg>
+            )}
 
             <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--neutral-on-background-weak)", textAlign: "center" }}>
-              Figure 1: Stochastic Clinical Execution with Guardrail Bounding
+              {featuredDetails?.figureCaption ?? "Figure 1: Research pipeline schematic"}
             </div>
           </div>
 
@@ -225,7 +283,7 @@ export function Publications() {
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: "16px" }}>
             <div className="badgeRow" style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", padding: "4px 8px", borderRadius: "4px", background: "var(--brand-background-weak, rgba(0,180,216,0.12))", color: "var(--brand-on-background-strong, #00b4d8)", border: "1px solid rgba(0,180,216,0.35)" }}>
-                Doctoral Research · AI Ethics
+                {featuredDetails?.kicker ?? `${featured.type} · ${featured.venue || "Research"}`}
               </span>
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", color: "var(--neutral-on-background-weak)" }}>
                 {featured.date || `${featured.year}`} · {featured.readTime}
@@ -241,7 +299,7 @@ export function Publications() {
             </p>
 
             <div style={{ background: "rgba(128,128,128,0.08)", borderLeft: "2px solid var(--brand-on-background-strong, #00b4d8)", padding: "10px 14px", fontSize: "12px", color: "var(--neutral-on-background-weak)", lineHeight: "1.5", borderRadius: "0 6px 6px 0" }}>
-              <strong>Key Research Inquiries:</strong> Bounding hallucinated actions with mathematical verification, resolving multi-agent clinical consensus conflicts, and engineering RLHF reward functions for long-term health stabilization.
+              <strong>{featuredDetails?.inquiriesTitle ?? "Abstract:"}</strong> {featuredDetails?.inquiries ?? featured.excerpt}
             </div>
 
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
@@ -256,8 +314,8 @@ export function Publications() {
               <a
                 href={featured.links[0]?.url || "#"}
                 style={{
-                  background: "var(--text, #f0f2f5)",
-                  color: "var(--bg, #0c0e12)",
+                  background: "var(--neutral-on-background-strong)",
+                  color: "var(--neutral-background-strong)",
                   padding: "8px 16px",
                   borderRadius: "8px",
                   fontSize: "13px",
@@ -275,7 +333,7 @@ export function Publications() {
                 style={{
                   background: "transparent",
                   color: "var(--neutral-on-background-weak)",
-                  border: "1px solid var(--border-weak, rgba(255,255,255,0.08))",
+                  border: "1px solid var(--neutral-border-weak)",
                   padding: "7px 14px",
                   borderRadius: "8px",
                   fontSize: "12px",
@@ -301,7 +359,7 @@ export function Publications() {
               key={pub.title}
               style={{
                 background: "var(--neutral-background-weak)",
-                border: "1px solid var(--border-medium, rgba(255,255,255,0.16))",
+                border: "1px solid var(--neutral-border-medium)",
                 borderRadius: "20px",
                 padding: "18px",
                 display: "flex",
@@ -406,7 +464,7 @@ export function Publications() {
                 </p>
                 <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                   {pub.tags?.slice(0, 3).map((tag, i) => (
-                    <span key={i} style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", padding: "3px 8px", borderRadius: "4px", background: "rgba(128,128,128,0.08)", border: "1px solid var(--border-weak, rgba(255,255,255,0.08))", color: "var(--neutral-on-background-weak)" }}>
+<span key={i} style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", padding: "3px 8px", borderRadius: "4px", background: "rgba(128,128,128,0.08)", border: "1px solid var(--neutral-border-weak)", color: "var(--neutral-on-background-weak)" }}>
                       {tag}
                     </span>
                   ))}
@@ -417,7 +475,7 @@ export function Publications() {
                 <span>{pub.type}</span>
                 <a
                   href={pub.links[0]?.url || "#"}
-                  style={{ color: "var(--text, #f0f2f5)", fontWeight: 500, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                  style={{ color: "var(--neutral-on-background-strong)", fontWeight: 500, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
                 >
                   Read Dispatch →
                 </a>
