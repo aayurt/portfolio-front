@@ -264,7 +264,7 @@ export function Publications() {
               {/* Complexity Router */}
               <rect x="340" y="20" width="110" height="52" rx="6" fill="rgba(128,128,128,0.10)" stroke="#3fb950" strokeWidth="1.5"/>
               <text x="395" y="42" fill="#3fb950" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="600">Complexity Router</text>
-              <text x="395" y="56" fill="var(--neutral-on-background-weak)" fontSize="8" fontFamily="monospace" textAnchor="middle">Static → Fuzz Escalation</text>
+              <text x="395" y="56" fill="var(--neutral-on-background-weak)" fontSize="7" fontFamily="monospace" textAnchor="middle">Static → Fuzz</text>
 
               {/* Reliability Ledger */}
               <path d="M230 78 L230 106" stroke="var(--neutral-border-medium)" strokeWidth="1" strokeDasharray="2 2"/>
