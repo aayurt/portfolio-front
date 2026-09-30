@@ -147,6 +147,13 @@ echo "=== 5/7 Setting up .env on VPS ==="
 # ecosystem.config.cjs). ANALYTICS_TOKEN is read from the local .env.prod so
 # it survives redeploys without being committed to the repo.
 ANALYTICS_TOKEN="$(grep -E '^ANALYTICS_TOKEN=' .env.prod 2>/dev/null | head -1 | cut -d= -f2- || true)"
+# PAGE_ACCESS_PASSWORD is never committed. Prefer the local .env.prod override,
+# otherwise carry over the value already on the server so redeploys don't lock
+# you out (or wipe a rotated password).
+PAGE_ACCESS_PASSWORD="$(grep -E '^PAGE_ACCESS_PASSWORD=' .env.prod 2>/dev/null | head -1 | cut -d= -f2- || true)"
+if [ -z "$PAGE_ACCESS_PASSWORD" ]; then
+  PAGE_ACCESS_PASSWORD="$(ssh "$HOST" "grep -E '^PAGE_ACCESS_PASSWORD=' $REMOTE_DIR/.env 2>/dev/null || true" | head -1 | cut -d= -f2-)"
+fi
 {
   echo "NEXT_PUBLIC_API=$PROD_API"
   echo "NEXT_PUBLIC_SLUG=aayurt"
@@ -154,6 +161,9 @@ ANALYTICS_TOKEN="$(grep -E '^ANALYTICS_TOKEN=' .env.prod 2>/dev/null | head -1 |
   echo "VISITS_DIR=/var/www/portfolio/data"
   if [ -n "$ANALYTICS_TOKEN" ]; then
     echo "ANALYTICS_TOKEN=$ANALYTICS_TOKEN"
+  fi
+  if [ -n "$PAGE_ACCESS_PASSWORD" ]; then
+    echo "PAGE_ACCESS_PASSWORD=$PAGE_ACCESS_PASSWORD"
   fi
 } | ssh "$HOST" "cat > $REMOTE_DIR/.env"
 

@@ -4,6 +4,10 @@ module.exports = {
       name: 'portfolio',
       cwd: '/var/www/portfolio',
       script: '.next/standalone/server.js',
+      // Node 24 is REQUIRED: node_args uses --env-file (Node 20.6+) and the
+      // VPS default node is v18, which dies with "bad option: --env-file".
+      // Pin the interpreter so pm2 reloads can never resurrect the Node 18 trap.
+      interpreter: '/root/.nvm/versions/node/v24.13.1/bin/node',
       // Fork mode: cluster mode crash-loops this app on the VPS (silent
       // restarts under memory pressure). The box has a single CPU, so there
       // is no scaling loss from using one fork.
