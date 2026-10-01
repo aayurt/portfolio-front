@@ -52,7 +52,13 @@ jobs:
         run: pnpm lint
 
       - name: Build (standalone)
-        run: pnpm build
+        run: |
+          set -euo pipefail
+          # Prod defaults when secrets are unset (mirrors deploy-standalone.sh).
+          export NEXT_PUBLIC_API="${NEXT_PUBLIC_API:-https://aayurtshrestha.com.np/admin}"
+          export NEXT_PUBLIC_SLUG="${NEXT_PUBLIC_SLUG:-aayurt}"
+          export NEXT_PUBLIC_DOMAIN_LIST="${NEXT_PUBLIC_DOMAIN_LIST:-[{\"domain\": \"rujamaharjan.com.np\", \"slug\": \"ruja\"}, {\"domain\": \"aayushshrestha.com\", \"slug\": \"aayush\"}]}"
+          pnpm build
 
       - name: Assemble standalone bundle
         run: |
@@ -88,16 +94,24 @@ jobs:
         run: |
           set -euo pipefail
           # NEXT_PUBLIC_* are baked at build time; the server .env carries
-          # runtime values. When PAGE_ACCESS_PASSWORD secret is empty, carry
-          # over the on-server value so redeploys don't lock you out.
+          # runtime values. Empty secrets never wipe the server: each var
+          # falls back to the on-server value, then to the prod default
+          # (mirrors scripts/deploy-standalone.sh).
+          pick() {
+            # $1=secret value, $2=server key, $3=default
+            if [ -n "${1:-}" ]; then echo "$1"; return; fi
+            kept="$(ssh vps-deploy "grep -E '^$2=' /var/www/portfolio/.env 2>/dev/null || true" | head -1 | cut -d= -f2- || true)"
+            if [ -n "$kept" ]; then echo "$kept"; return; fi
+            echo "$3"
+          }
           if [ -z "${PAGE_ACCESS_PASSWORD:-}" ]; then
             PAGE_ACCESS_PASSWORD="$(ssh vps-deploy "grep -E '^PAGE_ACCESS_PASSWORD=' /var/www/portfolio/.env 2>/dev/null || true" | head -1 | cut -d= -f2- || true)"
             export PAGE_ACCESS_PASSWORD
           fi
           {
-            echo "NEXT_PUBLIC_API=${NEXT_PUBLIC_API}"
-            echo "NEXT_PUBLIC_SLUG=${NEXT_PUBLIC_SLUG}"
-            echo "NEXT_PUBLIC_DOMAIN_LIST=${NEXT_PUBLIC_DOMAIN_LIST}"
+            echo "NEXT_PUBLIC_API=$(pick "${NEXT_PUBLIC_API:-}" NEXT_PUBLIC_API "https://aayurtshrestha.com.np/admin")"
+            echo "NEXT_PUBLIC_SLUG=$(pick "${NEXT_PUBLIC_SLUG:-}" NEXT_PUBLIC_SLUG "aayurt")"
+            echo "NEXT_PUBLIC_DOMAIN_LIST=$(pick "${NEXT_PUBLIC_DOMAIN_LIST:-}" NEXT_PUBLIC_DOMAIN_LIST '[{"domain": "rujamaharjan.com.np", "slug": "ruja"}, {"domain": "aayushshrestha.com", "slug": "aayush"}]')"
             echo "VISITS_DIR=/var/www/portfolio/data"
             if [ -n "${PAGE_ACCESS_PASSWORD:-}" ]; then
               echo "PAGE_ACCESS_PASSWORD=${PAGE_ACCESS_PASSWORD}"
