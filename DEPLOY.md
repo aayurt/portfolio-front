@@ -15,7 +15,13 @@ SSH entry: `ssh PersonalVPS`.
 
 ## Deploy
 
-Build locally, ship the standalone bundle to the selected server:
+GitHub Actions (`.github/workflows/deploy.yml`) is the primary path:
+push to `main` builds on the runner (linux-x64, correct sharp binaries),
+rsyncs `.next/standalone/` to the VPS, rewrites the server `.env` from
+secrets (preserving `PAGE_ACCESS_PASSWORD` when the secret is empty), and
+restarts pm2. Manual trigger via Actions → Deploy → Run workflow.
+
+Local fallback, ship the standalone bundle to the selected server:
 
 ```sh
 sh scripts/deploy-standalone.sh                 # interactive server picker

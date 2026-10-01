@@ -7,7 +7,10 @@
     "build": "next build",
     "biome-write": "npx @biomejs/biome format --write .",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "kritikka": "kritikka-mcp --root .",
+    "jules:setup": "sh scripts/setup-jules.sh",
+    "validate": "pnpm lint && pnpm build"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -34,6 +37,7 @@
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.24",
     "eslint": "^9.25.0",
+    "kritikka-mcp": "^0.1.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.8.3",

@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "type": "forbidden",
+      "id": "no-build-output",
+      "match": [".next/**", "node_modules/**", "out/**"],
+      "reason": "Build output and dependencies are not part of the reviewed repository.",
+      "severity": "error"
+    },
+    {
+      "type": "forbidden",
+      "id": "no-secrets",
+      "match": [".env", ".env.prod", ".env.production", ".env.local"],
+      "reason": "Secrets must never be touched by agents. Use .env.example for reference.",
+      "severity": "error"
+    },
+    {
+      "type": "requireAdr",
+      "id": "api-contract-governed",
+      "match": ["src/app/api/**"],
+      "adr": "0001",
+      "reason": "API routes and the Payload contract are governed by ADR-0001.",
+      "severity": "error"
+    },
+    {
+      "type": "requireTest",
+      "id": "src-needs-tests",
+      "match": ["src/lib/**/*.ts", "src/utils/**/*.ts"],
+      "testMatch": ["**/*.test.ts", "**/*.test.tsx", "test/**"],
+      "testExempt": ["**/*.d.ts"],
+      "reason": "Shared logic in lib/utils must ship tests (docs/TESTING.md). UI changes need manual verification per TESTING.md.",
+      "severity": "warning"
+    },
+    {
+      "type": "requireDocUpdate",
+      "id": "api-docs-stale",
+      "match": ["src/app/api/**", "src/resources/**"],
+      "docs": ["docs/ARCHITECTURE.md"],
+      "reason": "API or site-config changes should keep docs/ARCHITECTURE.md current.",
+      "severity": "warning"
+    },
+    {
+      "type": "layerDependency",
+      "id": "layered-front",
+      "direction": "inward-only",
+      "layers": [
+        { "name": "app", "globs": ["src/app/**"] },
+        { "name": "components", "globs": ["src/components/**"] },
+        { "name": "foundation", "globs": ["src/lib/**", "src/resources/**", "src/utils/**", "src/types/**"] }
+      ],
+      "reason": "App routes compose components; components use foundation (lib/resources/utils/types). Foundation never imports app or components.",
+      "severity": "error"
+    }
+  ]
+}
