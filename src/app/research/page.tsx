@@ -1,17 +1,8 @@
-import { Metadata } from "next";
-import { Column, Heading, Line, Meta, Row, Text } from "@once-ui-system/core";
-import { about, baseURL, person, research as researchConfig } from "@/resources";
-import { Publications } from "@/components/work/Publications";
+"use client";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return Meta.generate({
-    title: "Research & Publications – Aayurt Shrestha",
-    description: "Working papers, engineering dispatches, preprints, and system specifications on agentic AI, autonomous software engineering, and human-in-the-loop systems.",
-    baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent("Research & Publications – Aayurt Shrestha")}`,
-    path: "/research",
-  });
-}
+import { Column, Heading, Line, Row, Text } from "@once-ui-system/core";
+import { about, baseURL, person, research as researchConfig } from "@/resources";
+import Publications from "@/components/work/Publications";
 
 export default function Research() {
   return (

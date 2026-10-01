@@ -1,4 +1,14 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Research, Social, Work } from "@/types";
+import {
+  About,
+  Blog,
+  Gallery,
+  Home,
+  Newsletter,
+  Person,
+  Research,
+  Social,
+  Work,
+} from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
@@ -61,30 +71,36 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "1rem",
-    }}>
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-      }}>
-        <img
-          src={"/images/og/preview.png"}
+  headline: (
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <div
           style={{
-            width: "12rem",
-            height: "12rem",
-            objectFit: "cover",
-            borderRadius: "100%",
-            animation: "upDown 3s ease-in-out infinite",
+            display: "flex",
+            justifyContent: "center",
           }}
-        />
+        >
+          <img
+            src={"/images/og/preview.png"}
+            style={{
+              width: "12rem",
+              height: "12rem",
+              objectFit: "cover",
+              borderRadius: "100%",
+              animation: "upDown 3s ease-in-out infinite",
+            }}
+          />
+        </div>
+        <Text>I build things that matter</Text>
       </div>
-      <Text>I build things that matter</Text>
-    </div>
-  </>,
+    </>
+  ),
   featured: {
     display: false,
     title: (
@@ -100,7 +116,9 @@ const home: Home = {
   },
   subline: (
     <>
-      Full-Stack Engineer & Product Builder. I specialize in crafting seamless user experiences and robust architectures. Currently freelancing and developing independent projects.
+      Full-Stack Engineer & Product Builder. I specialize in crafting seamless
+      user experiences and robust architectures. Currently freelancing and
+      developing independent projects.
     </>
   ),
 };
@@ -126,14 +144,37 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Full-stack software engineer with a curious mindset and a passion for building thoughtful, high-quality products. I combine technical depth with an entrepreneurial approach — taking ownership, driving initiatives forward, and delivering real, measurable results. Known for my energy, adaptability, and bias toward action, I focus on creating meaningful impact rather than just shipping features.
+        Full-stack software engineer with a curious mindset and a passion for
+        building thoughtful, high-quality products. I combine technical depth
+        with an entrepreneurial approach — taking ownership, driving initiatives
+        forward, and delivering real, measurable results. Known for my energy,
+        adaptability, and bias toward action, I focus on creating meaningful
+        impact rather than just shipping features.
       </>
     ),
   },
   skills: {
     display: true,
     title: "Skills",
-    skills: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "MongoDB", "Flutter", "Python", "AWS", "Docker", "Git", "Figma", "Tailwind CSS", "Shadcn UI", "Once UI", "Payload CMS", "Others..."]
+    skills: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "MongoDB",
+      "Flutter",
+      "Python",
+      "AWS",
+      "Docker",
+      "Git",
+      "Figma",
+      "Tailwind CSS",
+      "Shadcn UI",
+      "Once UI",
+      "Payload CMS",
+      "Others...",
+    ],
   },
   work: {
     display: true, // set to false to hide this section
@@ -145,29 +186,32 @@ const about: About = {
         role: "Software Engineer",
         achievements: [
           <>
-            Led architecture and delivery of scalable features within a multi-tenant recruitment
-            marketing platform.
+            Led architecture and delivery of scalable features within a
+            multi-tenant recruitment marketing platform.
           </>,
           <>
-            Built a real-time, Slack-style chat system supporting thousands of concurrent users
-            during live events.
+            Built a real-time, Slack-style chat system supporting thousands of
+            concurrent users during live events.
           </>,
           <>
-            Designed batch and streaming pipelines powering workflows, automation, and search
-            infrastructure.
+            Designed batch and streaming pipelines powering workflows,
+            automation, and search infrastructure.
           </>,
           <>
-            Integrated AI/LLM-powered features to enhance personalisation and user experience.
+            Integrated AI/LLM-powered features to enhance personalisation and
+            user experience.
           </>,
           <>
-            Led frontend modernisation using Next.js, improving performance, SEO, and accessibility
-            compliance.
+            Led frontend modernisation using Next.js, improving performance,
+            SEO, and accessibility compliance.
           </>,
           <>
-            Delivered secure public APIs enabling third-party integrations and faster onboarding.
+            Delivered secure public APIs enabling third-party integrations and
+            faster onboarding.
           </>,
           <>
-            Mentored engineers and improved team standards, testing, and processes.
+            Mentored engineers and improved team standards, testing, and
+            processes.
           </>,
         ],
         images: [
@@ -186,27 +230,29 @@ const about: About = {
         role: "Software Engineer",
         achievements: [
           <>
-            Designed and developed bespoke full-stack web and Flutter mobile applications supporting
-            bookings, asset tracking, and operational workflows.
+            Designed and developed bespoke full-stack web and Flutter mobile
+            applications supporting bookings, asset tracking, and operational
+            workflows.
           </>,
           <>
-            Owned features end-to-end from requirements through deployment, working directly with
-            stakeholders.
+            Owned features end-to-end from requirements through deployment,
+            working directly with stakeholders.
           </>,
           <>
-            Built a visual API query editor enabling dynamic, schema-driven queries without
-            engineering support.
+            Built a visual API query editor enabling dynamic, schema-driven
+            queries without engineering support.
           </>,
           <>
-            Implemented Redis caching and backend optimisations to improve performance and reduce
-            response times.
+            Implemented Redis caching and backend optimisations to improve
+            performance and reduce response times.
           </>,
           <>
-            Contributed to system architecture, API design, and shared service foundations used
-            across products.
+            Contributed to system architecture, API design, and shared service
+            foundations used across products.
           </>,
           <>
-            Supported releases, bug fixes, and production monitoring to ensure reliability.
+            Supported releases, bug fixes, and production monitoring to ensure
+            reliability.
           </>,
         ],
         images: [],
@@ -217,25 +263,28 @@ const about: About = {
         role: "Software Engineer",
         achievements: [
           <>
-            Delivered full-stack features across multiple government and client applications from UI
-            design to backend and database implementation.
+            Delivered full-stack features across multiple government and client
+            applications from UI design to backend and database implementation.
           </>,
           <>
-            Built offline-first and low-bandwidth solutions for rural environments with limited
-            internet connectivity.
+            Built offline-first and low-bandwidth solutions for rural
+            environments with limited internet connectivity.
           </>,
           <>
-            Developed transaction tracking, reporting, and admin tools for cooperative market
-            management systems.
+            Developed transaction tracking, reporting, and admin tools for
+            cooperative market management systems.
           </>,
           <>
-            Translated wireframes into responsive, accessible frontend interfaces.
+            Translated wireframes into responsive, accessible frontend
+            interfaces.
           </>,
           <>
-            Mentored junior developers and improved documentation and team knowledge sharing.
+            Mentored junior developers and improved documentation and team
+            knowledge sharing.
           </>,
           <>
-            Managed deployments and Apache server configuration across company domains.
+            Managed deployments and Apache server configuration across company
+            domains.
           </>,
         ],
         images: [],
@@ -248,11 +297,15 @@ const about: About = {
     institutions: [
       {
         name: "Kingston University | London",
-        description: <>Studied masters in Software engineering with management studies.</>,
+        description: (
+          <>Studied masters in Software engineering with management studies.</>
+        ),
       },
       {
         name: "Patan Campus | Lalitpur, Nepal",
-        description: <>Studied bachelors in Computer Science and Information Technology.</>,
+        description: (
+          <>Studied bachelors in Computer Science and Information Technology.</>
+        ),
       },
     ],
   },
@@ -263,7 +316,10 @@ const about: About = {
       {
         title: "Frontend Engineering",
         description: (
-          <>Building modern, performant, and accessible UIs with React ecosystems and rich editing experiences.</>
+          <>
+            Building modern, performant, and accessible UIs with React
+            ecosystems and rich editing experiences.
+          </>
         ),
         tags: [
           { name: "JavaScript", icon: "javascript" },
@@ -279,7 +335,10 @@ const about: About = {
       {
         title: "Backend & APIs",
         description: (
-          <>Designing scalable APIs, modular services, and multi-tenant systems with clean architecture.</>
+          <>
+            Designing scalable APIs, modular services, and multi-tenant systems
+            with clean architecture.
+          </>
         ),
         tags: [
           { name: "Node.js", icon: "nodejs" },
@@ -295,7 +354,10 @@ const about: About = {
       {
         title: "Authentication & Security",
         description: (
-          <>Implementing secure login systems including SSO, OAuth, OTP flows, MFA, and role-based access control.</>
+          <>
+            Implementing secure login systems including SSO, OAuth, OTP flows,
+            MFA, and role-based access control.
+          </>
         ),
         tags: [
           { name: "NextAuth", icon: "auth" },
@@ -310,7 +372,10 @@ const about: About = {
       {
         title: "Realtime & Collaboration",
         description: (
-          <>Building live chat, presence tracking, and event-driven features for collaborative experiences.</>
+          <>
+            Building live chat, presence tracking, and event-driven features for
+            collaborative experiences.
+          </>
         ),
         tags: [
           { name: "Ably", icon: "ably" },
@@ -323,7 +388,10 @@ const about: About = {
       {
         title: "DevOps & Tooling",
         description: (
-          <>Shipping reliable software with containerization, testing, and modern developer workflows.</>
+          <>
+            Shipping reliable software with containerization, testing, and
+            modern developer workflows.
+          </>
         ),
         tags: [
           { name: "Docker", icon: "docker" },
@@ -336,7 +404,11 @@ const about: About = {
       {
         title: "Automation & AI Integration",
         description: (
-          <>Designing intelligent workflows and AI-powered features using automation tools, LLMs, and third-party integrations to streamline processes and enhance user experiences.</>
+          <>
+            Designing intelligent workflows and AI-powered features using
+            automation tools, LLMs, and third-party integrations to streamline
+            processes and enhance user experiences.
+          </>
         ),
         tags: [
           { name: "n8n", icon: "n8n" },
@@ -399,9 +471,8 @@ const about: About = {
         description: "Node.js - March 2023",
         link: "https://www.linkedin.com/learning/certificates/84ddb30c96820194f7d2730a2c7c52090bf6ab33c90fe63a282bf07d3a65703a",
       },
-    ]
+    ],
   },
-
 };
 
 const blog: Blog = {
@@ -427,8 +498,9 @@ const research: Research = {
   title: "Research",
   description: (
     <>
-      Exploring agentic AI systems, LLM-driven automation, and human-in-the-loop workflows —
-      and how they apply to healthcare, finance, and real-world operations.
+      Exploring agentic AI systems, LLM-driven automation, and human-in-the-loop
+      workflows — and how they apply to healthcare, finance, and real-world
+      operations.
     </>
   ),
   interests: [
@@ -439,15 +511,7 @@ const research: Research = {
   ],
   // Add published papers here: { title, venue, year, link? }
   publications: [],
-  writing: [
-    {
-      title: "Autonomy in the Clinic: The Research Frontier of Agentic AI",
-      link: "/research/autonomy-in-the-clinic",
-    },
-  ],
+  writing: [],
 };
 
-
-
 export { about, blog, home, newsletter, person, research, social, work };
-

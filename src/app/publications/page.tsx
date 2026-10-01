@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Column, Heading, Line, Meta, Row, Text } from "@once-ui-system/core";
 import { about, baseURL, person, research } from "@/resources";
-import { Publications } from "@/components/work/Publications";
+import Publications from "@/components/work/Publications";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
