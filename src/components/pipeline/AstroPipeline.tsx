@@ -167,7 +167,7 @@ export function AstroPipeline() {
                 color: "var(--neutral-on-background-strong, inherit)",
               }}
             >
-              "{current.question}"
+              &quot;{current.question}&quot;
             </p>
           </div>
 

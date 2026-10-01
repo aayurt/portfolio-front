@@ -151,7 +151,11 @@ function createCodeBlock(props: any) {
 }
 
 function createList(as: "ul" | "ol") {
-  return ({ children }: { children: ReactNode }) => <List as={as}>{children}</List>;
+  function MdxList({ children }: { children: ReactNode }) {
+    return <List as={as}>{children}</List>;
+  }
+  MdxList.displayName = `MdxList(${as})`;
+  return MdxList;
 }
 
 function createListItem({ children }: { children: ReactNode }) {

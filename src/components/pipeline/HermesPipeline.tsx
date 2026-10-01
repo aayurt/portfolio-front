@@ -287,7 +287,7 @@ export function HermesPipeline() {
               fontWeight="600"
               fontFamily="var(--font-code, monospace)"
             >
-              Task: "Refactor API"
+              Task: &quot;Refactor API&quot;
             </text>
           </g>
 

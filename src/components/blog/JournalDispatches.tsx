@@ -406,8 +406,8 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                   <rect width="90" height="70" rx="6" fill="#0d1117" stroke="#30363d" strokeWidth="1" />
                   <rect width="90" height="18" rx="6" fill="#161b22" />
                   <text x="8" y="13" fill="#8b949e" fontSize="8" fontFamily="var(--font-mono, monospace)">SOURCE AST</text>
-                  <text x="8" y="35" fill="#f59e0b" fontSize="8" fontFamily="var(--font-mono, monospace)">"welcome":</text>
-                  <text x="8" y="48" fill="#38bdf8" fontSize="8" fontFamily="var(--font-mono, monospace)">"Welcome"</text>
+                  <text x="8" y="35" fill="#f59e0b" fontSize="8" fontFamily="var(--font-mono, monospace)">&quot;welcome&quot;:</text>
+                  <text x="8" y="48" fill="#38bdf8" fontSize="8" fontFamily="var(--font-mono, monospace)">&quot;Welcome&quot;</text>
                   <text x="8" y="62" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)">JSON Sorted</text>
                 </g>
 
@@ -424,19 +424,19 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                   <rect x="0" y="0" width="140" height="24" rx="4" fill="#161b22" stroke="#30363d" />
                   <rect x="4" y="4" width="22" height="16" rx="2" fill="#30363d" />
                   <text x="15" y="15" fill="#f0f2f5" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">EN</text>
-                  <text x="32" y="15" fill="#c9d1d9" fontSize="8.5" fontFamily="var(--font-mono, monospace)">"Welcome back"</text>
+                  <text x="32" y="15" fill="#c9d1d9" fontSize="8.5" fontFamily="var(--font-mono, monospace)">&quot;Welcome back&quot;</text>
 
                   {/* Nepali */}
                   <rect x="0" y="30" width="140" height="24" rx="4" fill="#161b22" stroke="#38bdf8" />
                   <rect x="4" y="34" width="22" height="16" rx="2" fill="rgba(56, 189, 248, 0.2)" />
                   <text x="15" y="45" fill="#38bdf8" fontSize="8" fontFamily="var(--font-mono, monospace)" textAnchor="middle">NE</text>
-                  <text x="32" y="46" fill="#38bdf8" fontSize="9" fontFamily="sans-serif">"फेरि स्वागत छ"</text>
+                  <text x="32" y="46" fill="#38bdf8" fontSize="9" fontFamily="sans-serif">&quot;फेरि स्वागत छ&quot;</text>
 
                   {/* Nepal Bhasa */}
                   <rect x="0" y="60" width="140" height="24" rx="4" fill="#161b22" stroke="#a855f7" />
                   <rect x="4" y="64" width="26" height="16" rx="2" fill="rgba(168, 85, 247, 0.2)" />
                   <text x="17" y="75" fill="#a855f7" fontSize="7.5" fontFamily="var(--font-mono, monospace)" textAnchor="middle">NEW</text>
-                  <text x="35" y="76" fill="#e9d5ff" fontSize="9" fontFamily="sans-serif">"हानं लसकुस"</text>
+                  <text x="35" y="76" fill="#e9d5ff" fontSize="9" fontFamily="sans-serif">&quot;हानं लसकुस&quot;</text>
                 </g>
               </svg>
 
@@ -628,7 +628,7 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
                   </text>
                   
                   <text x="47" y="74" fill="#8b949e" fontSize="7" fontFamily="var(--font-mono, monospace)" textAnchor="middle">
-                    Let's Encrypt Auto
+                    Let&apos;s Encrypt Auto
                   </text>
                 </g>
 
@@ -664,7 +664,7 @@ export function JournalDispatches({ posts, tenant }: JournalDispatchesProps) {
               </h3>
               <p className={styles.postExcerpt}>
                 Production deployment playbook for Node.js microservices on bare Ubuntu VPS. UFW firewall
-                rules, automated Let's Encrypt certificate renewal, and PM2 process supervision.
+                rules, automated Let&apos;s Encrypt certificate renewal, and PM2 process supervision.
               </p>
               <div className={styles.tagCluster}>
                 <span className={styles.tag}>DevOps</span>

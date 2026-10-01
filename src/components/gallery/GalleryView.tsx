@@ -9,7 +9,7 @@ export default function GalleryView({ galleries = [] }: { galleries: Gallery[] }
     <MasonryGrid columns={2} s={{ columns: 1 }}>
       {galleries.map((gallery, index) => {
         if (galleries.length === 0) {
-          return <Text>No Images</Text>
+          return <Text key={index}>No Images</Text>
         }
         return gallery.images?.map((image) => {
           return <Media
